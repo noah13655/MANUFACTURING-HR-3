@@ -1,2 +1,2 @@
 npm init -y 
-npm install express dotenv mongoose
+npm install express dotenv mongoose express-validator bcryptjs
