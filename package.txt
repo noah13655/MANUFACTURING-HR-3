@@ -1,2 +1,5 @@
 npm init -y 
-npm install express dotenv mongoose express-validator bcryptjs
+npm install express dotenv mongoose express-validator bcryptjs jsonwebtoken cookie-parser
+
+//seeding sample users and manager 
+node .\backend\seed\seed.js
