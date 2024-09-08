@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
+import {Routes,Route} from 'react-router-dom';
+import LogIn from './pages/public/LogIn';
 
 const App = () => {
   return (
     <div>
-      <button className='btn btn-secondary'>Sample daisy button</button>
+      <Routes>
+        <Route path="/" element="Home"/>
+        <Route path="/login" element={<LogIn/>}/>
+      </Routes>
     </div>
   )
 }
