@@ -3,3 +3,14 @@ npm install express dotenv mongoose express-validator bcryptjs jsonwebtoken cook
 
 //seeding sample users and manager 
 node .\backend\seed\seed.js
+
+
+npm create vite@latest frontend
+=> React
+=> Javascript
+cd frontend npm install
+
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+
+npm install daisyui
