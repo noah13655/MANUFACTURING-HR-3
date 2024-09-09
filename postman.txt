@@ -1,2 +1,5 @@
 method(post)
 http://localhost:5000/api/auth/login
+
+method(get)
+http://localhost:5000/api/auth/check-auth
