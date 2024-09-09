@@ -55,6 +55,7 @@ const LogIn = () => {
           </label>
         </div>
         <div className="form-control mt-6">
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
           <button className="btn btn-primary">Login</button>
         </div>
       </form>
