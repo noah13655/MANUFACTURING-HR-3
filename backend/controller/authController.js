@@ -1,6 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import { User } from "../model/userModel.js";
 import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js';
+import jwt from 'jsonwebtoken';
 
 export const login = async (req,res) => {
     const {email,password} = req.body;
@@ -20,4 +21,33 @@ export const login = async (req,res) => {
         return res.status(500).json({success:false,message:"Server error"});
     }
 };
+
+export const checkAuth = async (req, res) => {
+    try {
+        const token = req.cookies.token; 
+        if (!token) {
+            return res.status(401).json({ success: false, message: "No token found" });
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await User.findById(decoded.userId); 
+
+        if (!user) {
+            return res.status(401).json({ success: false, message: "User not found" });
+        }
+
+        res.json({ success: true, user });
+    } catch (error) {
+        console.error("Error in checkAuth:", error);
+
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ success: false, message: "Invalid token" });
+        } else if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ success: false, message: "Token expired" });
+        } else {
+            return res.status(500).json({ success: false, message: "Server error" });
+        }
+    }
+};
+
 

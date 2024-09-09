@@ -1,5 +1,5 @@
 npm init -y 
-npm install express dotenv mongoose express-validator bcryptjs jsonwebtoken cookie-parser
+npm install express dotenv mongoose express-validator bcryptjs jsonwebtoken cookie-parser cors
 
 //seeding sample users and manager 
 node .\backend\seed\seed.js
@@ -15,4 +15,4 @@ npx tailwindcss init -p
 
 npm install daisyui
 
-npm install react-router-dom
+npm install react-router-dom axios zustand
