@@ -1,9 +1,24 @@
 import React from "react";
-import { RiMenuFold2Fill } from "react-icons/ri";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
+import { useAuthStore } from "../../store/authStore";
+
+import {useNavigate} from 'react-router-dom';
+
 
 const Search = () => {
+
+  const {logout} = useAuthStore();
+  const navigate = useNavigate();
+const handleLogout = async () => {
+  try {
+    await logout(); 
+    navigate('/');
+  } catch (error) {
+    console.error('Error logging out:', error);
+  }
+};
+
   return (
     <div className="w-full p-5 bg-white text-black/70 h-[85px] rounded-l-sm sticky top-0 z-50">
       <div className="flex justify-between max-md:flex max-md:justify-end">
@@ -102,7 +117,7 @@ const Search = () => {
                 <a>Settings</a>
               </li>
               <li>
-                <a>Log out</a>
+                <button onClick={handleLogout}>Log out</button>
               </li>
             </ul>
           </div>
