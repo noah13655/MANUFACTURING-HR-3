@@ -29,6 +29,42 @@ Stats (Analytics): IoIosStats from react-icons/io
 Arrow Down: IoIosArrowDown from react-icons/io
 Arrow Up: IoIosArrowUp from react-icons/io
 
+
+Employee Sidebar:
+
+Icon: <MdDashboard /> from react-icons/md
+Personal Compensation Information:
+
+Icon: <GiWallet /> from react-icons/gi
+Benefits Management:
+
+Icon: <GiGears /> from react-icons/gi
+Payroll Information:
+
+Icon: <GiWallet /> from react-icons/gi (same as Personal Compensation Information)
+Leave Management:
+
+Icon: <GiChecklist /> from react-icons/gi
+Retirement Plans:
+
+Icon: <GiGears /> from react-icons/gi (same as Benefits Management)
+Compensation Planning Tools:
+
+Icon: <IoIosStats /> from react-icons/io
+Personal Information Management:
+
+Icon: <FaRegUser /> from react-icons/fa
+Support and Resources:
+
+Icon: <AiOutlineFileSearch /> from react-icons/ai
+Notifications and Alerts:
+
+Icon: <IoIosStats /> from react-icons/io (same as Compensation Planning Tools)
+Dropdown Arrow (Up and Down):
+
+Up Arrow: <IoIosArrowUp /> from react-icons/io
+Down Arrow: <IoIosArrowDown /> from react-icons/io
+
 //the charts is for example reference
 
 npm install react-router-dom axios zustand
