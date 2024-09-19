@@ -3,7 +3,6 @@ import { useAuthStore } from '../../../store/authStore';
 const UserList = () => {
   const { users, fetchUsers, error } = useAuthStore();
 
-  // Fetch users when component mounts
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);

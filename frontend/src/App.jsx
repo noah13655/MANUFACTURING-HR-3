@@ -17,6 +17,7 @@ import Search from './pages/manager/Search';
 import UserList from './pages/manager/user/UserList';
 
 import { useAuthStore } from './store/authStore';
+import AttendanceInfo from './pages/manager/user/AttendanceInfo';
 
 const App = () => {
   const { checkAuth, isAuthenticated, user } = useAuthStore();
@@ -42,6 +43,7 @@ const App = () => {
                     <>
                       <Route path="/dashboard" element={<ProtectedRoute> <ManagerDashboard /> </ProtectedRoute>} />
                       <Route path="/user-list" element={<ProtectedRoute> <UserList /> </ProtectedRoute>} />
+                      <Route path="/attendance-info" element={<ProtectedRoute> <AttendanceInfo /> </ProtectedRoute>} />
                     </>
                   )}
                   {user?.role === 'employee' && (
