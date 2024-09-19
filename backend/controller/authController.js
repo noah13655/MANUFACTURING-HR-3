@@ -69,3 +69,12 @@ export const logout = async (req, res) => {
     }
 };
 
+export const getUsers = async (req, res) => {
+    try {
+        const users = await User.find({}, 'firstname lastname email role');
+        res.status(200).json({ success: true, users });
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+};

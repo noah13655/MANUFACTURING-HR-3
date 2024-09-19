@@ -88,7 +88,7 @@ const ManagerSidebar = () => {
           }`}
         >
           <li><Link to="/user-list">User List</Link></li>
-          <li><Link to="/roles">Roles</Link></li>
+          <li><Link to="/attendance ">Attendance info</Link></li>
         </ul>
       </div>
 

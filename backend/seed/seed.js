@@ -12,22 +12,28 @@ mongoose.connect(process.env.MONGODB_URI)
 
 const seedUsers = async () => {
     try {
-        await User.deleteMany({});
-
-        const users = [
+        const newUsers = [
             {
-                email: "manager@example.com",
-                password: await bcryptjs.hash('managerpassword123', 10),
-                role: "manager"
-            },
-            {
-                email: "employee@example.com",
+                lastname: "employee2",
+                firstname: "employee2",
+                email: "employee2@example.com",
                 password: await bcryptjs.hash('employeepassword123', 10),
                 role: "employee"
             }
         ];
 
-        await User.insertMany(users);
+        const emails = newUsers.map(user => user.email);
+
+        const existingUsers = await User.find({ email: { $in: emails } });
+
+        const existingEmails = existingUsers.map(user => user.email);
+
+        if (existingEmails.length > 0) {
+            console.log(`Deleting existing users with emails: ${existingEmails.join(', ')}`);
+            await User.deleteMany({ email: { $in: existingEmails } });
+        }
+
+        await User.insertMany(newUsers);
         console.log("Users created successfully");
     } catch (error) {
         console.log(`Error in seeding: ${error}`);

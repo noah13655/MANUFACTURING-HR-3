@@ -64,6 +64,20 @@ export const useAuthStore = create((set)=>({
           });
         }
       },
+      fetchUsers: async () => {
+        try {
+          const response = await axios.get(`${API_URL}/users`);  // Fetch users from /users route
+          set({
+            users: response.data.users,
+            error: null,
+          });
+        } catch (error) {
+          set({
+            error: error.response?.data?.message || "Error fetching users",
+            users: [],
+          });
+        }
+      },
 
 
 }));

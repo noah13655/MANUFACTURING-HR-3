@@ -1,24 +1,49 @@
-import React from 'react'
-
+import React, { useEffect } from 'react';
+import { useAuthStore } from '../../../store/authStore';
 const UserList = () => {
+  const { users, fetchUsers, error } = useAuthStore();
+
+  // Fetch users when component mounts
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
+
   return (
     <div>
-        <table>
+      {error && <p>{error}</p>}
+      <table>
+        <thead>
+          <tr>
+            <th>Last name</th>
+            <th>First name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users && users.length > 0 ? (
+            users.map(user => (
+              <tr key={user._id}>
+                <td>{`${user.lastname}`}</td>
+                <td>{`${user.firstname}`}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+                <td>
+                  <button>View</button>
+                  <button>Update</button>
+                </td>
+              </tr>
+            ))
+          ) : (
             <tr>
-                <th>Email</th>
-                <th>Sample</th>
-                <th>SAmple</th>
-                <th>Sample</th>
+              <td colSpan="4">No users found</td>
             </tr>
-            <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-            </tr>
-        </table>
+          )}
+        </tbody>
+      </table>
     </div>
-  )
-}
+  );
+};
 
-export default UserList
+export default UserList;

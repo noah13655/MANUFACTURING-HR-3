@@ -3,3 +3,7 @@ http://localhost:5000/api/auth/login
 
 method(get)
 http://localhost:5000/api/auth/check-auth
+
+method(get)
+http://localhost:5000/api/auth/users
+
