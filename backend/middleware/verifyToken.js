@@ -10,10 +10,9 @@ export const verifyToken = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log("Decoded Token:", decoded); 
+        console.log("Decoded Token:", decoded);
 
-        
-        req.user = { _id: decoded.userId }; 
+        req.user = { _id: decoded.userId, role: decoded.role };
         next();
     } catch (error) {
         console.log("Token verification error:", error.message);
