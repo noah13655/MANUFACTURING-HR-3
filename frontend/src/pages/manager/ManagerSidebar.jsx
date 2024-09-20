@@ -52,7 +52,7 @@ const ManagerSidebar = () => {
         aria-label="Dashboard Logo"
       >
         <Link to="/"><img src="" alt="Dashboard logo" className="w-10 h-10" /></Link>
-        {!isCollapsed && <p className="text-xl font-bold">Manager Dashboard</p>}
+        {!isCollapsed && <p className="text-xl font-bold">Dashboard</p>}
       </div>
 
       {/* Dashboard */}
@@ -267,6 +267,34 @@ const ManagerSidebar = () => {
           <li><Link to="/employee-performance-forecasting">Employee Performance Forecasting</Link></li>
           <li><Link to="/benefits-utilization-analysis">Benefits Utilization Analysis</Link></li>
           <li><Link to="/compensation-optimization">Compensation Optimization</Link></li>
+        </ul>
+      </div>
+
+       {/* Finance */} 
+   <div className="mb-2">
+    <div
+    className="flex gap-2 items-center cursor-pointer text-sm hover:text-blue-500 transition duration-200"
+    onClick={() => toggleDropdown('finance')}
+    aria-expanded={openDropdown === 'finance'}
+    aria-controls="user-dropdown"
+    aria-label="Finance"
+  >
+    <FaDollarSign className="w-5 h-5" /> {/* Updated icon */}
+    {!isCollapsed && <span>Finance</span>}
+    {!isCollapsed && (
+      <div className="ml-auto">
+        {openDropdown === 'finance' ? <IoIosArrowUp size={15} /> : <IoIosArrowDown size={15} />}
+      </div>
+    )}
+  </div>
+  
+        <ul
+          id="user-dropdown"
+          className={`pl-6 mt-1 space-y-1 overflow-hidden transition-max-height duration-500 ease-in-out ${
+            openDropdown === 'finance' ? 'max-h-screen' : 'max-h-0'
+          }`}
+        >
+          <li><Link to="/request-budget">Request Budget</Link></li>
         </ul>
       </div>
 

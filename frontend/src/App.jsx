@@ -19,6 +19,36 @@ import UserList from './pages/manager/user/UserList';
 import { useAuthStore } from './store/authStore';
 import AttendanceInfo from './pages/manager/user/AttendanceInfo';
 
+import SalaryComputation from './pages/manager/payroll/SalaryComputation';
+import DeductionsManagement from './pages/manager/payroll/DeductionsManagement';
+import PayrollDistribution from './pages/manager/payroll/PayrollDistribution';
+import ComplianceTracking from './pages/manager/payroll/ComplianceTracking';
+
+import HealthBenefitsManagement from './pages/manager/Benefits/HealthBenefitsManagement';
+import RetirementPlans from './pages/manager/Benefits/RetirementPlans';
+import LeaveManagement from './pages/manager/Benefits/LeaveManagement';
+import FlexibleBenefits from './pages/manager/Benefits/FlexibleBenefits';
+
+import PerformanceBasedBonuses from './pages/manager/Incentives/PerformanceBasedBonuses';
+import RecognitionPrograms from './pages/manager/Incentives/RecognitionPrograms';
+import SalesCommissions from './pages/manager/Incentives/SalesCommissions';
+import ProfitSharing from './pages/manager/Incentives/ProfitSharing';
+
+import SalaryPlanning from './pages/manager/Compentation/SalaryPlanning';
+import CompensationAnalysis from './pages/manager/Compentation/CompentationAnalysis';
+import EquityAdjustments from './pages/manager/Compentation/EquityAdjustments';
+import TotalRewardsManagement from './pages/manager/Compentation/TotalRewardsManagement';
+
+import RequestBudget from './pages/manager/Finance/RequestBudget';
+
+import CompensationOptimization from './pages/manager/Predictive/CompensationRequests';
+import BenefitsUtilizationsAnalysis from './pages/manager/Predictive/BenefitsUtilizationsAnalysis';
+import EmployeePerformanceForecasting from './pages/manager/Predictive/EmployeePerformanceForecasting';
+import PredictiveTurnoverAnalysis from './pages/manager/Predictive/PredictiveTurnoverAnalysis';
+
+import Regulations from './pages/manager/Compliance/Regulations';
+import LaborLaws from './pages/manager/Compliance/LaborLaws';
+
 const App = () => {
   const { checkAuth, isAuthenticated, user } = useAuthStore();
 
@@ -44,6 +74,29 @@ const App = () => {
                       <Route path="/dashboard" element={<ProtectedRoute> <ManagerDashboard /> </ProtectedRoute>} />
                       <Route path="/user-list" element={<ProtectedRoute> <UserList /> </ProtectedRoute>} />
                       <Route path="/attendance-info" element={<ProtectedRoute> <AttendanceInfo /> </ProtectedRoute>} />
+                      <Route path="/salary-computation" element={<ProtectedRoute> <SalaryComputation /> </ProtectedRoute>} />
+                      <Route path="/deductions-management" element={<ProtectedRoute> <DeductionsManagement /> </ProtectedRoute>} />
+                      <Route path="/payroll-distribution" element={<ProtectedRoute> <PayrollDistribution /> </ProtectedRoute>} />
+                      <Route path="compliance-tracking" element={<ProtectedRoute> <ComplianceTracking /> </ProtectedRoute>} />
+                      <Route path="health-benefits-management" element={<ProtectedRoute> <HealthBenefitsManagement /> </ProtectedRoute>} />
+                      <Route path="retirement-plans" element={<ProtectedRoute> <RetirementPlans /> </ProtectedRoute>} />
+                      <Route path="leave-management" element={<ProtectedRoute> <LeaveManagement /> </ProtectedRoute>} />
+                      <Route path="flexible-benefits" element={<ProtectedRoute> <FlexibleBenefits /> </ProtectedRoute>} />
+                      <Route path="performance-based-bonuses" element={<ProtectedRoute> <PerformanceBasedBonuses /> </ProtectedRoute>} />
+                      <Route path="recognition-programs" element={<ProtectedRoute> <RecognitionPrograms /> </ProtectedRoute>} />
+                      <Route path="sales-commissions" element={<ProtectedRoute> <SalesCommissions /> </ProtectedRoute>} />
+                      <Route path="profit-sharing" element={<ProtectedRoute> <ProfitSharing /> </ProtectedRoute>} />
+                      <Route path="salary-planning" element={<ProtectedRoute> <SalaryPlanning /> </ProtectedRoute>} />
+                      <Route path="compensation-analysis" element={<ProtectedRoute> <CompensationAnalysis /> </ProtectedRoute>} />
+                      <Route path="equity-adjustments" element={<ProtectedRoute> <EquityAdjustments /> </ProtectedRoute>} />
+                      <Route path="total-rewards-management" element={<ProtectedRoute> <TotalRewardsManagement /> </ProtectedRoute>} />
+                      <Route path="labor-laws" element={<ProtectedRoute> <LaborLaws /> </ProtectedRoute>} />
+                      <Route path="regulations" element={<ProtectedRoute> <Regulations /> </ProtectedRoute>} />
+                      <Route path="predictive-turnover-analysis" element={<ProtectedRoute> <PredictiveTurnoverAnalysis /> </ProtectedRoute>} />
+                      <Route path="employee-performance-forecasting" element={<ProtectedRoute> <EmployeePerformanceForecasting /> </ProtectedRoute>} />
+                      <Route path="benefits-utilization-analysis" element={<ProtectedRoute> <BenefitsUtilizationsAnalysis /> </ProtectedRoute>} />
+                      <Route path="compensation-optimization" element={<ProtectedRoute> <CompensationOptimization /> </ProtectedRoute>} />
+                      <Route path="request-budget" element={<ProtectedRoute> <RequestBudget /> </ProtectedRoute>} />
                     </>
                   )}
                   {user?.role === 'employee' && (
