@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const initialCommissions = [
   { id: 1, employeeName: 'Elsie', salesAmount: 10000, commissionRate: 0.05, commissionEarned: 500 },
@@ -7,84 +7,29 @@ const initialCommissions = [
 ];
 
 const SalesCommissions = () => {
-  const [commissions, setCommissions] = useState(initialCommissions);
-  const [employeeName, setEmployeeName] = useState('');
-  const [salesAmount, setSalesAmount] = useState('');
-  const [commissionRate, setCommissionRate] = useState('');
-
-  const calculateCommission = (salesAmount, commissionRate) => {
-    return salesAmount * commissionRate;
-  };
-
-  const addCommission = () => {
-    if (employeeName && salesAmount && commissionRate) {
-      const calculatedCommission = calculateCommission(parseFloat(salesAmount), parseFloat(commissionRate) / 100);
-      setCommissions([
-        ...commissions,
-        {
-          id: commissions.length + 1,
-          employeeName,
-          salesAmount: parseFloat(salesAmount),
-          commissionRate: parseFloat(commissionRate) / 100,
-          commissionEarned: calculatedCommission,
-        },
-      ]);
-      setEmployeeName('');
-      setSalesAmount('');
-      setCommissionRate('');
-    }
-  };
-
   return (
-    <div className="p-6 max-w-4xl shadow-md rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">Sales Commissions Management</h1>
+    <div>
+      <h1>Sales Commissions Management</h1>
 
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-2">Add New Sales Commission</h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div>
-            <label className="block text-sm font-medium text-gray-600">Employee Name</label>
-            <input
-              type="text"
-              className="input input-bordered w-full mt-1"
-              value={employeeName}
-              onChange={(e) => setEmployeeName(e.target.value)}
-              placeholder="e.g., Name"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-600">Sales Amount (₱)</label>
-            <input
-              type="number"
-              className="input input-bordered w-full mt-1"
-              value={salesAmount}
-              onChange={(e) => setSalesAmount(e.target.value)}
-              placeholder="e.g., 1000"
-              step="0.01"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-600">Commission Rate (%)</label>
-            <input
-              type="number"
-              className="input input-bordered w-full mt-1"
-              value={commissionRate}
-              onChange={(e) => setCommissionRate(e.target.value)}
-              placeholder="e.g., 5"
-              step="0.01"
-            />
-          </div>
+      <div>
+        <h2>Add New Sales Commission</h2>
+        <div>
+          <label>Employee Name</label>
+          <input type="text" placeholder="e.g., Name" />
         </div>
-        <button
-          onClick={addCommission}
-          className="btn btn-primary mt-4 w-full"
-        >
-          Add Commission
-        </button>
+        <div>
+          <label>Sales Amount (₱)</label>
+          <input type="number" placeholder="e.g., 1000" />
+        </div>
+        <div>
+          <label>Commission Rate (%)</label>
+          <input type="number" placeholder="e.g., 5" />
+        </div>
+        <button>Add Commission</button>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="table table-mb w-full">
+      <div>
+        <table>
           <thead>
             <tr>
               <th>ID</th>
@@ -95,7 +40,7 @@ const SalesCommissions = () => {
             </tr>
           </thead>
           <tbody>
-            {commissions.map((commission) => (
+            {initialCommissions.map((commission) => (
               <tr key={commission.id}>
                 <td>{commission.id}</td>
                 <td>{commission.employeeName}</td>
