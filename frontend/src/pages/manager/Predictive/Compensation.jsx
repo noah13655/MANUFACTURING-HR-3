@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 
-const CompensationRequests = () => {
+const Compensation = () => {
   const [requests, setRequests] = useState([
     { id: 1, name: 'Request Payroll Records', description: 'Request payroll records for the current year' },
     { id: 2, name: 'Request Legal Review', description: 'Request a legal review of the current compensation structure' },
@@ -25,7 +25,7 @@ const CompensationRequests = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-8 sm:p-12 md:p-16 bg-gray-100">
-      <h1 className="text-4xl font-bold text-gray-900 mb-8">Compensation Requests</h1>
+      <h1 className="text-4xl font-bold text-gray-900 mb-8">Compensation</h1>
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
         {requests.map((request) => (
           <div key={request.id} className="bg-white shadow-lg p-8 rounded-lg cursor-pointer hover:shadow-xl" onClick={() => handleRequestClick(request)}>
@@ -47,4 +47,4 @@ const CompensationRequests = () => {
   );
 };
 
-export default CompensationRequests;
+export default Compensation;

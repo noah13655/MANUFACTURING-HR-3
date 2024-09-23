@@ -49,6 +49,8 @@ import PredictiveTurnoverAnalysis from './pages/manager/Predictive/PredictiveTur
 import Regulations from './pages/manager/Compliance/Regulations';
 import LaborLaws from './pages/manager/Compliance/LaborLaws';
 
+import Compensation from './pages/manager/Predictive/Compensation';
+
 const App = () => {
   const { checkAuth, isAuthenticated, user } = useAuthStore();
 
@@ -95,8 +97,8 @@ const App = () => {
                       <Route path="predictive-turnover-analysis" element={<ProtectedRoute> <PredictiveTurnoverAnalysis /> </ProtectedRoute>} />
                       <Route path="employee-performance-forecasting" element={<ProtectedRoute> <EmployeePerformanceForecasting /> </ProtectedRoute>} />
                       <Route path="benefits-utilization-analysis" element={<ProtectedRoute> <BenefitsUtilizationsAnalysis /> </ProtectedRoute>} />
-                      <Route path="compensation-optimization" element={<ProtectedRoute> <CompensationOptimization /> </ProtectedRoute>} />
                       <Route path="request-budget" element={<ProtectedRoute> <RequestBudget /> </ProtectedRoute>} />
+                      <Route path="compensation" element={<ProtectedRoute> <Compensation /> </ProtectedRoute>} />
                     </>
                   )}
                   {user?.role === 'employee' && (

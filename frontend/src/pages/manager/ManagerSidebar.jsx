@@ -266,7 +266,7 @@ const ManagerSidebar = () => {
           <li><Link to="/predictive-turnover-analysis">Predictive Turnover Analysis</Link></li>
           <li><Link to="/employee-performance-forecasting">Employee Performance Forecasting</Link></li>
           <li><Link to="/benefits-utilization-analysis">Benefits Utilization Analysis</Link></li>
-          <li><Link to="/compensation-optimization">Compensation Optimization</Link></li>
+          <li><Link to="/compensation">Compensation</Link></li>
         </ul>
       </div>
 
