@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 
 const initialBenefits = [
   { id: 1, name: 'Elsie', description: 'Coverage for medical expenses', amount: 5000 },
@@ -30,53 +30,47 @@ const FlexibleBenefits = () => {
   };
 
   return (
-    <div className="p-6 max-w-4xl shadow-md rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">Flexible Benefits Management</h1>
+    <div>
+      <h1>Flexible Benefits Management</h1>
 
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-2">Add New Flexible Benefit</h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div>
+        <h2>Add New Flexible Benefit</h2>
+        <div>
           <div>
-            <label className="block text-sm font-medium text-gray-600">Benefit Name</label>
+            <label>Benefit Name</label>
             <input
               type="text"
-              className="input input-bordered w-full mt-1"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g., Name"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-600">Description</label>
+            <label>Description</label>
             <input
               type="text"
-              className="input input-bordered w-full mt-1"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="e.g., Coverage for medical expenses"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-600">Amount</label>
+            <label>Amount</label>
             <input
               type="number"
-              className="input input-bordered w-full mt-1"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              placeholder="₱0.00"
+              placeholder="0.00"
             />
           </div>
         </div>
-        <button
-          onClick={addBenefit}
-          className="btn btn-primary mt-4 w-full"
-        >
+        <button onClick={addBenefit}>
           Add Benefit
         </button>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
+      <div>
+        <table>
           <thead>
             <tr>
               <th>ID</th>
@@ -91,7 +85,7 @@ const FlexibleBenefits = () => {
                 <td>{benefit.id}</td>
                 <td>{benefit.name}</td>
                 <td>{benefit.description}</td>
-                <td>₱{benefit.amount.toFixed(2)}</td>
+                <td>{benefit.amount.toFixed(2)}</td>
               </tr>
             ))}
           </tbody>
