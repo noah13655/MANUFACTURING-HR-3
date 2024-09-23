@@ -41,7 +41,6 @@ import TotalRewardsManagement from './pages/manager/Compentation/TotalRewardsMan
 
 import RequestBudget from './pages/manager/Finance/RequestBudget';
 
-import CompensationOptimization from './pages/manager/Predictive/CompensationRequests';
 import BenefitsUtilizationsAnalysis from './pages/manager/Predictive/BenefitsUtilizationsAnalysis';
 import EmployeePerformanceForecasting from './pages/manager/Predictive/EmployeePerformanceForecasting';
 import PredictiveTurnoverAnalysis from './pages/manager/Predictive/PredictiveTurnoverAnalysis';
