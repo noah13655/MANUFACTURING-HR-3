@@ -30,10 +30,10 @@ const PayrollDistribution = () => {
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto shadow-md rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">Payroll Distribution</h1>
-      <div className="overflow-x-auto mb-4">
-        <table className="table table-zebra w-full">
+    <div>
+      <h1>Payroll Distribution</h1>
+      <div>
+        <table>
           <thead>
             <tr>
               <th>ID</th>
@@ -55,10 +55,7 @@ const PayrollDistribution = () => {
                 <td>₱{record.deductions.toFixed(2)}</td>
                 <td>₱{calculateTotal(record.baseSalary, record.bonus, record.deductions).toFixed(2)}</td>
                 <td>
-                  <button
-                    className="btn btn-error btn-sm"
-                    onClick={() => removePayrollItem(record.id)}
-                  >
+                  <button onClick={() => removePayrollItem(record.id)}>
                     Remove
                   </button>
                 </td>
@@ -67,10 +64,7 @@ const PayrollDistribution = () => {
           </tbody>
         </table>
       </div>
-      <button
-        className="btn btn-primary"
-        onClick={addPayrollItem}
-      >
+      <button onClick={addPayrollItem}>
         Add Employee
       </button>
     </div>
