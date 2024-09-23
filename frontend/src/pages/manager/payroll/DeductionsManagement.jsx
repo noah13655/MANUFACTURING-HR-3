@@ -1,87 +1,101 @@
 import React, { useState } from 'react';
 
 const initialDeductions = [
-  { id: 1, type: 'Tax', amount: 1000 },
-  { id: 2, type: 'SSS', amount: 500 },
-  { id: 3, type: 'PhilHealth', amount: 300 },
+  { firstName: 'John', lastName: 'Doe', type: 'Tax', amount: 1000 },
+  { firstName: 'Jane', lastName: 'Smith', type: 'SSS', amount: 500 },
+  { firstName: 'Mark', lastName: 'Johnson', type: 'PhilHealth', amount: 300 },
 ];
 
 const DeductionsManagement = () => {
   const [deductions, setDeductions] = useState(initialDeductions);
   const [deductionType, setDeductionType] = useState('');
   const [deductionAmount, setDeductionAmount] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
 
   const addDeduction = () => {
-    if (deductionType && deductionAmount) {
+    if (deductionType && deductionAmount && firstName && lastName) {
       setDeductions([
         ...deductions,
         {
-          id: deductions.length + 1,
+          firstName,
+          lastName,
           type: deductionType,
           amount: parseFloat(deductionAmount),
         },
       ]);
       setDeductionType('');
       setDeductionAmount('');
+      setFirstName('');
+      setLastName('');
     }
   };
 
   return (
-    <div className="p-6 max-w-4xl shadow-md rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">Deductions Management</h1>
+    <div>
+      <h1>Deductions Management</h1>
 
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-2">Add New Deduction</h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div>
-            <label className="block text-sm font-medium text-gray-600">Deduction Type</label>
-            <input
-              type="text"
-              className="input input-bordered w-full mt-1"
-              value={deductionType}
-              onChange={(e) => setDeductionType(e.target.value)}
-              placeholder="e.g., Tax"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-600">Amount</label>
-            <input
-              type="number"
-              className="input input-bordered w-full mt-1"
-              value={deductionAmount}
-              onChange={(e) => setDeductionAmount(e.target.value)}
-              placeholder="₱0.00"
-            />
-          </div>
+      <div>
+        <h2>Add New Deduction</h2>
+        <div>
+          <label>First Name</label>
+          <input
+            type="text"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            placeholder="e.g., John"
+          />
         </div>
-        <button
-          onClick={addDeduction}
-          className="btn btn-primary mt-4 w-full"
-        >
-          Add Deduction
-        </button>
+        <div>
+          <label>Last Name</label>
+          <input
+            type="text"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            placeholder="e.g., Doe"
+          />
+        </div>
+        <div>
+          <label>Deduction Type</label>
+          <input
+            type="text"
+            value={deductionType}
+            onChange={(e) => setDeductionType(e.target.value)}
+            placeholder="e.g., Tax"
+          />
+        </div>
+        <div>
+          <label>Amount</label>
+          <input
+            type="number"
+            value={deductionAmount}
+            onChange={(e) => setDeductionAmount(e.target.value)}
+            placeholder="₱0.00"
+          />
+        </div>
+        <button onClick={addDeduction}>Add Deduction</button>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="table table-mb w-full">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Type</th>
-              <th>Amount</th>
+      <table>
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Type</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {deductions.map((deduction, index) => (
+            <tr key={index}>
+              <td>{deduction.firstName}</td>
+              <td>{deduction.lastName}</td>
+              <td>{deduction.type}</td>
+              <td>₱{deduction.amount.toFixed(2)}</td>
             </tr>
-          </thead>
-          <tbody>
-            {deductions.map((deduction) => (
-              <tr key={deduction.id}>
-                <td>{deduction.id}</td>
-                <td>{deduction.type}</td>
-                <td>₱{deduction.amount.toFixed(2)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
