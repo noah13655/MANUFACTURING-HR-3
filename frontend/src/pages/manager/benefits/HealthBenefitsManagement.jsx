@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 
 const initialBenefits = [
   { id: 1, employee: 'Elsie', benefit: 'Medical Insurance', provider: 'HealthCo', status: 'Active' },
@@ -33,46 +33,42 @@ const HealthBenefitsManagement = () => {
   };
 
   return (
-    <div className="p-6 max-w-4xl rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">Health Benefits Management</h1>
+    <div>
+      <h1>Health Benefits Management</h1>
 
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-2">Add New Health Benefit</h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div>
+        <h2>Add New Health Benefit</h2>
+        <div>
           <div>
-            <label className="block text-sm font-medium text-gray-600">Employee Name</label>
+            <label>Employee Name</label>
             <input
               type="text"
-              className="input input-bordered w-full mt-1"
               value={employee}
               onChange={(e) => setEmployee(e.target.value)}
               placeholder="e.g., Name"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-600">Benefit</label>
+            <label>Benefit</label>
             <input
               type="text"
-              className="input input-bordered w-full mt-1"
               value={benefit}
               onChange={(e) => setBenefit(e.target.value)}
               placeholder="e.g., Medical Insurance"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-600">Provider</label>
+            <label>Provider</label>
             <input
               type="text"
-              className="input input-bordered w-full mt-1"
               value={provider}
               onChange={(e) => setProvider(e.target.value)}
               placeholder="e.g., HealthCo"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-600">Status</label>
+            <label>Status</label>
             <select
-              className="select select-bordered w-full mt-1"
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
@@ -81,16 +77,13 @@ const HealthBenefitsManagement = () => {
             </select>
           </div>
         </div>
-        <button
-          onClick={addBenefit}
-          className="btn btn-primary mt-4 w-full"
-        >
+        <button onClick={addBenefit}>
           Add Benefit
         </button>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="table table-mb w-full">
+      <div>
+        <table>
           <thead>
             <tr>
               <th>ID</th>
@@ -107,16 +100,7 @@ const HealthBenefitsManagement = () => {
                 <td>{record.employee}</td>
                 <td>{record.benefit}</td>
                 <td>{record.provider}</td>
-                <td>
-                  <span
-                    className={`badge ${
-                      record.status === 'Active' ? 'badge-success' :
-                      'badge-error'
-                    }`}
-                  >
-                    {record.status}
-                  </span>
-                </td>
+                <td>{record.status}</td>
               </tr>
             ))}
           </tbody>
