@@ -5,8 +5,8 @@ import { GiWallet, GiGears, GiChecklist } from 'react-icons/gi';
 import { FaRegUser } from 'react-icons/fa';
 import { AiOutlineFileSearch } from 'react-icons/ai';
 import { BsFillShieldLockFill } from 'react-icons/bs';
-import { IoIosArrowDown, IoIosArrowUp, IoIosStats } from 'react-icons/io';
 import { FaDollarSign } from 'react-icons/fa';
+import { IoIosArrowDown, IoIosArrowUp, IoIosStats } from 'react-icons/io';
 
 const ManagerSidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
