@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const initialBonuses = [
   { id: 1, employee: 'Elsie', performanceScore: 95, bonusAmount: 1000 },
@@ -7,76 +7,29 @@ const initialBonuses = [
 ];
 
 const PerformanceBasedBonuses = () => {
-  const [bonuses, setBonuses] = useState(initialBonuses);
-  const [employee, setEmployee] = useState('');
-  const [performanceScore, setPerformanceScore] = useState('');
-  const [bonusAmount, setBonusAmount] = useState('');
-
-  const addBonus = () => {
-    if (employee && performanceScore && bonusAmount) {
-      setBonuses([
-        ...bonuses,
-        {
-          id: bonuses.length + 1,
-          employee,
-          performanceScore: parseFloat(performanceScore),
-          bonusAmount: parseFloat(bonusAmount),
-        },
-      ]);
-      setEmployee('');
-      setPerformanceScore('');
-      setBonusAmount('');
-    }
-  };
-
   return (
-    <div className="p-6 max-w-4xl shadow-md rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">Performance-Based Bonuses</h1>
+    <div>
+      <h1>Performance-Based Bonuses</h1>
 
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-2">Add New Bonus</h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div>
-            <label className="block text-sm font-medium text-gray-600">Employee Name</label>
-            <input
-              type="text"
-              className="input input-bordered w-full mt-1"
-              value={employee}
-              onChange={(e) => setEmployee(e.target.value)}
-              placeholder="e.g., Name"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-600">Performance Score</label>
-            <input
-              type="number"
-              className="input input-bordered w-full mt-1"
-              value={performanceScore}
-              onChange={(e) => setPerformanceScore(e.target.value)}
-              placeholder="e.g., 100"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-600">Bonus Amount</label>
-            <input
-              type="number"
-              className="input input-bordered w-full mt-1"
-              value={bonusAmount}
-              onChange={(e) => setBonusAmount(e.target.value)}
-              placeholder="₱0.00"
-            />
-          </div>
+      <div>
+        <h2>Add New Bonus</h2>
+        <div>
+          <label>Employee Name</label>
+          <input type="text" placeholder="e.g., Name" />
         </div>
-        <button
-          onClick={addBonus}
-          className="btn btn-primary mt-4 w-full"
-        >
-          Add Bonus
-        </button>
+        <div>
+          <label>Performance Score</label>
+          <input type="number" placeholder="e.g., 100" />
+        </div>
+        <div>
+          <label>Bonus Amount</label>
+          <input type="number" placeholder="₱0.00" />
+        </div>
+        <button>Add Bonus</button>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="table table-mb w-full">
+      <div>
+        <table>
           <thead>
             <tr>
               <th>ID</th>
@@ -86,7 +39,7 @@ const PerformanceBasedBonuses = () => {
             </tr>
           </thead>
           <tbody>
-            {bonuses.map((bonus) => (
+            {initialBonuses.map((bonus) => (
               <tr key={bonus.id}>
                 <td>{bonus.id}</td>
                 <td>{bonus.employee}</td>
