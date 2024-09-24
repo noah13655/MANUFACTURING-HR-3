@@ -1,9 +1,15 @@
 method(post)
-http://localhost:5000/api/auth/login
+http://localhost:7687/api/auth/login
 
 method(get)
-http://localhost:5000/api/auth/check-auth
+http://localhost:7687/api/auth/check-auth
 
 method(get)
-http://localhost:5000/api/auth/users
+http://localhost:7687/api/auth/users
+
+method(post)
+http://localhost:7687/api/auth/create-benefits
+
+method(get)
+http://localhost:7687/api/auth/get-benefits
 

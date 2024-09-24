@@ -22,3 +22,13 @@ export const createBenefit = async (req,res) => {
         return res.status(500).json({success:false,message:"Server error"});
     }
 };
+
+export const getBenefit = async (req,res) => {
+    try {
+        const benefits = await Benefit.find({});
+        res.status(200).json({status:true,benefits})
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+}
