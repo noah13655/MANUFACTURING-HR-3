@@ -8,7 +8,7 @@ const BenefitsOverview = () => {
     const [benefitsType, setBenefitsType] = useState("");
     const [error, setError] = useState("");
 
-    const {createBenefit,fetchBenefit,benefit:benefits} = useBenefitStore()
+    const {createBenefit,fetchBenefit,benefit:benefits,deleteBenefit} = useBenefitStore()
 
     const handleCreateBenefits = async (e) => {
         e.preventDefault();
@@ -29,7 +29,17 @@ const BenefitsOverview = () => {
             console.log(error);
         }
     };
-
+    
+    const handleDeleteBenefit = async (id) => {
+      console.log("Attempting to delete benefit with ID:", id);
+      const result = await deleteBenefit(id);
+      if (!result) {
+          console.error("Failed to delete benefit:", result);
+      } else {
+          console.log("Benefit deleted successfully!", result);
+      }
+  };
+  
     useEffect(() => {
         fetchBenefit();
     }, [fetchBenefit]);
@@ -89,23 +99,27 @@ const BenefitsOverview = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {Array.isArray(benefits) && benefits.length > 0 ? (
-                        benefits.map((benefit) => (
-                            <tr key={`${benefit.id}-${benefit.benefitsName}`}>
-                                <td>{benefit.benefitsName || 'N/A'}</td>
-                                <td>{benefit.benefitsDescription || 'N/A'}</td>
-                                <td>{benefit.benefitsType || 'N/A'}</td>
-                                <td>View</td>
-                                <td>Edit</td>
-                                <td>Delete</td>
-                            </tr>
-                        ))
-                    ) : (
-                        <tr>
-                            <td colSpan="6" className="text-center">No benefits found!</td>
-                        </tr>
-                    )}
-                </tbody>
+    {Array.isArray(benefits) && benefits.length > 0 ? (
+        benefits.map((benefit) => (
+            <tr key={`${benefit._id}-${benefit.benefitsName}`}>
+                <td>{benefit.benefitsName || 'N/A'}</td>
+                <td>{benefit.benefitsDescription || 'N/A'}</td>
+                <td>{benefit.benefitsType || 'N/A'}</td>
+                <td>View</td>
+                <td>Edit</td>
+                <td>
+                    <button onClick={() => handleDeleteBenefit(benefit._id)} className='btn btn-danger'>
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        ))
+    ) : (
+        <tr>
+            <td colSpan="6" className="text-center">No benefits found!</td>
+        </tr>
+    )}
+            </tbody>
             </table>
         </div>
     );

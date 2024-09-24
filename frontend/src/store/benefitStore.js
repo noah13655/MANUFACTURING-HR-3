@@ -27,19 +27,36 @@ export const useBenefitStore = create((set) => ({
 
     fetchBenefit: async () => {
         try {
-          const response = await axios.get(`${API_URL}/get-benefits`);
-          set({
-            benefit: response.data.benefits || [],
-            error: null,
-          });
+            const response = await axios.get(`${API_URL}/get-benefits`);
+            set({
+                benefit: response.data.benefits || [],
+                error: null,
+            });
         } catch (error) {
-          set({
-            error: error.response?.data?.message || "Error fetching users",
-            benefit: [],
-          });
+            set({
+                error: error.response?.data?.message || "Error fetching benefits",
+                benefit: [],
+            });
         }
-      },
+    },
 
-      
+    deleteBenefit: async (id) => {
+        try {
+            console.log("Deleting benefit with ID:", id);
+            const response = await axios.delete(`${API_URL}/delete-benefits/${id}`);
+            set((state) => ({
+                benefit: state.benefit.filter((b) => b._id !== id),
+                error: null,
+            }));
+            return response.data;
+        } catch (error) {
+            console.error("Error deleting benefit:", error); 
+            set({
+                error: error.response?.data.message || "Error deleting Benefit",
+            });
+            return false;
+        }
+    },
 
+    
 }));
