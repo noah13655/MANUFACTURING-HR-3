@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import { useBenefitStore } from '../../../store/benefitStore';
 
 const BenefitsOverview = () => {
@@ -9,29 +8,31 @@ const BenefitsOverview = () => {
     const [benefitsType, setBenefitsType] = useState("");
     const [error, setError] = useState("");
 
-    const {createBenefit} = useBenefitStore();
+    const {createBenefit,fetchBenefit,benefit:benefits} = useBenefitStore()
 
     const handleCreateBenefits = async (e) => {
         e.preventDefault();
-      try {
-        
-        if (!benefitsName || !benefitsDescription || !benefitsType) {
-          setError("All fields required!");
-          return;
-      }
-      const result = await createBenefit({benefitsName,benefitsDescription,benefitsType});
-      if(!result){
-        setError("Benefits already exist!");
-        return;
-    }
-    setError("");
-    console.log("Benefits created successfully!",true);
-
-      } catch (error) {
-        console.log(error);
-      }
-
+        try {
+            if (!benefitsName || !benefitsDescription || !benefitsType) {
+                setError("All fields required!");
+                return;
+            }
+            const result = await createBenefit({ benefitsName, benefitsDescription, benefitsType });
+            if (!result) {
+                setError("Benefits already exist!");
+                return;
+            }
+            setError("");
+            console.log("Benefits created successfully!", true);
+            await fetchBenefit();
+        } catch (error) {
+            console.log(error);
+        }
     };
+
+    useEffect(() => {
+        fetchBenefit();
+    }, [fetchBenefit]);
 
     return (
         <div className="overflow-x-auto">
@@ -88,15 +89,22 @@ const BenefitsOverview = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Flexible Working Arrangements</td>
-                        <td>Consider flexible schedules to accommodate employees' needs.</td>
-                        <td>Work-Life Balance</td>
-                        <td>View</td>
-                        <td>Edit</td>
-                        <td>Delete</td>
-                    </tr>
-                    {/* You can map through the benefits data here */}
+                    {Array.isArray(benefits) && benefits.length > 0 ? (
+                        benefits.map((benefit) => (
+                            <tr key={`${benefit.id}-${benefit.benefitsName}`}>
+                                <td>{benefit.benefitsName || 'N/A'}</td>
+                                <td>{benefit.benefitsDescription || 'N/A'}</td>
+                                <td>{benefit.benefitsType || 'N/A'}</td>
+                                <td>View</td>
+                                <td>Edit</td>
+                                <td>Delete</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="6" className="text-center">No benefits found!</td>
+                        </tr>
+                    )}
                 </tbody>
             </table>
         </div>

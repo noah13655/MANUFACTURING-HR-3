@@ -25,5 +25,21 @@ export const useBenefitStore = create((set) => ({
         }
     },
 
-    
+    fetchBenefit: async () => {
+        try {
+          const response = await axios.get(`${API_URL}/get-benefits`);
+          set({
+            benefit: response.data.benefits || [],
+            error: null,
+          });
+        } catch (error) {
+          set({
+            error: error.response?.data?.message || "Error fetching users",
+            benefit: [],
+          });
+        }
+      },
+
+      
+
 }));
