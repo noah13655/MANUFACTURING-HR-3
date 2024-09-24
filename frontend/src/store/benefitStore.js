@@ -58,5 +58,22 @@ export const useBenefitStore = create((set) => ({
         }
     },
 
+    updateBenefit: async (id, benefit) => {
+        try {
+            const response = await axios.put(`${API_URL}/update-benefits/${id}`, benefit);
+            set((state) => ({
+                benefit: state.benefit.map((b) => (b._id === id ? response.data.updatedBenefit : b)),
+                error: null,
+            }));
+            return true;
+        } catch (error) {
+            console.log(error);
+            set({
+                error: error.response?.data.message || "Error updating Benefit",
+            });
+            return false;
+        }
+    },
+    
     
 }));

@@ -8,7 +8,9 @@ const BenefitsOverview = () => {
     const [benefitsType, setBenefitsType] = useState("");
     const [error, setError] = useState("");
 
-    const {createBenefit,fetchBenefit,benefit:benefits,deleteBenefit} = useBenefitStore()
+    const [editingBenefitId, setEditingBenefitId] = useState(null); 
+
+    const { createBenefit, fetchBenefit, benefit: benefits, deleteBenefit, updateBenefit } = useBenefitStore();
 
     const handleCreateBenefits = async (e) => {
         e.preventDefault();
@@ -25,21 +27,64 @@ const BenefitsOverview = () => {
             setError("");
             console.log("Benefits created successfully!", true);
             await fetchBenefit();
+            resetForm();
         } catch (error) {
             console.log(error);
         }
     };
-    
+
     const handleDeleteBenefit = async (id) => {
-      console.log("Attempting to delete benefit with ID:", id);
-      const result = await deleteBenefit(id);
-      if (!result) {
-          console.error("Failed to delete benefit:", result);
-      } else {
-          console.log("Benefit deleted successfully!", result);
-      }
-  };
-  
+        console.log("Attempting to delete benefit with ID:", id);
+        const result = await deleteBenefit(id);
+        if (!result) {
+            console.error("Failed to delete benefit:", result);
+        } else {
+            console.log("Benefit deleted successfully!", result);
+        }
+    };
+
+    const handleEditBenefit = (benefit) => {
+        setBenefitsName(benefit.benefitsName);
+        setBenefitsDescription(benefit.benefitsDescription);
+        setBenefitsType(benefit.benefitsType);
+        setEditingBenefitId(benefit._id); 
+        setIsCreating(true); 
+    };
+
+    const handleUpdateBenefit = async (e) => {
+        e.preventDefault();
+        try {
+            if (!benefitsName || !benefitsDescription || !benefitsType) {
+                setError("All fields required!");
+                return;
+            }
+            const result = await updateBenefit(editingBenefitId, { benefitsName, benefitsDescription, benefitsType });
+            if (!result) {
+                setError("Failed to update benefit!");
+                return;
+            }
+            console.log("Benefit updated successfully!", result);
+            await fetchBenefit();
+            resetForm();
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const resetForm = () => {
+        setBenefitsName("");
+        setBenefitsDescription("");
+        setBenefitsType("");
+        setEditingBenefitId(null);
+        setIsCreating(false);
+        setError("");
+    };
+
+    const toggleCreateForm = () => {
+        resetForm();
+        setIsCreating((prev) => !prev); 
+    };
+
     useEffect(() => {
         fetchBenefit();
     }, [fetchBenefit]);
@@ -48,12 +93,12 @@ const BenefitsOverview = () => {
         <div className="overflow-x-auto">
             <h2>Benefits Overview</h2>
             <div className="flex items-center mb-4">
-                <button className='btn btn-primary mr-2' onClick={() => setIsCreating(!isCreating)}>
+                <button className='btn btn-primary mr-2' onClick={toggleCreateForm}>
                     {isCreating ? "Cancel" : "Create Benefits"}
                 </button>
 
                 {isCreating && (
-                    <form onSubmit={handleCreateBenefits} className="flex items-center">
+                    <form onSubmit={editingBenefitId ? handleUpdateBenefit : handleCreateBenefits} className="flex items-center">
                         <input
                             type="text"
                             id="benefitsName"
@@ -83,7 +128,9 @@ const BenefitsOverview = () => {
                             <option value="Financial">Financial</option>
                             <option value="Worklife Balance">Worklife Balance</option>
                         </select>
-                        <button type="submit" className='btn btn-success'>Create</button>
+                        <button type="submit" className='btn btn-success'>
+                            {editingBenefitId ? "Update" : "Create"}
+                        </button>
                     </form>
                 )}
                 {error && <p className="text-red-500 text-center mb-4">{error}</p>}
@@ -99,27 +146,26 @@ const BenefitsOverview = () => {
                     </tr>
                 </thead>
                 <tbody>
-    {Array.isArray(benefits) && benefits.length > 0 ? (
-        benefits.map((benefit) => (
-            <tr key={`${benefit._id}-${benefit.benefitsName}`}>
-                <td>{benefit.benefitsName || 'N/A'}</td>
-                <td>{benefit.benefitsDescription || 'N/A'}</td>
-                <td>{benefit.benefitsType || 'N/A'}</td>
-                <td>View</td>
-                <td>Edit</td>
-                <td>
-                    <button onClick={() => handleDeleteBenefit(benefit._id)} className='btn btn-danger'>
-                        Delete
-                    </button>
-                </td>
-            </tr>
-        ))
-    ) : (
-        <tr>
-            <td colSpan="6" className="text-center">No benefits found!</td>
-        </tr>
-    )}
-            </tbody>
+                    {Array.isArray(benefits) && benefits.length > 0 ? (
+                        benefits.map((benefit) => (
+                            <tr key={`${benefit._id}-${benefit.benefitsName}`}>
+                                <td>{benefit.benefitsName || 'N/A'}</td>
+                                <td>{benefit.benefitsDescription || 'N/A'}</td>
+                                <td>{benefit.benefitsType || 'N/A'}</td>
+                                <td><button onClick={() => handleEditBenefit(benefit)} className='btn btn-edit'>Edit</button></td>
+                                <td>
+                                    <button onClick={() => handleDeleteBenefit(benefit._id)} className='btn btn-danger'>
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="6" className="text-center">No benefits found!</td>
+                        </tr>
+                    )}
+                </tbody>
             </table>
         </div>
     );
