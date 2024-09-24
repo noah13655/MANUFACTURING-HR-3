@@ -7,6 +7,8 @@ import { AiOutlineFileSearch } from 'react-icons/ai';
 import { BsFillShieldLockFill } from 'react-icons/bs';
 import { IoIosArrowDown, IoIosArrowUp, IoIosStats } from 'react-icons/io';
 
+import jjmLogo from '../../assets/jjmlogo.jpg';
+
 const ManagerSidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -51,7 +53,7 @@ const ManagerSidebar = () => {
         className="flex items-center gap-2 cursor-pointer mb-8 justify-center"
         aria-label="Dashboard Logo"
       >
-        <Link to="/"><img src="" alt="Dashboard logo" className="w-10 h-10" /></Link>
+        <Link to="/"><img src={jjmLogo} alt="Dashboard logo" className="w-10 h-10" /></Link>
         {!isCollapsed && <p className="text-xl font-bold">Dashboard</p>}
       </div>
 
