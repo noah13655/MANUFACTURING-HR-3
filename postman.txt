@@ -13,3 +13,8 @@ http://localhost:7687/api/auth/create-benefits
 method(get)
 http://localhost:7687/api/auth/get-benefits
 
+method:(put)
+http://localhost:7687/api/auth/update-benefits/:id
+
+method(delete)
+http://localhost:7687/api/auth/delete-benefits/:id

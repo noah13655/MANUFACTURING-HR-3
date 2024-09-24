@@ -69,4 +69,22 @@ export const updateBenefit = async (req,res) => {
 };
 
 
+export const deleteBenefit = async (req, res) => {
+    try {
+        const {id} = req.params;
 
+        if(!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({status:false,message:"Invalid benefit ID format."});
+        }
+        const benefit = await Benefit.findByIdAndDelete(id);
+        if (!benefit) {
+            return res.status(404).json({status: false,message:"Benefit not found!"});
+        }
+
+        res.status(200).json({status:true,message:"Benefit deleted successfully!"});
+        
+    } catch (error) {
+        console.error("Error deleting benefit:",error);
+        res.status(500).json({success:false, message:"Server error"});
+    }
+};
