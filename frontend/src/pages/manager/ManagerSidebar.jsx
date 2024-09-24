@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MdDashboard } from 'react-icons/md';
 import { GiWallet, GiGears, GiChecklist } from 'react-icons/gi';
-import { FaRegUser } from 'react-icons/fa';
+import { FaRegUser,FaDollarSign } from 'react-icons/fa';
 import { AiOutlineFileSearch } from 'react-icons/ai';
 import { BsFillShieldLockFill } from 'react-icons/bs';
-import { FaDollarSign } from 'react-icons/fa';
 import { IoIosArrowDown, IoIosArrowUp, IoIosStats } from 'react-icons/io';
 
 const ManagerSidebar = () => {
@@ -146,6 +145,7 @@ const ManagerSidebar = () => {
             openDropdown === 'benefits' ? 'max-h-screen' : 'max-h-0'
           }`}
         >
+          <li><Link to="/benefits-overview">Benefits Overview</Link></li>
           <li><Link to="/health-benefits-management">Health Benefits Management</Link></li>
           <li><Link to="/retirement-plans">Retirement Plans</Link></li>
           <li><Link to="/leave-management">Leave Management</Link></li>

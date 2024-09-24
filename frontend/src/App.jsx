@@ -49,6 +49,7 @@ import Regulations from './pages/manager/Compliance/Regulations';
 import LaborLaws from './pages/manager/Compliance/LaborLaws';
 
 import Compensation from './pages/manager/Predictive/Compensation';
+import BenefitsOverview from './pages/manager/benefits/BenefitsOverview';
 
 const App = () => {
   const { checkAuth, isAuthenticated, user } = useAuthStore();
@@ -73,29 +74,38 @@ const App = () => {
                   {user?.role === 'manager' && (
                     <>
                       <Route path="/dashboard" element={<ProtectedRoute> <ManagerDashboard /> </ProtectedRoute>} />
+                      {/* user */}
                       <Route path="/user-list" element={<ProtectedRoute> <UserList /> </ProtectedRoute>} />
                       <Route path="/attendance-info" element={<ProtectedRoute> <AttendanceInfo /> </ProtectedRoute>} />
+                      {/* payroll processing */}
                       <Route path="/salary-computation" element={<ProtectedRoute> <SalaryComputation /> </ProtectedRoute>} />
                       <Route path="/deductions-management" element={<ProtectedRoute> <DeductionsManagement /> </ProtectedRoute>} />
                       <Route path="/payroll-distribution" element={<ProtectedRoute> <PayrollDistribution /> </ProtectedRoute>} />
                       <Route path="compliance-tracking" element={<ProtectedRoute> <ComplianceTracking /> </ProtectedRoute>} />
+                      {/* benefits */}
+                      <Route path="benefits-overview" element={<ProtectedRoute> <BenefitsOverview /> </ProtectedRoute>} />
                       <Route path="health-benefits-management" element={<ProtectedRoute> <HealthBenefitsManagement /> </ProtectedRoute>} />
                       <Route path="retirement-plans" element={<ProtectedRoute> <RetirementPlans /> </ProtectedRoute>} />
                       <Route path="leave-management" element={<ProtectedRoute> <LeaveManagement /> </ProtectedRoute>} />
                       <Route path="flexible-benefits" element={<ProtectedRoute> <FlexibleBenefits /> </ProtectedRoute>} />
+                      {/* incentives */}
                       <Route path="performance-based-bonuses" element={<ProtectedRoute> <PerformanceBasedBonuses /> </ProtectedRoute>} />
                       <Route path="recognition-programs" element={<ProtectedRoute> <RecognitionPrograms /> </ProtectedRoute>} />
                       <Route path="sales-commissions" element={<ProtectedRoute> <SalesCommissions /> </ProtectedRoute>} />
                       <Route path="profit-sharing" element={<ProtectedRoute> <ProfitSharing /> </ProtectedRoute>} />
+                      {/* compensation */}
                       <Route path="salary-planning" element={<ProtectedRoute> <SalaryPlanning /> </ProtectedRoute>} />
                       <Route path="compensation-analysis" element={<ProtectedRoute> <CompensationAnalysis /> </ProtectedRoute>} />
                       <Route path="equity-adjustments" element={<ProtectedRoute> <EquityAdjustments /> </ProtectedRoute>} />
                       <Route path="total-rewards-management" element={<ProtectedRoute> <TotalRewardsManagement /> </ProtectedRoute>} />
+                      {/* compliance */}
                       <Route path="labor-laws" element={<ProtectedRoute> <LaborLaws /> </ProtectedRoute>} />
                       <Route path="regulations" element={<ProtectedRoute> <Regulations /> </ProtectedRoute>} />
+                      {/* analytics */}
                       <Route path="predictive-turnover-analysis" element={<ProtectedRoute> <PredictiveTurnoverAnalysis /> </ProtectedRoute>} />
                       <Route path="employee-performance-forecasting" element={<ProtectedRoute> <EmployeePerformanceForecasting /> </ProtectedRoute>} />
                       <Route path="benefits-utilization-analysis" element={<ProtectedRoute> <BenefitsUtilizationsAnalysis /> </ProtectedRoute>} />
+                      {/* finance */}
                       <Route path="request-budget" element={<ProtectedRoute> <RequestBudget /> </ProtectedRoute>} />
                       <Route path="compensation" element={<ProtectedRoute> <Compensation /> </ProtectedRoute>} />
                     </>
