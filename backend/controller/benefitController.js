@@ -1,4 +1,5 @@
 import { Benefit } from "../model/benefitModel.js";
+import mongoose from "mongoose";
 
 export const createBenefit = async (req,res) => {
     try {
@@ -31,4 +32,41 @@ export const getBenefit = async (req,res) => {
         console.error("Error fetching users:", error);
         res.status(500).json({ success: false, message: "Server error" });
     }
-}
+};
+
+export const updateBenefit = async (req,res) => {
+    try {
+        const { id } = req.params;
+        const {benefitsName,benefitsDescription,benefitsType} = req.body;
+
+        if (!benefitsName ||!benefitsDescription ||!benefitsType) {
+            return res.status(400).json({status:false,message:"All fields required!"});
+        }
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({ status: false, message: "Invalid benefit ID format." });
+        }
+        const benefit = await Benefit.findByIdAndUpdate(id);
+        if (!benefit) {
+            return res.status(404).json({status:false,message:"Benefit not found!"});
+        }
+
+        // Only update fields if they have changed
+        if (benefit.benefitsName !== benefitsName || 
+            benefit.benefitsDescription !== benefitsDescription || 
+            benefit.benefitsType !== benefitsType) {
+            benefit.benefitsName = benefitsName;
+            benefit.benefitsDescription = benefitsDescription;
+            benefit.benefitsType = benefitsType;
+            await benefit.save();
+            res.status(200).json({ status: true, message: "Benefits updated successfully!", updatedBenefit: benefit });
+        } else {
+            res.status(200).json({ status: true, message: "No changes detected, benefit remains unchanged.", updatedBenefit: benefit });
+        }
+    } catch (error) {
+        console.error("Error updating benefit:", error);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+};
+
+
+
