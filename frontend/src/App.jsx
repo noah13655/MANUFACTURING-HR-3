@@ -83,7 +83,7 @@ const App = () => {
                       <Route path="/payroll-distribution" element={<ProtectedRoute> <PayrollDistribution /> </ProtectedRoute>} />
                       <Route path="compliance-tracking" element={<ProtectedRoute> <ComplianceTracking /> </ProtectedRoute>} />
                       {/* benefits */}
-                      <Route path="benefits-overview" element={<ProtectedRoute> <BenefitsOverview /> </ProtectedRoute>} />
+                      <Route path="/benefits-overview" element={<ProtectedRoute> <BenefitsOverview /> </ProtectedRoute>} />
                       <Route path="health-benefits-management" element={<ProtectedRoute> <HealthBenefitsManagement /> </ProtectedRoute>} />
                       <Route path="retirement-plans" element={<ProtectedRoute> <RetirementPlans /> </ProtectedRoute>} />
                       <Route path="leave-management" element={<ProtectedRoute> <LeaveManagement /> </ProtectedRoute>} />
