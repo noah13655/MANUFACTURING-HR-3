@@ -58,6 +58,7 @@ import OperationalAnalytics from './pages/manager/predictive/OperationAnalytics'
 /* employee */
 import EmployeeSidebar from './pages/employee/EmployeeSidebar';
 
+import EBenefitsOverview from './pages/employee/benefits/EBenefitsOverview';
 
 const App = () => {
   const { checkAuth, isAuthenticated, user } = useAuthStore();
@@ -130,7 +131,10 @@ const App = () => {
                   )}
                   
                   {user?.role === 'employee' && (
-                    <Route path="/dashboard" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />
+                    <>
+                      <Route path="/dashboard" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />                    
+                      <Route path="/benefits-overview" element={<ProtectedRoute><EBenefitsOverview /></ProtectedRoute>} />                    
+                    </>
                   )}
 
                   <Route path="*" element={<Navigate to="/" replace />} />

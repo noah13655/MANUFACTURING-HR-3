@@ -76,12 +76,11 @@ const BenefitsOverview = () => {
         setBenefitsDescription("");
         setBenefitsType("");
         setEditingBenefitId(null);
-        setIsCreating(false);
         setError("");
     };
 
     const toggleCreateForm = () => {
-        resetForm();
+        resetForm(); // Always reset form when toggling
         setIsCreating((prev) => !prev); 
     };
 
@@ -91,7 +90,7 @@ const BenefitsOverview = () => {
 
     return (
         <div className="overflow-x-auto">
-            <h2>Benefits Overview</h2>
+            <h2 className="text-2xl font-bold text-center mb-4">Benefits Overview</h2>
             <div className="flex items-center mb-4">
                 <button className='btn btn-primary mr-2' onClick={toggleCreateForm}>
                     {isCreating ? "Cancel" : "Create Benefits"}
