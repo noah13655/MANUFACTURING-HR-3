@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const TotalRewardsManagement = () => {
+const TotalRewards = () => {
   const [baseSalary, setBaseSalary] = useState(0);
   const [bonuses, setBonuses] = useState(0);
   const [benefits, setBenefits] = useState(0);
@@ -71,4 +71,4 @@ const TotalRewardsManagement = () => {
   );
 };
 
-export default TotalRewardsManagement;
+export default TotalRewards;

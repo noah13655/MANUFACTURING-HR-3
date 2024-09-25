@@ -1,7 +1,7 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
-const EmployeePerformanceForecasting = () => {
+const EmployeeAnalytics = () => {
   const employees = [
     { name: 'Elsie', currentPerformance: 80, forecastedPerformance: 90 },
     { name: 'Rhea', currentPerformance: 70, forecastedPerformance: 85 },
@@ -43,4 +43,4 @@ const EmployeePerformanceForecasting = () => {
   );
 };
 
-export default EmployeePerformanceForecasting;
+export default EmployeeAnalytics;

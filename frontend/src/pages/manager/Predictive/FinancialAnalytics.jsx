@@ -8,7 +8,7 @@ const defaultBenefitsUtilization = [
   { id: 5, benefit: 'Disability Insurance', utilizationRate: 40, cost: 150 },
 ];
 
-const BenefitsUtilizationAnalysis = () => {
+const FinancialAnalytics = () => {
   return (
     <div>
       <h1>Benefits Utilization Analysis</h1>
@@ -48,4 +48,4 @@ const BenefitsUtilizationAnalysis = () => {
   );
 };
 
-export default BenefitsUtilizationAnalysis;
+export default FinancialAnalytics;

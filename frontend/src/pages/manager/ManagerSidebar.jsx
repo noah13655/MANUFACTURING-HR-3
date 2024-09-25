@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MdDashboard } from 'react-icons/md';
-import { GiWallet, GiGears, GiChecklist } from 'react-icons/gi';
-import { FaRegUser,FaDollarSign } from 'react-icons/fa';
-import { AiOutlineFileSearch } from 'react-icons/ai';
-import { BsFillShieldLockFill } from 'react-icons/bs';
-import { IoIosArrowDown, IoIosArrowUp, IoIosStats } from 'react-icons/io';
+import { FaRegUser, FaDollarSign, FaStar, FaMoneyBillWave } from 'react-icons/fa';
+import { AiOutlineFileText, AiOutlineBarChart } from 'react-icons/ai';
+import { GiHealthNormal } from 'react-icons/gi';
+import { GiGears } from 'react-icons/gi';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
 import jjmLogo from '../../assets/jjmlogo.jpg';
+import { useAuthStore } from '../../store/authStore';
 
 const ManagerSidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
 
+  const {isAuthenticated} = useAuthStore();
+  
   const toggleSidebar = () => {
     setIsCollapsed(prev => {
       const newCollapseState = !prev;
@@ -26,6 +29,10 @@ const ManagerSidebar = () => {
   const toggleDropdown = section => {
     setOpenDropdown(prev => (prev === section ? null : section));
   };
+
+  useEffect(() => {
+    console.log('User authentication status changed:', isAuthenticated);
+  }, [isAuthenticated]);
 
   return (
     <div
@@ -103,7 +110,7 @@ const ManagerSidebar = () => {
           aria-controls="payroll-dropdown"
           aria-label="Payroll Processing"
         >
-          <GiWallet className="w-5 h-5" />
+          <FaDollarSign className="w-5 h-5" />
           {!isCollapsed && <span>Payroll Processing</span>}
           {!isCollapsed && (
             <div className="ml-auto">
@@ -121,6 +128,7 @@ const ManagerSidebar = () => {
           <li><Link to="/deductions-management">Deductions Management</Link></li>
           <li><Link to="/payroll-distribution">Payroll Distribution</Link></li>
           <li><Link to="/compliance-tracking">Compliance Tracking</Link></li>
+          <li><Link to="/request-budget">Request Budget</Link></li>
         </ul>
       </div>
 
@@ -133,7 +141,7 @@ const ManagerSidebar = () => {
           aria-controls="benefits-dropdown"
           aria-label="Benefits Administration"
         >
-          <GiGears className="w-5 h-5" />
+          <GiHealthNormal className="w-5 h-5" />
           {!isCollapsed && <span>Benefits Administration</span>}
           {!isCollapsed && (
             <div className="ml-auto">
@@ -164,7 +172,7 @@ const ManagerSidebar = () => {
           aria-controls="incentives-dropdown"
           aria-label="Incentives Management"
         >
-          <GiChecklist className="w-5 h-5" />
+          <FaStar className="w-5 h-5" />
           {!isCollapsed && <span>Incentives Management</span>}
           {!isCollapsed && (
             <div className="ml-auto">
@@ -194,7 +202,7 @@ const ManagerSidebar = () => {
           aria-controls="compensation-dropdown"
           aria-label="Compensation Planning"
         >
-          <GiChecklist className="w-5 h-5" />
+          <FaMoneyBillWave className="w-5 h-5" />
           {!isCollapsed && <span>Compensation Planning</span>}
           {!isCollapsed && (
             <div className="ml-auto">
@@ -208,38 +216,10 @@ const ManagerSidebar = () => {
             openDropdown === 'compensation' ? 'max-h-screen' : 'max-h-0'
           }`}
         >
-          <li><Link to="/salary-planning">Salary Planning</Link></li>
-          <li><Link to="/compensation-analysis">Compensation Analysis</Link></li>
-          <li><Link to="/equity-adjustments">Equity Adjustments</Link></li>
-          <li><Link to="/total-rewards-management">Total Rewards Management</Link></li>
-        </ul>
-      </div>
-
-      {/* Compliance Management */}
-      <div className="mb-2">
-        <div
-          className="flex gap-2 items-center cursor-pointer text-sm hover:text-blue-500 transition duration-200"
-          onClick={() => toggleDropdown('compliance')}
-          aria-expanded={openDropdown === 'compliance'}
-          aria-controls="compliance-dropdown"
-          aria-label="Compliance Management"
-        >
-          <BsFillShieldLockFill className="w-5 h-5" />
-          {!isCollapsed && <span>Compliance Management</span>}
-          {!isCollapsed && (
-            <div className="ml-auto">
-              {openDropdown === 'compliance' ? <IoIosArrowUp size={15} /> : <IoIosArrowDown size={15} />}
-            </div>
-          )}
-        </div>
-        <ul
-          id="compliance-dropdown"
-          className={`pl-6 mt-1 space-y-1 overflow-hidden transition-max-height duration-500 ease-in-out ${
-            openDropdown === 'compliance' ? 'max-h-screen' : 'max-h-0'
-          }`}
-        >
-          <li><Link to="/labor-laws">Labor Laws</Link></li>
-          <li><Link to="/regulations">Regulations</Link></li>
+          <li><Link to="/salary-planning">Salary Planning </Link></li>
+          <li><Link to="/market-analysis">Market Analysis</Link></li>
+          <li><Link to="/equity-adjustments">Equity Adjustment</Link></li>
+          <li><Link to="/total-rewards">Total Rewards</Link></li>
         </ul>
       </div>
 
@@ -250,10 +230,10 @@ const ManagerSidebar = () => {
           onClick={() => toggleDropdown('analytics')}
           aria-expanded={openDropdown === 'analytics'}
           aria-controls="analytics-dropdown"
-          aria-label="Predictive and Behavioral Analytics"
+          aria-label="Analytics"
         >
-          <IoIosStats className="w-5 h-5" />
-          {!isCollapsed && <span>Predictive and Behavioral Analytics</span>}
+          <AiOutlineBarChart className="w-5 h-5" />
+          {!isCollapsed && <span>Analytics</span>}
           {!isCollapsed && (
             <div className="ml-auto">
               {openDropdown === 'analytics' ? <IoIosArrowUp size={15} /> : <IoIosArrowDown size={15} />}
@@ -266,51 +246,39 @@ const ManagerSidebar = () => {
             openDropdown === 'analytics' ? 'max-h-screen' : 'max-h-0'
           }`}
         >
-          <li><Link to="/predictive-turnover-analysis">Predictive Turnover Analysis</Link></li>
-          <li><Link to="/employee-performance-forecasting">Employee Performance Forecasting</Link></li>
-          <li><Link to="/benefits-utilization-analysis">Benefits Utilization Analysis</Link></li>
-          <li><Link to="/compensation">Compensation</Link></li>
-        </ul>
-      </div>
-
-       {/* Finance */} 
-   <div className="mb-2">
-    <div
-    className="flex gap-2 items-center cursor-pointer text-sm hover:text-blue-500 transition duration-200"
-    onClick={() => toggleDropdown('finance')}
-    aria-expanded={openDropdown === 'finance'}
-    aria-controls="user-dropdown"
-    aria-label="Finance"
-  >
-    <FaDollarSign className="w-5 h-5" /> {/* Updated icon */}
-    {!isCollapsed && <span>Finance</span>}
-    {!isCollapsed && (
-      <div className="ml-auto">
-        {openDropdown === 'finance' ? <IoIosArrowUp size={15} /> : <IoIosArrowDown size={15} />}
-      </div>
-    )}
-  </div>
-  
-        <ul
-          id="user-dropdown"
-          className={`pl-6 mt-1 space-y-1 overflow-hidden transition-max-height duration-500 ease-in-out ${
-            openDropdown === 'finance' ? 'max-h-screen' : 'max-h-0'
-          }`}
-        >
-          <li><Link to="/request-budget">Request Budget</Link></li>
+          <li><Link to="/employee-analytics">Employee Analytics</Link></li>
+          <li><Link to="/financial-analytics">Financial Analytics</Link></li>
+          <li><Link to="/operational-analytics">Operational Analytics</Link></li>
         </ul>
       </div>
 
       {/* Reports */}
       <div className="mb-2">
-        <Link
-          to="/reports"
+        <div
           className="flex gap-2 items-center cursor-pointer text-sm hover:text-blue-500 transition duration-200"
+          onClick={() => toggleDropdown('reports')}
+          aria-expanded={openDropdown === 'reports'}
+          aria-controls="reports-dropdown"
           aria-label="Reports"
         >
-          <AiOutlineFileSearch className="w-5 h-5" />
+          <AiOutlineFileText className="w-5 h-5" />
           {!isCollapsed && <span>Reports</span>}
-        </Link>
+          {!isCollapsed && (
+            <div className="ml-auto">
+              {openDropdown === 'reports' ? <IoIosArrowUp size={15} /> : <IoIosArrowDown size={15} />}
+            </div>
+          )}
+        </div>
+        <ul
+          id="reports-dropdown"
+          className={`pl-6 mt-1 space-y-1 overflow-hidden transition-max-height duration-500 ease-in-out ${
+            openDropdown === 'reports' ? 'max-h-screen' : 'max-h-0'
+          }`}
+        >
+          <li><Link to="/financial-reports">Financial Reports</Link></li>
+          <li><Link to="/employee-reports">Employee Reports</Link></li>
+          <li><Link to="/performance-reports">Performance Reports</Link></li>
+        </ul>
       </div>
     </div>
   );

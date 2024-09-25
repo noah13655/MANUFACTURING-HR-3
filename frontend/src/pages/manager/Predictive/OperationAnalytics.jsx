@@ -1,7 +1,7 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
-const PredictiveTurnoverAnalysis = () => {
+const OperationalAnalytics = () => {
   const data = [
     { month: 'Jan', turnover: 100, prediction: 120 },
     { month: 'Feb', turnover: 120, prediction: 140 },
@@ -37,4 +37,4 @@ const PredictiveTurnoverAnalysis = () => {
   );
 };
 
-export default PredictiveTurnoverAnalysis;
+export default OperationalAnalytics;

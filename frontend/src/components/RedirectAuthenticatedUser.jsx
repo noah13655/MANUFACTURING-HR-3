@@ -1,15 +1,18 @@
-import { useAuthStore } from "../store/authStore";
-import { Navigate } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuthStore } from '../store/authStore';
 
 const RedirectAuthenticatedUser = ({ children }) => {
-    const { isAuthenticated } = useAuthStore();
+    const { isAuthenticated, user, checkAuth } = useAuthStore();
 
+    useEffect(() => {
+        checkAuth();
+    }, [checkAuth]);
 
     if (isAuthenticated) {
-        return <Navigate to='/dashboard' replace />;
+        return <Navigate to={user?.role === 'manager' ? '/dashboard' : '/dashboard'} replace />;
     }
-
-    return children; 
+    return <Navigate to="/" replace />;
 };
 
 export default RedirectAuthenticatedUser;
