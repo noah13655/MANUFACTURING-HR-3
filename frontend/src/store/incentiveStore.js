@@ -56,7 +56,7 @@ export const useIncentiveStore = create((set) => ({
         } catch (error) {
             console.error("Error deleting benefit:", error); 
             set({
-                error: error.response?.data.message || "Error deleting Benefit",
+                error: error.response?.data.message || "Error deleting incentive",
             });
             return false;
         }
@@ -73,7 +73,7 @@ export const useIncentiveStore = create((set) => ({
         } catch (error) {
             console.log(error);
             set({
-                error: error.response?.data.message || "Error updating Benefit",
+                error: error.response?.data.message || "Error updating incentive",
             });
             return false;
         }
