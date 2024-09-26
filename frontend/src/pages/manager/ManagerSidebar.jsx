@@ -185,7 +185,7 @@ const ManagerSidebar = () => {
             openDropdown === 'incentives' ? 'max-h-screen' : 'max-h-0'
           }`}
         >
-          <li><Link to="/performance-based-bonuses">Performance-Based Bonuses</Link></li>
+          <li><Link to="/incentives-overview">Incentives Overview</Link></li>
           <li><Link to="/recognition-programs">Recognition Programs</Link></li>
           <li><Link to="/sales-commissions">Sales Commissions</Link></li>
           <li><Link to="/profit-sharing">Profit Sharing</Link></li>
