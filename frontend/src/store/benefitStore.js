@@ -2,8 +2,10 @@ import { create } from 'zustand';
 import axios from 'axios';
 
 const API_URL = process.env.NODE_ENV === "production" 
-? "https://backend-hr3.jjm-manufacturing.com/api/auth" 
-: "http://localhost:7687/api/auth";
+? "https://backend-hr3.jjm-manufacturing.com/api/benefit" 
+: "http://localhost:7687/api/benefit";
+
+//  const API_URL = "https://backend-hr3.jjm-manufacturing.com/api/benefit";
 
 axios.defaults.withCredentials = true;
 

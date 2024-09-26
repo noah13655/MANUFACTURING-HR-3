@@ -8,13 +8,19 @@ method(get)
 http://localhost:7687/api/auth/users
 
 method(post)
-http://localhost:7687/api/auth/create-benefits
+http://localhost:7687/api/benefit/create-benefits
 
 method(get)
-http://localhost:7687/api/auth/get-benefits
+http://localhost:7687/api/benefit/get-benefits
 
 method:(put)
-http://localhost:7687/api/auth/update-benefits/:id
+http://localhost:7687/api/benefit/update-benefits/:id
 
 method(delete)
-http://localhost:7687/api/auth/delete-benefits/:id
+http://localhost:7687/api/benefit/delete-benefits/:id
+
+method:(post)
+http://localhost:7687/api/benefit/enroll-benefits
+
+method:(get)
+http://localhost:7687/api/benefit/enrolled-benefits

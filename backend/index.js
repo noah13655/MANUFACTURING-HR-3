@@ -13,11 +13,18 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors({origin:"http://localhost:5173",credentials:true}));
-app.use(cookieParser());
+app.use(cors({
+    origin: process.env.NODE_ENV === "production"
+      ? "https://hr3.jjm-manufacturing.com/"
+      : "http://localhost:5173",
+    credentials: true
+  }));
+  app.use(cookieParser());
 app.use(express.json());
+
 app.use("/api/auth",authRoute);
-app.use("/api/auth",benefitRoute);
+app.use("/api/benefit",benefitRoute);
+
 app.listen(PORT,() => {
     connectDB();
     console.log(`Server is running PORT: ${PORT}`);

@@ -33,10 +33,9 @@ import RequestBudget from './pages/manager/payroll/RequestBudget';
 
 /* benefits administration */
 import BenefitsOverview from './pages/manager/benefits/BenefitsOverview';
-import HealthBenefitsManagement from './pages/manager/Benefits/HealthBenefitsManagement';
-import RetirementPlans from './pages/manager/Benefits/RetirementPlans';
-import LeaveManagement from './pages/manager/Benefits/LeaveManagement';
-import FlexibleBenefits from './pages/manager/Benefits/FlexibleBenefits';
+import EnrollmentSubmission from './pages/manager/benefits/EnrollmentSubmission';
+import LeaveRequest from './pages/manager/benefits/LeaveRequest';
+import Deductions from './pages/manager/benefits/Deductions';
 
 /* incentives management */
 import PerformanceBasedBonuses from './pages/manager/incentives/PerformanceBasedBonuses';
@@ -106,10 +105,9 @@ const App = () => {
                       
                       {/* benefits administration */}
                       <Route path="/benefits-overview" element={<ProtectedRoute><BenefitsOverview /></ProtectedRoute>} />
-                      <Route path="/health-benefits-management" element={<ProtectedRoute><HealthBenefitsManagement /></ProtectedRoute>} />
-                      <Route path="/retirement-plans" element={<ProtectedRoute><RetirementPlans /></ProtectedRoute>} />
-                      <Route path="/leave-management" element={<ProtectedRoute><LeaveManagement /></ProtectedRoute>} />
-                      <Route path="/flexible-benefits" element={<ProtectedRoute><FlexibleBenefits /></ProtectedRoute>} />
+                      <Route path="/enrollment-submission" element={<ProtectedRoute><EnrollmentSubmission /></ProtectedRoute>} />
+                      <Route path="/leave-request" element={<ProtectedRoute><LeaveRequest /></ProtectedRoute>} />
+                      <Route path="/deductions" element={<ProtectedRoute><Deductions /></ProtectedRoute>} />
                       
                       {/* incentives management */}
                       <Route path="/performance-based-bonuses" element={<ProtectedRoute><PerformanceBasedBonuses /></ProtectedRoute>} />

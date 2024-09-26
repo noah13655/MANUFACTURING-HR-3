@@ -156,10 +156,9 @@ const ManagerSidebar = () => {
           }`}
         >
           <li><Link to="/benefits-overview">Benefits Overview</Link></li>
-          <li><Link to="/health-benefits-management">Health Benefits Management</Link></li>
-          <li><Link to="/retirement-plans">Retirement Plans</Link></li>
-          <li><Link to="/leave-management">Leave Management</Link></li>
-          <li><Link to="/flexible-benefits">Flexible Benefits</Link></li>
+          <li><Link to="/enrollment-submission">Enrollment Submission</Link></li>
+          <li><Link to="/leave-request">Leave Request</Link></li>
+          <li><Link to="/deductions">Deductions</Link></li>
         </ul>
       </div>
 

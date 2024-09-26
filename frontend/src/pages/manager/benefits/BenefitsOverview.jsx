@@ -6,6 +6,7 @@ const BenefitsOverview = () => {
     const [benefitsName, setBenefitsName] = useState("");
     const [benefitsDescription, setBenefitsDescription] = useState("");
     const [benefitsType, setBenefitsType] = useState("");
+    const [requiresRequest,setRequiresRequest] = useState(false);
     const [error, setError] = useState("");
 
     const [editingBenefitId, setEditingBenefitId] = useState(null); 
@@ -19,7 +20,7 @@ const BenefitsOverview = () => {
                 setError("All fields required!");
                 return;
             }
-            const result = await createBenefit({ benefitsName, benefitsDescription, benefitsType });
+            const result = await createBenefit({ benefitsName, benefitsDescription, benefitsType,requiresRequest });
             if (!result) {
                 setError("Benefits already exist!");
                 return;
@@ -47,6 +48,7 @@ const BenefitsOverview = () => {
         setBenefitsName(benefit.benefitsName);
         setBenefitsDescription(benefit.benefitsDescription);
         setBenefitsType(benefit.benefitsType);
+        setRequiresRequest(benefit.requiresRequest);
         setEditingBenefitId(benefit._id); 
         setIsCreating(true); 
     };
@@ -57,8 +59,8 @@ const BenefitsOverview = () => {
             if (!benefitsName || !benefitsDescription || !benefitsType) {
                 setError("All fields required!");
                 return;
-            }
-            const result = await updateBenefit(editingBenefitId, { benefitsName, benefitsDescription, benefitsType });
+            } 
+            const result = await updateBenefit(editingBenefitId, { benefitsName, benefitsDescription, benefitsType,requiresRequest });
             if (!result) {
                 setError("Failed to update benefit!");
                 return;
@@ -75,12 +77,13 @@ const BenefitsOverview = () => {
         setBenefitsName("");
         setBenefitsDescription("");
         setBenefitsType("");
+        setRequiresRequest(false);
         setEditingBenefitId(null);
         setError("");
     };
 
     const toggleCreateForm = () => {
-        resetForm(); // Always reset form when toggling
+        resetForm(); 
         setIsCreating((prev) => !prev); 
     };
 
@@ -127,6 +130,14 @@ const BenefitsOverview = () => {
                             <option value="Financial">Financial</option>
                             <option value="Worklife Balance">Worklife Balance</option>
                         </select>
+                        <label className="mr-2">Requires Request?</label>
+                        <input 
+                            type="checkbox" 
+                            checked={requiresRequest} 
+                            onChange={(e) => setRequiresRequest(e.target.checked)} 
+                            className='mr-2'
+                        />
+
                         <button type="submit" className='btn btn-success'>
                             {editingBenefitId ? "Update" : "Create"}
                         </button>
@@ -141,6 +152,7 @@ const BenefitsOverview = () => {
                         <th>Benefits Name</th>
                         <th>Description</th>
                         <th>Benefits Type</th>
+                        <th>Require Request</th>
                         <th colSpan={3} className='justify-center'>Action</th>
                     </tr>
                 </thead>
@@ -151,6 +163,7 @@ const BenefitsOverview = () => {
                                 <td>{benefit.benefitsName || 'N/A'}</td>
                                 <td>{benefit.benefitsDescription || 'N/A'}</td>
                                 <td>{benefit.benefitsType || 'N/A'}</td>
+                                <td>{benefit.requiresRequest ? 'Yes' : 'No'}</td>
                                 <td><button onClick={() => handleEditBenefit(benefit)} className='btn btn-edit'>Edit</button></td>
                                 <td>
                                     <button onClick={() => handleDeleteBenefit(benefit._id)} className='btn btn-danger'>
