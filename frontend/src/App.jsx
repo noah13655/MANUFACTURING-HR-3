@@ -58,6 +58,7 @@ import OperationalAnalytics from './pages/manager/predictive/OperationAnalytics'
 import EmployeeSidebar from './pages/employee/EmployeeSidebar';
 
 import EBenefitsOverview from './pages/employee/benefits/EBenefitsOverview';
+import EIncentivesOverview from './pages/employee/incentives/EIncentivesOverview';
 
 const App = () => {
   const { checkAuth, isAuthenticated, user } = useAuthStore();
@@ -132,6 +133,7 @@ const App = () => {
                     <>
                       <Route path="/dashboard" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />                    
                       <Route path="/benefits-overview" element={<ProtectedRoute><EBenefitsOverview /></ProtectedRoute>} />                    
+                      <Route path="/incentives-overview" element={<ProtectedRoute><EIncentivesOverview /></ProtectedRoute>} />                    
                     </>
                   )}
 

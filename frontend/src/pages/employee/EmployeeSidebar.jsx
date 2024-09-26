@@ -162,7 +162,7 @@ const EmployeeSidebar = () => {
           aria-label="Leave Management"
         >
           <GiChecklist className="w-5 h-5" />
-          {!isCollapsed && <span>Leave Management</span>}
+          {!isCollapsed && <span>Incentives</span>}
           {!isCollapsed && (
             <div className="ml-auto">
               {openDropdown === 'leave' ? <IoIosArrowUp size={15} /> : <IoIosArrowDown size={15} />}
@@ -175,7 +175,7 @@ const EmployeeSidebar = () => {
             openDropdown === 'leave' ? 'max-h-screen' : 'max-h-0'
           }`}
         >
-          <li><Link to="/leave-balances">Leave Balances</Link></li>
+          <li><Link to="/incentives-overview">Incentives Overview</Link></li>
           <li><Link to="/leave-requests">Leave Requests</Link></li>
           <li><Link to="/leave-history">Leave History</Link></li>
         </ul>
