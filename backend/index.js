@@ -7,6 +7,7 @@ import { connectDB } from "./config/db.js";
 
 import authRoute from './routes/authRoute.js';
 import benefitRoute from './routes/benefitRoute.js';
+import incentiveRoute from './routes/incentivesRoute.js';
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(express.json());
 
 app.use("/api/auth",authRoute);
 app.use("/api/benefit",benefitRoute);
+app.use("/api/incentive",incentiveRoute);
 
 app.listen(PORT,() => {
     connectDB();

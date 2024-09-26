@@ -5,21 +5,21 @@ const EnrollmentSubmission = () => {
         {
             _id: '1',
             employeeName: 'John Doe',
-            benefitName: 'PhilHealth',
+            benefitsName: 'PhilHealth',
             status: 'Pending',
             benefitDescription: 'Facilitate contributions for healthcare services',
         },
         {
             _id: '2',
             employeeName: 'John Doe',
-            benefitName: 'Pag-IBIG Fund',
+            benefitsName: 'Pag-IBIG Fund',
             status: 'Pending',
             benefitDescription: 'Help employees access housing loans and savings programs.',
         },
         {
             _id: '3',
             employeeName: 'Jane Smith',
-            benefitName: 'Social Security Contributions (SSS)',
+            benefitsName: 'Social Security Contributions (SSS)',
             status: 'Approved',
             benefitDescription: 'Contribute to retirement, disability, and death benefits.',
         },
@@ -48,7 +48,7 @@ const EnrollmentSubmission = () => {
         if (!acc[req.employeeName]) {
             acc[req.employeeName] = { name: req.employeeName, benefits: [], statuses: new Set(), descriptions: [] };
         }
-        acc[req.employeeName].benefits.push(req.benefitName);
+        acc[req.employeeName].benefits.push(req.benefitsName);
         acc[req.employeeName].statuses.add(req.status);
         acc[req.employeeName].descriptions.push(req.benefitDescription);
         return acc;
