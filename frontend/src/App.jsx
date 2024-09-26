@@ -38,7 +38,7 @@ import LeaveRequest from './pages/manager/benefits/LeaveRequest';
 import Deductions from './pages/manager/benefits/Deductions';
 
 /* incentives management */
-import IncentivedsOverview from './pages/manager/incentives/IncentivesOverview';
+import IncentivesOverview from './pages/manager/incentives/IncentivesOverview';
 import RecognitionPrograms from './pages/manager/incentives/RecognitionPrograms';
 import SalesCommissions from './pages/manager/incentives/SalesCommissions';
 import ProfitSharing from './pages/manager/incentives/ProfitSharing';
@@ -110,7 +110,7 @@ const App = () => {
                       <Route path="/deductions" element={<ProtectedRoute><Deductions /></ProtectedRoute>} />
                       
                       {/* incentives management */}
-                      <Route path="/incentives-overview" element={<ProtectedRoute><IncentivedsOverview /></ProtectedRoute>} />
+                      <Route path="/incentives-overview" element={<ProtectedRoute><IncentivesOverview /></ProtectedRoute>} />
                       <Route path="/recognition-programs" element={<ProtectedRoute><RecognitionPrograms /></ProtectedRoute>} />
                       <Route path="/sales-commissions" element={<ProtectedRoute><SalesCommissions /></ProtectedRoute>} />
                       <Route path="/profit-sharing" element={<ProtectedRoute><ProfitSharing /></ProtectedRoute>} />

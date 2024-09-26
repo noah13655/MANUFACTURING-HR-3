@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useIncentiveStore } from '../../../store/incentiveStore';
 
-const IncentivedsOverview = () => {
+const IncentivesOverview = () => {
     const [isCreating, setIsCreating] = useState(false);
     const [incentivesName, setincentivesName] = useState("");
     const [incentivesDescription, setincentivesDescription] = useState("");
@@ -151,7 +151,7 @@ const IncentivedsOverview = () => {
                                 <td>{incentive.incentivesType || 'N/A'}</td>
                                 <td><button onClick={() => handleEditIncentive(incentive)} className='btn btn-edit'>Edit</button></td>
                                 <td>
-                                    <button onClick={() => handleDeleteIncentive(incentive._id)} className='btn btn-danger'>
+                                    <button onClick={() => handleIncentive(incentive._id)} className='btn btn-danger'>
                                         Delete
                                     </button>
                                 </td>
@@ -168,4 +168,4 @@ const IncentivedsOverview = () => {
     );
 };
 
-export default IncentivedsOverview;
+export default IncentivesOverview;
