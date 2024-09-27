@@ -39,9 +39,10 @@ import Deductions from './pages/manager/benefits/Deductions';
 
 /* incentives management */
 import IncentivesOverview from './pages/manager/incentives/IncentivesOverview';
-import RecognitionPrograms from './pages/manager/incentives/RecognitionPrograms';
+import IncentivesRequest from './pages/manager/incentives/IncentivesRequest';
 import SalesCommissions from './pages/manager/incentives/SalesCommissions';
 import ProfitSharing from './pages/manager/incentives/ProfitSharing';
+import RecognitionPrograms from './pages/manager/incentives/RecognitionPrograms';
 
 /* compensation planning */
 import SalaryPlanning from './pages/manager/compensation/SalaryPlanning';
@@ -59,6 +60,9 @@ import EmployeeSidebar from './pages/employee/EmployeeSidebar';
 
 import EBenefitsOverview from './pages/employee/benefits/EBenefitsOverview';
 import EIncentivesOverview from './pages/employee/incentives/EIncentivesOverview';
+
+import MyIncentives from './pages/employee/incentives/MyIncentives';
+import MyCommissions from './pages/employee/incentives/MyCommissions';
 
 const App = () => {
   const { checkAuth, isAuthenticated, user } = useAuthStore();
@@ -112,8 +116,9 @@ const App = () => {
                       
                       {/* incentives management */}
                       <Route path="/incentives-overview" element={<ProtectedRoute><IncentivesOverview /></ProtectedRoute>} />
-                      <Route path="/recognition-programs" element={<ProtectedRoute><RecognitionPrograms /></ProtectedRoute>} />
+                      <Route path="/incentives-request" element={<ProtectedRoute><IncentivesRequest /></ProtectedRoute>} />
                       <Route path="/sales-commissions" element={<ProtectedRoute><SalesCommissions /></ProtectedRoute>} />
+                      <Route path="/recognition-programs" element={<ProtectedRoute><RecognitionPrograms /></ProtectedRoute>} />
                       <Route path="/profit-sharing" element={<ProtectedRoute><ProfitSharing /></ProtectedRoute>} />
                       
                       {/* compensation */}
@@ -133,7 +138,10 @@ const App = () => {
                     <>
                       <Route path="/dashboard" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />                    
                       <Route path="/benefits-overview" element={<ProtectedRoute><EBenefitsOverview /></ProtectedRoute>} />                    
+                      
                       <Route path="/incentives-overview" element={<ProtectedRoute><EIncentivesOverview /></ProtectedRoute>} />                    
+                      <Route path="/my-incentives" element={<ProtectedRoute><MyIncentives /></ProtectedRoute>} />                    
+                      <Route path="/my-commissions" element={<ProtectedRoute><MyCommissions /></ProtectedRoute>} />                    
                     </>
                   )}
 

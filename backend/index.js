@@ -12,22 +12,24 @@ import incentiveRoute from './routes/incentivesRoute.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 7687;
 
 app.use(cors({
     origin: process.env.NODE_ENV === "production"
-      ? "https://hr3.jjm-manufacturing.com/"
-      : "http://localhost:5173",
-    credentials: true
-  }));
+        ? "https://hr3.jjm-manufacturing.com"
+        : "http://localhost:5173",
+    credentials: true,
+}));
   app.use(cookieParser());
 app.use(express.json());
+
 
 app.use("/api/auth",authRoute);
 app.use("/api/benefit",benefitRoute);
 app.use("/api/incentive",incentiveRoute);
 
+connectDB();
+
 app.listen(PORT,() => {
-    connectDB();
     console.log(`Server is running PORT: ${PORT}`);
 });

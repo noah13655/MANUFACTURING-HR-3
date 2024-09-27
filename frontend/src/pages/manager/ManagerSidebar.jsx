@@ -186,9 +186,9 @@ const ManagerSidebar = () => {
           }`}
         >
           <li><Link to="/incentives-overview">Incentives Overview</Link></li>
-          <li><Link to="/recognition-programs">Recognition Programs</Link></li>
+          <li><Link to="/incentives-request">Incentive Request</Link></li>
           <li><Link to="/sales-commissions">Sales Commissions</Link></li>
-          <li><Link to="/profit-sharing">Profit Sharing</Link></li>
+          <li><Link to="/recognition-programs">Recognition Programs</Link></li>
         </ul>
       </div>
 

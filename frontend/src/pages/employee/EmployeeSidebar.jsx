@@ -176,8 +176,8 @@ const EmployeeSidebar = () => {
           }`}
         >
           <li><Link to="/incentives-overview">Incentives Overview</Link></li>
-          <li><Link to="/leave-requests">Leave Requests</Link></li>
-          <li><Link to="/leave-history">Leave History</Link></li>
+          <li><Link to="/my-incentives">My Incentives</Link></li>
+          <li><Link to="/my-commissions">My Commissions</Link></li>
         </ul>
       </div>
 

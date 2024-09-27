@@ -20,7 +20,6 @@ const EIncentivesOverview = () => {
                         <th>Incentives Name</th>
                         <th>Description</th>
                         <th>Incentives Type</th>
-                        <th colSpan={3} className='justify-center'>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,12 +29,6 @@ const EIncentivesOverview = () => {
                                 <td>{incentive.incentivesName || 'N/A'}</td>
                                 <td>{incentive.incentivesDescription || 'N/A'}</td>
                                 <td>{incentive.incentivesType || 'N/A'}</td>
-                                <td><button onClick={() => handleEditIncentive(incentive)} className='btn btn-edit'>Edit</button></td>
-                                <td>
-                                    <button onClick={() => handleIncentive(incentive._id)} className='btn btn-danger'>
-                                        Delete
-                                    </button>
-                                </td>
                             </tr>
                         ))
                     ) : (
