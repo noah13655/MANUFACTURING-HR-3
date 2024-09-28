@@ -124,11 +124,14 @@ const ManagerSidebar = () => {
             openDropdown === 'payroll' ? 'max-h-screen' : 'max-h-0'
           }`}
         >
-          <li><Link to="/salary-computation">Salary Computation</Link></li>
-          <li><Link to="/deductions-management">Deductions Management</Link></li>
-          <li><Link to="/payroll-distribution">Payroll Distribution</Link></li>
-          <li><Link to="/compliance-tracking">Compliance Tracking</Link></li>
-          <li><Link to="/request-budget">Request Budget</Link></li>
+         <li><Link to="/payroll-management">Payroll Management</Link></li>
+        <li><Link to="/salary-computation">Salary Computation</Link></li>
+        <li><Link to="/deductions-management">Deductions Management</Link></li>
+        <li><Link to="/payroll-distribution">Payroll Distribution</Link></li>
+        <li><Link to="/payroll-reports">Payroll Reports</Link></li>
+        <li><Link to="/payroll-history">Payroll History</Link></li>
+        <li><Link to="/request-budget">Request Budget</Link></li>
+
         </ul>
       </div>
 
@@ -215,6 +218,7 @@ const ManagerSidebar = () => {
             openDropdown === 'compensation' ? 'max-h-screen' : 'max-h-0'
           }`}
         >
+          <li><Link to="/compensation-overview"> Compensation Overview </Link></li>
           <li><Link to="/salary-planning">Salary Planning </Link></li>
           <li><Link to="/market-analysis">Market Analysis</Link></li>
           <li><Link to="/equity-adjustments">Equity Adjustment</Link></li>

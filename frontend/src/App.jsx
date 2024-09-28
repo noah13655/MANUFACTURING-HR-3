@@ -6,7 +6,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
 
 /* public */
-import Home from './pages/public/Home';
+// import Home from './pages/public/Home';
 import LogIn from './pages/public/LogIn';
 
 /* components */
@@ -45,6 +45,7 @@ import ProfitSharing from './pages/manager/incentives/ProfitSharing';
 import RecognitionPrograms from './pages/manager/incentives/RecognitionPrograms';
 
 /* compensation planning */
+import CompensationOverview from './pages/employee/compensation/CompensationOverview';
 import SalaryPlanning from './pages/manager/compensation/SalaryPlanning';
 import MarketAnalysis from './pages/manager/compensation/MarketAnalysis';
 import EquityAdjustments from './pages/manager/compensation/EquityAdjustments';
@@ -122,6 +123,7 @@ const App = () => {
                       <Route path="/profit-sharing" element={<ProtectedRoute><ProfitSharing /></ProtectedRoute>} />
                       
                       {/* compensation */}
+                      <Route path="/compensation-overview" element={<ProtectedRoute><CompensationOverview /></ProtectedRoute>} />
                       <Route path="/salary-planning" element={<ProtectedRoute><SalaryPlanning /></ProtectedRoute>} />
                       <Route path="/market-analysis" element={<ProtectedRoute><MarketAnalysis /></ProtectedRoute>} />
                       <Route path="/equity-adjustments" element={<ProtectedRoute><EquityAdjustments /></ProtectedRoute>} />
@@ -152,9 +154,9 @@ const App = () => {
           </>
         ) : (
           <Routes>
-            <Route path="/" element={<Home />} />
+            {/* <Route path="/" element={<Home />} /> */}
             <Route path="/login" element={<LogIn />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
         )}
       </div>

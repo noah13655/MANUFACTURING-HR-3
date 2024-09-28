@@ -151,7 +151,7 @@ const IncentivesOverview = () => {
                                 <td>{incentive.incentivesType || 'N/A'}</td>
                                 <td><button onClick={() => handleEditIncentive(incentive)} className='btn btn-edit'>Edit</button></td>
                                 <td>
-                                    <button onClick={() => handleIncentive(incentive._id)} className='btn btn-danger'>
+                                    <button onClick={() => handleDeleteIncentive(incentive._id)} className='btn btn-danger'>
                                         Delete
                                     </button>
                                 </td>
