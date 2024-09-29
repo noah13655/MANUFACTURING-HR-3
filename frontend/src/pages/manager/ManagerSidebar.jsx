@@ -159,44 +159,30 @@ const ManagerSidebar = () => {
   );
 };
 
-const DropdownSection = ({ icon, text, section, openDropdown, toggleDropdown, isCollapsed, links, onClick }) => (
+const DashboardLink = ({ icon, text, to, isCollapsed, onClick }) => (
+  <Link to={to} onClick={onClick} className={`flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 transition duration-200 ${isCollapsed ? 'justify-center' : ''}`}>
+    <span className="text-xl">{icon}</span>
+    {!isCollapsed && <span className="text-sm">{text}</span>}
+  </Link>
+);
+
+const DropdownSection = ({ icon, text, section, openDropdown, toggleDropdown, links, onClick, isCollapsed }) => (
   <div>
-    <button
-      className={`flex items-center justify-between p-2 rounded-md hover:bg-gray-200 transition duration-200 ${isCollapsed ? 'justify-center' : ''}`}
-      onClick={() => {
-        toggleDropdown(section);
-        onClick();
-      }}
-      aria-expanded={openDropdown === section}
-      aria-controls={section}
-    >
-      <div className="flex items-center">
-        <span className="mr-2">{icon}</span>
-        {!isCollapsed && <span>{text}</span>}
-      </div>
-      {openDropdown === section ? <IoIosArrowUp /> : <IoIosArrowDown />}
-    </button>
-    {openDropdown === section && !isCollapsed && (
-      <div className="ml-4">
-        {links.map(({ to, text }, index) => (
-          <Link key={index} to={to} className="block py-1 text-sm hover:bg-gray-200 rounded-md transition duration-200" onClick={onClick}>
-            {text}
+    <div onClick={() => toggleDropdown(section)} className={`flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-200 transition duration-200 ${isCollapsed ? 'justify-center' : ''}`}>
+      <span className="text-xl">{icon}</span>
+      {!isCollapsed && <span className="text-sm">{text}</span>}
+      {!isCollapsed && (openDropdown === section ? <IoIosArrowUp /> : <IoIosArrowDown />)}
+    </div>
+    {!isCollapsed && openDropdown === section && (
+      <div className="pl-6">
+        {links.map((link) => (
+          <Link key={link.to} to={link.to} onClick={onClick} className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-100 transition duration-200">
+            <span className="text-sm">{link.text}</span>
           </Link>
         ))}
       </div>
     )}
   </div>
-);
-
-const DashboardLink = ({ icon, text, to, isCollapsed, onClick }) => (
-  <Link
-    to={to}
-    className={`flex items-center p-2 rounded-md hover:bg-gray-200 transition duration-200 ${isCollapsed ? 'justify-center' : ''}`}
-    onClick={onClick}
-  >
-    <span className="mr-2">{icon}</span>
-    {!isCollapsed && <span>{text}</span>}
-  </Link>
 );
 
 export default ManagerSidebar;
