@@ -1,52 +1,40 @@
-import React, { useState } from "react";
+import React from "react";
 import { HiOutlineCurrencyDollar } from "react-icons/hi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { RiPassPendingLine } from "react-icons/ri";
 import { GrMoney } from "react-icons/gr";
-import { MdRemoveRedEye } from "react-icons/md";
-import { IoCodeDownloadOutline } from "react-icons/io5";
-import { CiTrash } from "react-icons/ci";
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 
 const ManagerDashboard = () => {
-  const [payrollData] = useState([
-    { employee: "John Doe", grossPay: "₱3000", netPay: "₱2500", deductions: "₱500", status: "Processed" },
-    { employee: "Jane Smith", grossPay: "₱2800", netPay: "₱2400", deductions: "₱400", status: "Processed" },
-    { employee: "Mark Johnson", grossPay: "₱3200", netPay: "₱2700", deductions: "₱500", status: "Pending" },
-  ]);
+  const payrollData = [
+    { employee: 'Alice', grossPay: '$3000', netPay: '$2800', deductions: '$200', status: 'Processed' },
+    { employee: 'Bob', grossPay: '$4000', netPay: '$3800', deductions: '$200', status: 'Pending' },
+  ];
 
-  const [leaveRequests] = useState([
-    { employee: "John Doe", type: "Sick Leave", duration: "3 Days", status: "Pending" },
-    { employee: "Jane Smith", type: "Vacation Leave", duration: "5 Days", status: "Approved" },
-    { employee: "Mark Johnson", type: "Sick Leave", duration: "2 Days", status: "Rejected" },
-  ]);
-
-  const data = [
-    { name: "Jan", uv: 4000, pv: 2400, amt: 2400 },
-    { name: "Feb", uv: 3000, pv: 1398, amt: 2210 },
-    { name: "Mar", uv: 2000, pv: 9800, amt: 2290 },
+  const leaveRequests = [
+    { employee: 'Charlie', type: 'Sick Leave', duration: '3 days', status: 'Approved' },
+    { employee: 'Diana', type: 'Vacation', duration: '5 days', status: 'Pending' },
   ];
 
   return (
-    <div className="bg-gray-200 text-black h-auto p-5">
-      {/* Overview */}
-      <p className="font-semibold">HR 3 Overview - Compensation and Benefits</p>
+    <div className="p-2 sm:p-4">
+      <p className="font-semibold text-xl">HR 3 Overview - Compensation and Benefits</p>
 
       {/* Compensation and Benefits Cards */}
-      <div className="flex gap-4 p-4 overflow-x-auto flex-wrap">
+      <div className="flex flex-wrap justify-center gap-4 p-2">
         {/* Payroll Summary */}
-        <div className="bg-white shadow-lg w-[280px] p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+        <div className="bg-white shadow-lg w-full sm:w-[240px] p-4 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
           <div className="flex items-center justify-between">
             <p className="text-gray-600 font-semibold text-sm">Payroll Summary</p>
             <HiOutlineCurrencyDollar className="text-gray-600 text-xl" />
           </div>
-          <div className="flex gap-3 my-3">
-            <p className="text-3xl font-bold">₱25,800</p>
-            <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm font-semibold">
+          <div className="flex gap-2 my-2">
+            <p className="text-2xl font-bold">₱25,800</p>
+            <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-2 py-1 text-xs font-semibold">
               <IoIosArrowUp className="text-green-700" /> 5.5%
             </p>
           </div>
-          <div className="my-3">
+          <div className="my-2">
             <p className="text-green-700 font-semibold">
               +₱1,400 <span className="text-gray-500">than last month</span>
             </p>
@@ -54,36 +42,37 @@ const ManagerDashboard = () => {
         </div>
 
         {/* Incentives Overview */}
-        <div className="bg-white shadow-lg w-[280px] p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+        <div className="bg-white shadow-lg w-full sm:w-[240px] p-4 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
           <div className="flex items-center justify-between">
             <p className="text-gray-600 font-semibold text-sm">Incentives Overview</p>
             <GrMoney className="text-gray-600 text-xl" />
           </div>
-          <div className="flex gap-3 my-3">
-            <p className="text-3xl font-bold">₱7,200</p>
-            <p className="flex items-center gap-1 bg-red-100 text-red-700 rounded-full px-3 py-1 text-sm font-semibold">
+          <div className="flex gap-2 my-2">
+            <p className="text-2xl font-bold">₱7,200</p>
+            <p className="flex items-center gap-1 bg-red-100 text-red-700 rounded-full px-2 py-1 text-xs font-semibold">
               <IoIosArrowDown className="text-red-700" /> 1.5%
             </p>
           </div>
-          <div className="my-3">
+          <div className="my-2">
             <p className="text-red-700 font-semibold">
               -₱110 <span className="text-gray-500">than last month</span>
             </p>
           </div>
         </div>
+        
         {/* Deductions Overview */}
-        <div className="bg-white shadow-lg w-[280px] p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+        <div className="bg-white shadow-lg w-full sm:w-[240px] p-4 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
           <div className="flex items-center justify-between">
             <p className="text-gray-600 font-semibold text-sm">Deductions Overview</p>
             <GrMoney className="text-gray-600 text-xl" />
           </div>
-          <div className="flex gap-3 my-3">
-            <p className="text-3xl font-bold">₱5,200</p>
-            <p className="flex items-center gap-1 bg-red-100 text-red-700 rounded-full px-3 py-1 text-sm font-semibold">
+          <div className="flex gap-2 my-2">
+            <p className="text-2xl font-bold">₱5,200</p>
+            <p className="flex items-center gap-1 bg-red-100 text-red-700 rounded-full px-2 py-1 text-xs font-semibold">
               <IoIosArrowDown className="text-red-700" /> 1.5%
             </p>
           </div>
-          <div className="my-3">
+          <div className="my-2">
             <p className="text-red-700 font-semibold">
               -₱110 <span className="text-gray-500">than last month</span>
             </p>
@@ -91,134 +80,132 @@ const ManagerDashboard = () => {
         </div>
 
         {/* Benefits Enrollment */}
-        <div className="bg-white shadow-lg w-[280px] p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+        <div className="bg-white shadow-lg w-full sm:w-[240px] p-4 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
           <div className="flex items-center justify-between">
             <p className="text-gray-600 font-semibold text-sm">Benefits Enrollment</p>
             <RiPassPendingLine className="text-gray-600 text-xl" />
           </div>
-          <div className="flex gap-3 my-3">
-            <p className="text-3xl font-bold">15 Pending</p>
-            <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm font-semibold">
+          <div className="flex gap-2 my-2">
+            <p className="text-2xl font-bold">15 Pending</p>
+            <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-2 py-1 text-xs font-semibold">
               <IoIosArrowUp className="text-green-700" /> 3 New
             </p>
           </div>
-          <div className="my-3">
+          <div className="my-2">
             <p className="text-gray-700 font-semibold">Enrollment for Q4</p>
           </div>
         </div>
 
         {/* Leave Requests Overview */}
-        <div className="bg-white shadow-lg w-[280px] p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+        <div className="bg-white shadow-lg w-full sm:w-[240px] p-4 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
           <div className="flex items-center justify-between">
             <p className="text-gray-600 font-semibold text-sm">Leave Requests</p>
             <RiPassPendingLine className="text-gray-600 text-xl" />
           </div>
-          <div className="flex gap-3 my-3">
-            <p className="text-3xl font-bold">3 Pending</p>
-            <p className="flex items-center gap-1 bg-red-100 text-red-700 rounded-full px-3 py-1 text-sm font-semibold">
+          <div className="flex gap-2 my-2">
+            <p className="text-2xl font-bold">3 Pending</p>
+            <p className="flex items-center gap-1 bg-red-100 text-red-700 rounded-full px-2 py-1 text-xs font-semibold">
               <IoIosArrowDown className="text-red-700" /> 1 New
             </p>
           </div>
-          <div className="my-3">
+          <div className="my-2">
             <p className="text-gray-700 font-semibold">Leave Requests for Review</p>
           </div>
         </div>
       </div>
 
-      
+      {/* Payroll Processing Area Chart */}
+      <div className="mt-4 rounded-lg bg-white p-2 sm:p-3">
+        <p className="font-semibold text-lg">Payroll Overview</p>
+        <AreaChart width={300} height={150} data={payrollData}>
+          <Area type="monotone" dataKey="grossPay" stroke="#8884d8" fill="#8884d8" />
+          <XAxis dataKey="employee" />
+          <YAxis />
+          <Tooltip />
+        </AreaChart>
+      </div>
 
       {/* Charts */}
-      <div className="flex gap-4 p-4 overflow-x-auto justify-between">
-        <div className="border bg-white/70 p-2 rounded-lg flex-shrink-0 md:flex-1 ">
+      <div className="flex flex-wrap gap-4 p-2 justify-center">
+        <div className="border bg-white/70 p-2 rounded-lg flex-shrink-0 md:flex-1 max-w-xs">
           <AreaChart
-            width={500}
-            height={300}
-            data={data}
+            width={300}
+            height={150}
+            data={payrollData}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
+            <XAxis dataKey="employee" />
             <YAxis />
             <Tooltip />
-            <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
-            <Area type="monotone" dataKey="pv" stroke="#82ca9d" fill="#82ca9d" />
+            <Area type="monotone" dataKey="grossPay" stroke="#8884d8" fill="#8884d8" />
+            <Area type="monotone" dataKey="netPay" stroke="#82ca9d" fill="#82ca9d" />
           </AreaChart>
         </div>
 
-        <div className="border bg-white/70 p-2 rounded-lg flex-shrink-0 md:flex-1">
-          <BarChart width={430} height={300} data={data}>
+        <div className="border bg-white/70 p-2 rounded-lg flex-shrink-0 md:flex-1 max-w-xs">
+          <BarChart width={300} height={150} data={payrollData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
+            <XAxis dataKey="employee" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="pv" fill="#8884d8" />
-            <Bar dataKey="uv" fill="#82ca9d" />
+            <Bar dataKey="grossPay" fill="#8884d8" />
+            <Bar dataKey="netPay" fill="#82ca9d" />
           </BarChart>
         </div>
       </div>
 
       {/* Payroll Processing Table */}
-      <div className="mt-5 rounded-lg bg-white w-[700px] p-4">
-        <div className="flex justify-between">
-          <p className="font-semibold text-black/90">Payroll Processing</p>
-          <p className="flex gap-1 items-center p-1 rounded-lg bg-gray-200 cursor-pointer">
-            <IoCodeDownloadOutline className="text-lg" />
-            Download Report
-          </p>
-        </div>
-
-        {/* Table Header */}
-        <div className="flex justify-between mt-4 text-black/75">
-          <p>Employee</p>
-          <p>Gross Pay</p>
-          <p>Net Pay</p>
-          <p>Deductions</p>
-          <p>Status</p>
-          <p>Action</p>
-        </div>
-        <hr className="mt-2" />
-
-        {/* Table Rows */}
-        {payrollData.map((payroll, index) => (
-          <div key={index} className="flex justify-between items-center my-4">
-            <p>{payroll.employee}</p>
-            <p>{payroll.grossPay}</p>
-            <p>{payroll.netPay}</p>
-            <p>{payroll.deductions}</p>
-            <p>{payroll.status}</p>
-            <p className="flex items-center gap-1">
-              <MdRemoveRedEye className="text-gray-600" />
-              <CiTrash className="text-red-600" />
-            </p>
-          </div>
-        ))}
+      <div className="mt-4 rounded-lg bg-white p-2 sm:p-3">
+        <p className="font-semibold text-lg">Payroll Processing</p>
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Employee</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Gross Pay</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Net Pay</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Deductions</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {payrollData.map((payroll, index) => (
+              <tr key={index} className="hover:bg-gray-100">
+                <td className="px-4 py-2 text-sm text-gray-700">{payroll.employee}</td>
+                <td className="px-4 py-2 text-sm text-gray-700">{payroll.grossPay}</td>
+                <td className="px-4 py-2 text-sm text-gray-700">{payroll.netPay}</td>
+                <td className="px-4 py-2 text-sm text-gray-700">{payroll.deductions}</td>
+                <td className="px-4 py-2 text-sm text-gray-700">{payroll.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {/* Leave Requests Table */}
-      <div className="mt-5 rounded-lg bg-white w-[700px] p-4">
-        <div className="flex justify-between">
-          <p className="font-semibold text-black/90">Leave Requests</p>
-        </div>
-
-        {/* Table Header */}
-        <div className="flex justify-between mt-4 text-black/75">
-          <p>Employee</p>
-          <p>Type</p>
-          <p>Duration</p>
-          <p>Status</p>
-        </div>
-        <hr className="mt-2" />
-
-        {/* Table Rows */}
-        {leaveRequests.map((leave, index) => (
-          <div key={index} className="flex justify-between items-center my-4">
-            <p>{leave.employee}</p>
-            <p>{leave.type}</p>
-            <p>{leave.duration}</p>
-            <p>{leave.status}</p>
-          </div>
-        ))}
+      <div className="mt-4 rounded-lg bg-white p-2 sm:p-3">
+        <p className="font-semibold text-lg">Leave Requests</p>
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Employee</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Type</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Duration</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {leaveRequests.map((request, index) => (
+              <tr key={index} className="hover:bg-gray-100">
+                <td className="px-4 py-2 text-sm text-gray-700">{request.employee}</td>
+                <td className="px-4 py-2 text-sm text-gray-700">{request.type}</td>
+                <td className="px-4 py-2 text-sm text-gray-700">{request.duration}</td>
+                <td className="px-4 py-2 text-sm text-gray-700">{request.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

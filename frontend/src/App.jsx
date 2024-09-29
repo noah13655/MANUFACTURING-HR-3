@@ -6,7 +6,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
 
 /* public */
-// import Home from './pages/public/Home';
 import LogIn from './pages/public/LogIn';
 
 /* components */
@@ -18,6 +17,7 @@ import RedirectAuthenticatedUser from './components/RedirectAuthenticatedUser';
 import ManagerDashboard from './pages/manager/ManagerDashboard';
 import EmployeeDashboard from './pages/employee/EmployeeDashboard';
 import ManagerSidebar from './pages/manager/ManagerSidebar';
+import EmployeeSidebar from './pages/employee/EmployeeSidebar';
 import Search from './pages/manager/Search';
 
 /* userlist */
@@ -57,11 +57,8 @@ import FinancialAnalytics from './pages/manager/predictive/FinancialAnalytics';
 import OperationalAnalytics from './pages/manager/predictive/OperationAnalytics';
 
 /* employee */
-import EmployeeSidebar from './pages/employee/EmployeeSidebar';
-
 import EBenefitsOverview from './pages/employee/benefits/EBenefitsOverview';
 import EIncentivesOverview from './pages/employee/incentives/EIncentivesOverview';
-
 import MyIncentives from './pages/employee/incentives/MyIncentives';
 import MyCommissions from './pages/employee/incentives/MyCommissions';
 
@@ -83,13 +80,14 @@ const App = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex flex-1">
+      <div className="flex flex-1 flex-row">
         {isAuthenticated ? (
           <>
+            {/* Responsive Sidebar */}
             {user?.role === 'manager' ? <ManagerSidebar /> : <EmployeeSidebar />}
             <main className="flex-1 p-4 flex flex-col">
               <Search />
-              <div className="flex-1">
+              <div className="flex-1 overflow-y-auto">
                 <Routes>
                   <Route path="/" element={<Navigate to={user?.role === 'manager' ? '/dashboard' : '/dashboard'} replace />} />
                   <Route path="/login" element={<RedirectAuthenticatedUser><LogIn /></RedirectAuthenticatedUser>} />
@@ -98,38 +96,38 @@ const App = () => {
                     <>
                       <Route path="/dashboard" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
                       
-                      {/* user list */}
+                      {/* User List */}
                       <Route path="/user-list" element={<ProtectedRoute><UserList /></ProtectedRoute>} />
                       <Route path="/attendance-info" element={<ProtectedRoute><AttendanceInfo /></ProtectedRoute>} />
                       
-                      {/* payroll processing */}
+                      {/* Payroll Processing */}
                       <Route path="/salary-computation" element={<ProtectedRoute><SalaryComputation /></ProtectedRoute>} />
                       <Route path="/deductions-management" element={<ProtectedRoute><DeductionsManagement /></ProtectedRoute>} />
                       <Route path="/payroll-distribution" element={<ProtectedRoute><PayrollDistribution /></ProtectedRoute>} />
                       <Route path="/request-budget" element={<ProtectedRoute><RequestBudget /></ProtectedRoute>} />
                       <Route path="/compliance-tracking" element={<ProtectedRoute><ComplianceTracking /></ProtectedRoute>} />
                       
-                      {/* benefits administration */}
+                      {/* Benefits Administration */}
                       <Route path="/benefits-overview" element={<ProtectedRoute><BenefitsOverview /></ProtectedRoute>} />
                       <Route path="/enrollment-submission" element={<ProtectedRoute><EnrollmentSubmission /></ProtectedRoute>} />
                       <Route path="/leave-request" element={<ProtectedRoute><LeaveRequest /></ProtectedRoute>} />
                       <Route path="/deductions" element={<ProtectedRoute><Deductions /></ProtectedRoute>} />
                       
-                      {/* incentives management */}
+                      {/* Incentives Management */}
                       <Route path="/incentives-overview" element={<ProtectedRoute><IncentivesOverview /></ProtectedRoute>} />
                       <Route path="/incentives-request" element={<ProtectedRoute><IncentivesRequest /></ProtectedRoute>} />
                       <Route path="/sales-commissions" element={<ProtectedRoute><SalesCommissions /></ProtectedRoute>} />
                       <Route path="/recognition-programs" element={<ProtectedRoute><RecognitionPrograms /></ProtectedRoute>} />
                       <Route path="/profit-sharing" element={<ProtectedRoute><ProfitSharing /></ProtectedRoute>} />
                       
-                      {/* compensation */}
+                      {/* Compensation */}
                       <Route path="/compensation-overview" element={<ProtectedRoute><CompensationOverview /></ProtectedRoute>} />
                       <Route path="/salary-planning" element={<ProtectedRoute><SalaryPlanning /></ProtectedRoute>} />
                       <Route path="/market-analysis" element={<ProtectedRoute><MarketAnalysis /></ProtectedRoute>} />
                       <Route path="/equity-adjustments" element={<ProtectedRoute><EquityAdjustments /></ProtectedRoute>} />
                       <Route path="/total-rewards" element={<ProtectedRoute><TotalRewards /></ProtectedRoute>} />
                       
-                      {/* analytics */}
+                      {/* Analytics */}
                       <Route path="/operational-analytics" element={<ProtectedRoute><OperationalAnalytics /></ProtectedRoute>} />
                       <Route path="/employee-analytics" element={<ProtectedRoute><EmployeeAnalytics /></ProtectedRoute>} />
                       <Route path="/financial-analytics" element={<ProtectedRoute><FinancialAnalytics /></ProtectedRoute>} />
@@ -140,7 +138,6 @@ const App = () => {
                     <>
                       <Route path="/dashboard" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />                    
                       <Route path="/benefits-overview" element={<ProtectedRoute><EBenefitsOverview /></ProtectedRoute>} />                    
-                      
                       <Route path="/incentives-overview" element={<ProtectedRoute><EIncentivesOverview /></ProtectedRoute>} />                    
                       <Route path="/my-incentives" element={<ProtectedRoute><MyIncentives /></ProtectedRoute>} />                    
                       <Route path="/my-commissions" element={<ProtectedRoute><MyCommissions /></ProtectedRoute>} />                    
@@ -154,7 +151,6 @@ const App = () => {
           </>
         ) : (
           <Routes>
-            {/* <Route path="/" element={<Home />} /> */}
             <Route path="/login" element={<LogIn />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
