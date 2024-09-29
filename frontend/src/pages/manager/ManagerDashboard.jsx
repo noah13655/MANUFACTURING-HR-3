@@ -1,211 +1,212 @@
-import React from "react";
+import React, { useState } from "react";
 import { HiOutlineCurrencyDollar } from "react-icons/hi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { RiPassPendingLine } from "react-icons/ri";
 import { GrMoney } from "react-icons/gr";
-import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
+import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from "recharts";
 
 const ManagerDashboard = () => {
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+
   const payrollData = [
-    { employee: 'Alice', grossPay: '$3000', netPay: '$2800', deductions: '$200', status: 'Processed' },
-    { employee: 'Bob', grossPay: '$4000', netPay: '$3800', deductions: '$200', status: 'Pending' },
+    { employee: "Alice", grossPay: 3000, netPay: 2800, deductions: 200, status: "Processed", date: "2024-08-15" },
+    { employee: "Bob", grossPay: 4000, netPay: 3800, deductions: 200, status: "Pending", date: "2024-09-10" },
   ];
 
   const leaveRequests = [
-    { employee: 'Charlie', type: 'Sick Leave', duration: '3 days', status: 'Approved' },
-    { employee: 'Diana', type: 'Vacation', duration: '5 days', status: 'Pending' },
+    { employeeName: "John Doe", leaveType: "Sick Leave", dateRequested: "2024-09-28", status: "Pending" },
+    { employeeName: "Jane Smith", leaveType: "Vacation Leave", dateRequested: "2024-09-27", status: "Approved" },
   ];
 
+  const incentivesData = [
+    { month: "Jan", amount: 1200 },
+    { month: "Feb", amount: 1500 },
+    { month: "Mar", amount: 1800 },
+    { month: "Apr", amount: 1700 },
+    { month: "May", amount: 1600 },
+    { month: "Jun", amount: 1600 },
+    { month: "Jul", amount: 1600 },
+    { month: "Aug", amount: 1600 },
+    { month: "Sep", amount: 1600 },
+    { month: "Oct", amount: 1600 },
+    { month: "Nov", amount: 1600 },
+    { month: "Dec", amount: 1600 },
+  ];
+
+  const deductionsData = [
+    { month: "Jan", amount: 500 },
+    { month: "Feb", amount: 600 },
+    { month: "Mar", amount: 700 },
+    { month: "Apr", amount: 650 },
+    { month: "May", amount: 700 },
+    { month: "Jun", amount: 700 },
+    { month: "Jul", amount: 700 },
+    { month: "Aug", amount: 700 },
+    { month: "Sep", amount: 700 },
+    { month: "Oct", amount: 700 },
+    { month: "Nov", amount: 700 },
+    { month: "Dec", amount: 700 },
+  ];
+
+  const leaveStatusCounts = leaveRequests.reduce((acc, request) => {
+    acc[request.status] = (acc[request.status] || 0) + 1;
+    return acc;
+  }, {});
+
+  const pieChartData = [
+    { name: "Approved", value: leaveStatusCounts["Approved"] || 0 },
+    { name: "Pending", value: leaveStatusCounts["Pending"] || 0 },
+    { name: "Rejected", value: leaveStatusCounts["Rejected"] || 0 },
+  ];
+
+  const filterPayrollData = () => {
+    return payrollData.filter(item => {
+      const itemDate = new Date(item.date);
+      return itemDate.getFullYear() === selectedYear && itemDate.getMonth() + 1 === selectedMonth;
+    });
+  };
+
+  const filterLeaveRequests = () => {
+    return leaveRequests.filter(request => {
+      const requestDate = new Date(request.dateRequested);
+      return requestDate.getFullYear() === selectedYear && requestDate.getMonth() + 1 === selectedMonth;
+    });
+  };
+
+  const Card = ({ title, amount, change, icon, isPositive }) => (
+    <div className="bg-white shadow-lg w-full sm:w-60 p-4 rounded-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+      <div className="flex items-center justify-between">
+        <p className="text-gray-600 font-semibold text-sm">{title}</p>
+        {icon}
+      </div>
+      <div className="flex gap-2 my-2">
+        <p className="text-2xl font-bold">₱{amount}</p>
+        <p className={`flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold ${isPositive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+          {isPositive ? <IoIosArrowUp /> : <IoIosArrowDown />} {change}
+        </p>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="p-2 sm:p-4">
+    <div className="p-4">
       <p className="font-semibold text-xl">HR 3 Overview - Compensation and Benefits</p>
 
-      {/* Compensation and Benefits Cards */}
+      <div className="flex gap-4 mb-4">
+        <select value={selectedYear} onChange={e => setSelectedYear(Number(e.target.value))} className="p-2 border rounded">
+          {[2022, 2023, 2024, 2025].map(year => (
+            <option key={year} value={year}>{year}</option>
+          ))}
+        </select>
+        <select value={selectedMonth} onChange={e => setSelectedMonth(Number(e.target.value))} className="p-2 border rounded">
+          {Array.from({ length: 12 }, (_, i) => (
+            <option key={i} value={i + 1}>{new Date(0, i + 1).toLocaleString('default', { month: 'long' })}</option>
+          ))}
+        </select>
+      </div>
+
       <div className="flex flex-wrap justify-center gap-4 p-2">
-        {/* Payroll Summary */}
-        <div className="bg-white shadow-lg w-full sm:w-[240px] p-4 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
-          <div className="flex items-center justify-between">
-            <p className="text-gray-600 font-semibold text-sm">Payroll Summary</p>
-            <HiOutlineCurrencyDollar className="text-gray-600 text-xl" />
-          </div>
-          <div className="flex gap-2 my-2">
-            <p className="text-2xl font-bold">₱25,800</p>
-            <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-2 py-1 text-xs font-semibold">
-              <IoIosArrowUp className="text-green-700" /> 5.5%
-            </p>
-          </div>
-          <div className="my-2">
-            <p className="text-green-700 font-semibold">
-              +₱1,400 <span className="text-gray-500">than last month</span>
-            </p>
-          </div>
-        </div>
-
-        {/* Incentives Overview */}
-        <div className="bg-white shadow-lg w-full sm:w-[240px] p-4 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
-          <div className="flex items-center justify-between">
-            <p className="text-gray-600 font-semibold text-sm">Incentives Overview</p>
-            <GrMoney className="text-gray-600 text-xl" />
-          </div>
-          <div className="flex gap-2 my-2">
-            <p className="text-2xl font-bold">₱7,200</p>
-            <p className="flex items-center gap-1 bg-red-100 text-red-700 rounded-full px-2 py-1 text-xs font-semibold">
-              <IoIosArrowDown className="text-red-700" /> 1.5%
-            </p>
-          </div>
-          <div className="my-2">
-            <p className="text-red-700 font-semibold">
-              -₱110 <span className="text-gray-500">than last month</span>
-            </p>
-          </div>
-        </div>
-        
-        {/* Deductions Overview */}
-        <div className="bg-white shadow-lg w-full sm:w-[240px] p-4 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
-          <div className="flex items-center justify-between">
-            <p className="text-gray-600 font-semibold text-sm">Deductions Overview</p>
-            <GrMoney className="text-gray-600 text-xl" />
-          </div>
-          <div className="flex gap-2 my-2">
-            <p className="text-2xl font-bold">₱5,200</p>
-            <p className="flex items-center gap-1 bg-red-100 text-red-700 rounded-full px-2 py-1 text-xs font-semibold">
-              <IoIosArrowDown className="text-red-700" /> 1.5%
-            </p>
-          </div>
-          <div className="my-2">
-            <p className="text-red-700 font-semibold">
-              -₱110 <span className="text-gray-500">than last month</span>
-            </p>
-          </div>
-        </div>
-
-        {/* Benefits Enrollment */}
-        <div className="bg-white shadow-lg w-full sm:w-[240px] p-4 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
-          <div className="flex items-center justify-between">
-            <p className="text-gray-600 font-semibold text-sm">Benefits Enrollment</p>
-            <RiPassPendingLine className="text-gray-600 text-xl" />
-          </div>
-          <div className="flex gap-2 my-2">
-            <p className="text-2xl font-bold">15 Pending</p>
-            <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-2 py-1 text-xs font-semibold">
-              <IoIosArrowUp className="text-green-700" /> 3 New
-            </p>
-          </div>
-          <div className="my-2">
-            <p className="text-gray-700 font-semibold">Enrollment for Q4</p>
-          </div>
-        </div>
-
-        {/* Leave Requests Overview */}
-        <div className="bg-white shadow-lg w-full sm:w-[240px] p-4 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
-          <div className="flex items-center justify-between">
-            <p className="text-gray-600 font-semibold text-sm">Leave Requests</p>
-            <RiPassPendingLine className="text-gray-600 text-xl" />
-          </div>
-          <div className="flex gap-2 my-2">
-            <p className="text-2xl font-bold">3 Pending</p>
-            <p className="flex items-center gap-1 bg-red-100 text-red-700 rounded-full px-2 py-1 text-xs font-semibold">
-              <IoIosArrowDown className="text-red-700" /> 1 New
-            </p>
-          </div>
-          <div className="my-2">
-            <p className="text-gray-700 font-semibold">Leave Requests for Review</p>
-          </div>
-        </div>
+        <Card title="Payroll Summary" amount={filterPayrollData().reduce((acc, curr) => acc + curr.grossPay, 0)} change="5.5%" icon={<HiOutlineCurrencyDollar className="text-gray-600 text-xl" />} isPositive />
+        <Card title="Incentives Overview" amount={7200} change="-1.5%" icon={<GrMoney className="text-gray-600 text-xl" />} />
+        <Card title="Deductions Overview" amount={5200} change="-1.5%" icon={<GrMoney className="text-gray-600 text-xl" />} />
+        <Card title="Benefits Enrollment" amount={15} change="3 New" icon={<RiPassPendingLine className="text-gray-600 text-xl" />} isPositive />
+        <Card title="Leave Requests" amount={filterLeaveRequests().length} change="1 New" icon={<RiPassPendingLine className="text-gray-600 text-xl" />} />
       </div>
 
-      {/* Payroll Processing Area Chart */}
-      <div className="mt-4 rounded-lg bg-white p-2 sm:p-3">
-        <p className="font-semibold text-lg">Payroll Overview</p>
-        <AreaChart width={300} height={150} data={payrollData}>
-          <Area type="monotone" dataKey="grossPay" stroke="#8884d8" fill="#8884d8" />
-          <XAxis dataKey="employee" />
-          <YAxis />
-          <Tooltip />
-        </AreaChart>
-      </div>
-
-      {/* Charts */}
-      <div className="flex flex-wrap gap-4 p-2 justify-center">
-        <div className="border bg-white/70 p-2 rounded-lg flex-shrink-0 md:flex-1 max-w-xs">
-          <AreaChart
-            width={300}
-            height={150}
-            data={payrollData}
-            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+        <div className="rounded-lg bg-white p-3">
+          <p className="font-semibold text-lg">Payroll Overview</p>
+          <AreaChart width={400} height={200} data={filterPayrollData()}>
+            <Area type="monotone" dataKey="grossPay" stroke="#8884d8" fill="#8884d8" />
             <XAxis dataKey="employee" />
             <YAxis />
             <Tooltip />
-            <Area type="monotone" dataKey="grossPay" stroke="#8884d8" fill="#8884d8" />
-            <Area type="monotone" dataKey="netPay" stroke="#82ca9d" fill="#82ca9d" />
           </AreaChart>
         </div>
-
-        <div className="border bg-white/70 p-2 rounded-lg flex-shrink-0 md:flex-1 max-w-xs">
-          <BarChart width={300} height={150} data={payrollData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="employee" />
+        <div className="rounded-lg bg-white p-3">
+          <p className="font-semibold text-lg">Incentives Overview</p>
+          <AreaChart width={400} height={200} data={incentivesData}>
+            <Area type="monotone" dataKey="amount" stroke="#82ca9d" fill="#82ca9d" />
+            <XAxis dataKey="month" />
             <YAxis />
             <Tooltip />
-            <Legend />
-            <Bar dataKey="grossPay" fill="#8884d8" />
-            <Bar dataKey="netPay" fill="#82ca9d" />
+          </AreaChart>
+        </div>
+        <div className="rounded-lg bg-white p-3">
+          <p className="font-semibold text-lg">Deductions Overview</p>
+          <BarChart width={400} height={200} data={deductionsData}>
+            <XAxis dataKey="month" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="amount" fill="#ff7300" />
           </BarChart>
+        </div>
+        <div className="mt-4 rounded-lg bg-white p-3">
+          <p className="font-semibold text-lg">Leave Request Status</p>
+          <PieChart width={400} height={200}>
+            <Pie data={pieChartData} cx={200} cy={100} outerRadius={80} fill="#8884d8" label>
+              {pieChartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={['#0088FE', '#00C49F', '#FFBB28'][index]} />
+              ))}
+            </Pie>
+            <Tooltip />
+          </PieChart>
         </div>
       </div>
 
-      {/* Payroll Processing Table */}
-      <div className="mt-4 rounded-lg bg-white p-2 sm:p-3">
+            <div className="mt-4 rounded-lg bg-white p-3">
         <p className="font-semibold text-lg">Payroll Processing</p>
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead>
-            <tr>
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Employee</th>
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Gross Pay</th>
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Net Pay</th>
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Deductions</th>
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {payrollData.map((payroll, index) => (
-              <tr key={index} className="hover:bg-gray-100">
-                <td className="px-4 py-2 text-sm text-gray-700">{payroll.employee}</td>
-                <td className="px-4 py-2 text-sm text-gray-700">{payroll.grossPay}</td>
-                <td className="px-4 py-2 text-sm text-gray-700">{payroll.netPay}</td>
-                <td className="px-4 py-2 text-sm text-gray-700">{payroll.deductions}</td>
-                <td className="px-4 py-2 text-sm text-gray-700">{payroll.status}</td>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead>
+              <tr>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Employee</th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Gross Pay</th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Net Pay</th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Deductions</th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {payrollData.map((row, index) => (
+                <tr key={index}>
+                  <td className="px-4 py-2">{row.employee}</td>
+                  <td className="px-4 py-2">₱{row.grossPay}</td>
+                  <td className="px-4 py-2">₱{row.netPay}</td>
+                  <td className="px-4 py-2">₱{row.deductions}</td>
+                  <td className="px-4 py-2">{row.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-
-      {/* Leave Requests Table */}
-      <div className="mt-4 rounded-lg bg-white p-2 sm:p-3">
+      
+      <div className="mt-4 rounded-lg bg-white p-3">
         <p className="font-semibold text-lg">Leave Requests</p>
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead>
-            <tr>
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Employee</th>
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Type</th>
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Duration</th>
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {leaveRequests.map((request, index) => (
-              <tr key={index} className="hover:bg-gray-100">
-                <td className="px-4 py-2 text-sm text-gray-700">{request.employee}</td>
-                <td className="px-4 py-2 text-sm text-gray-700">{request.type}</td>
-                <td className="px-4 py-2 text-sm text-gray-700">{request.duration}</td>
-                <td className="px-4 py-2 text-sm text-gray-700">{request.status}</td>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead>
+              <tr>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Employee Name</th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Leave Type</th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Date Requested</th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {leaveRequests.map((request, index) => (
+                <tr key={index}>
+                  <td className="px-4 py-2">{request.employeeName}</td>
+                  <td className="px-4 py-2">{request.leaveType}</td>
+                  <td className="px-4 py-2">{request.dateRequested}</td>
+                  <td className="px-4 py-2">{request.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
