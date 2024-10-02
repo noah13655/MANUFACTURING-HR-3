@@ -108,7 +108,7 @@ const ManagerSidebar = () => {
   <div className="flex justify-center">
     <select
       onChange={handleSelectChange}
-      className="bg-gray-200 p-2 rounded-md w-1/2 sm:w-1/3 lg:w-1/4"
+      className="bg-gray-200 p-1 rounded-md w-8"
     >
       <option value=""></option>
       <option value="/">Dashboard</option>
@@ -123,9 +123,6 @@ const ManagerSidebar = () => {
       <option value="/sales-commissions">Sales Commissions</option>
       <option value="/recognition-programs">Recognition Programs</option>
       <option value="/predictive-analytics">Employee Analytics</option>
-      <option value="/reports-overview">Reports Overview</option>
-      <option value="/detailed-reports">Detailed Reports</option>
-      <option value="/monthly-reports">Monthly Reports</option>
     </select>
   </div>
 </div>

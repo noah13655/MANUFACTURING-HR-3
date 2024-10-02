@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiOutlineCurrencyDollar } from "react-icons/hi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { RiPassPendingLine } from "react-icons/ri";
@@ -88,7 +88,9 @@ const ManagerDashboard = () => {
       </div>
     </div>
   );
-
+  useEffect(() => {
+    document.title = 'Dashboard';
+  }, []); 
   return (
     <div className="p-4">
       <p className="font-semibold text-xl">HR 3 Overview - Compensation and Benefits</p>

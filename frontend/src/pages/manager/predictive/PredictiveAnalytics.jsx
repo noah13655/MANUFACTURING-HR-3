@@ -161,36 +161,38 @@ useEffect(() => {
 }, []); 
   return (
     <div className="px-4 py-6">
-      <div className="mb-12">
-        <h3 className="text-2xl font-semibold mb-6 text-accent">Predicted Salary Growth</h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={predictiveChartData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="year" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="currentSalary" stroke="#8884d8" name="Current Salary" />
-            <Line type="monotone" dataKey="predictedSalary" stroke="#82ca9d" name="Predicted Salary" />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+<div className="flex flex-col md:flex-row justify-between gap-4">
+  <div className="rounded-lg bg-white p-3 flex-1">
+    <h3 className="font-semibold text-lg">Predicted Salary Growth</h3>
+    <ResponsiveContainer width="100%" height={200}>
+      <LineChart data={predictiveChartData}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="year" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Line type="monotone" dataKey="currentSalary" stroke="#8884d8" name="Current Salary" />
+        <Line type="monotone" dataKey="predictedSalary" stroke="#82ca9d" name="Predicted Salary" />
+      </LineChart>
+    </ResponsiveContainer>
+  </div>
 
-      <div className="mb-12">
-        <h3 className="text-2xl font-semibold mb-6 text-accent">Employee Satisfaction and Turnover Risk</h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={behavioralChartData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="role" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="satisfaction" fill="#82ca9d" />
-            <Bar dataKey="turnoverRisk" fill="#ff7300" />
-            <Bar dataKey="benefitsSatisfaction" fill="#ffc658" />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
+  <div className="rounded-lg bg-white p-3 flex-1">
+    <h3 className="font-semibold text-lg">Employee Satisfaction and Turnover Risk</h3>
+    <ResponsiveContainer width="100%" height={200}>
+      <BarChart data={behavioralChartData}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="role" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="satisfaction" fill="#82ca9d" />
+        <Bar dataKey="turnoverRisk" fill="#ff7300" />
+        <Bar dataKey="benefitsSatisfaction" fill="#ffc658" />
+      </BarChart>
+    </ResponsiveContainer>
+  </div>
+</div>
 
       <div className="p-4 bg-base-200 rounded-lg shadow-md">
         <h3 className="text-2xl font-semibold mb-4 text-accent">Monthly Salary Predictions</h3>
