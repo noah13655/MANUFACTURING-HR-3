@@ -11,7 +11,7 @@ const Search = () => {
   const handleLogout = async () => {
     try {
       await logout(); 
-      navigate('/login'); // Redirect to login after logout
+      navigate('/login');
     } catch (error) {
       console.error('Error logging out:', error);
     }
@@ -21,12 +21,10 @@ const Search = () => {
     <div className="w-full p-5 bg-white text-black/70 h-[85px] rounded-l-sm sticky top-0 z-50">
       <div className="flex justify-between max-md:flex max-md:justify-end">
         <div className="flex gap-5 items-center w-[600px] max-md:hidden">
-          {/* Search form */}
           <form className="flex items-center max-w-lg w-full">
             <label htmlFor="voice-search" className="sr-only">Search</label>
             <div className="relative w-full">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                {/* Search icon */}
               </div>
               <input
                 type="text"
@@ -36,7 +34,6 @@ const Search = () => {
                 required
               />
               <button type="button" className="absolute inset-y-0 end-0 flex items-center pe-3">
-                {/* Search button icon */}
               </button>
             </div>
             <button
@@ -48,7 +45,6 @@ const Search = () => {
           </form>
         </div>
 
-        {/* Right-side icons and user profile */}
         <div className="flex gap-3 items-center">
           <MdOutlineDarkMode className="size-6 cursor-pointer" />
           <IoMdNotificationsOutline className="size-6 cursor-pointer" />

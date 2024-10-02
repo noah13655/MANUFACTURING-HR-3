@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const initialPrograms = [
-  { id: 1, name: 'Elsie', description: 'Award for the most outstanding employee of the month', reward: '₱5000' },
-  { id: 2, name: 'Rhea', description: 'Award for the team with the best performance', reward: '₱10000' },
-  { id: 3, name: 'Ramie', description: 'Award for the employee with the best innovation', reward: '₱3000' },
+  { name: 'John Lloyd', description: 'Award for the most outstanding employee of the month', reward: '₱5000' },
+  { name: 'Padit', description: 'Award for the team with the best performance', reward: '₱10000' },
+  { name: 'Abby', description: 'Award for the employee with the best innovation', reward: '₱3000' },
 ];
 
+
 const RecognitionPrograms = () => {
+  useEffect(() => {
+    document.title = 'Recognition Programs';
+  }, []); 
+  
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-semibold mb-6">Recognition Programs</h1>
@@ -35,19 +40,17 @@ const RecognitionPrograms = () => {
       </div>
 
       <div>
-        <table className="table w-full table-zebra">
+        <table className="table w-full">
           <thead>
-            <tr>
-              <th>ID</th>
+            <tr className='bg-primary text-white'>
               <th>Name</th>
               <th>Description</th>
               <th>Reward</th>
             </tr>
           </thead>
           <tbody>
-            {initialPrograms.map((program) => (
-              <tr key={program.id}>
-                <td>{program.id}</td>
+            {initialPrograms.map((program, index) => (
+              <tr key={index} className='hover:bg-neutral hover:text-white'>
                 <td>{program.name}</td>
                 <td>{program.description}</td>
                 <td>{program.reward}</td>

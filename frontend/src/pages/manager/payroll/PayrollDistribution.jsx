@@ -1,62 +1,69 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const initialData = [
-  { id: 1, name: 'Elsie', baseSalary: 3000, bonus: 500, deductions: 200 },
-  { id: 2, name: 'Rhea', baseSalary: 3200, bonus: 600, deductions: 150 },
-  { id: 3, name: 'Remie', baseSalary: 2900, bonus: 400, deductions: 100 },
-  // Add more sample data as needed
+const initialSalaryRequests = [
+  { employeeName: 'John Lloyd', salaryAmount: 30000, paymentMethod: 'Cash', gCashNumber: '', status: 'Pending' },
+  { employeeName: 'Oliver', salaryAmount: 32000, paymentMethod: 'GCash', gCashNumber: '09123456789', status: 'Pending' },
+  { employeeName: 'Abby', salaryAmount: 32000, paymentMethod: 'GCash', gCashNumber: '09123456789', status: 'Pending' },
 ];
 
-const PayrollDistribution = () => {
-  const [payrollData, setPayrollData] = useState(initialData);
+const SalaryDistribution = () => {
+  const [salaryRequests, setSalaryRequests] = useState(initialSalaryRequests);
 
-  const calculateTotal = (baseSalary, bonus, deductions) => {
-    return baseSalary + bonus - deductions;
+  const handleApproval = (index) => {
+    const updatedRequests = salaryRequests.map((request, idx) =>
+      idx === index ? { ...request, status: 'Approved' } : request
+    );
+    setSalaryRequests(updatedRequests);
   };
 
-  const addPayrollItem = () => {
-    const newItem = {
-      id: payrollData.length + 1,
-      name: 'New Employee',
-      baseSalary: 0,
-      bonus: 0,
-      deductions: 0,
-    };
-    setPayrollData([...payrollData, newItem]);
+  const handleRejection = (index) => {
+    const updatedRequests = salaryRequests.map((request, idx) =>
+      idx === index ? { ...request, status: 'Denied' } : request
+    );
+    setSalaryRequests(updatedRequests);
   };
 
-  const removePayrollItem = (id) => {
-    setPayrollData(payrollData.filter(item => item.id !== id));
-  };
-
+  useEffect(() => {
+    document.title = 'Payroll Distribution';
+  }, []); 
   return (
-    <div>
-      <h1>Payroll Distribution</h1>
-      <div>
-        <table>
+    <div className="container mx-auto p-4 md:p-8 bg-base-200 max-w-7xl">
+      <h1 className="text-2xl font-bold mb-4">Salary Distribution Requests</h1>
+
+      <div className="mb-6">
+        <table className="table table-auto w-full border">
           <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Base Salary</th>
-              <th>Bonus</th>
-              <th>Deductions</th>
-              <th>Total Payment</th>
-              <th>Actions</th>
+            <tr className="bg-primary text-white">
+              <th className="border px-4 py-2">Employee Name</th>
+              <th className="border px-4 py-2">Salary Amount</th>
+              <th className="border px-4 py-2">Payment Method</th>
+              <th className="border px-4 py-2">GCash Number</th>
+              <th className="border px-4 py-2">Status</th>
+              <th className="border px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {payrollData.map(record => (
-              <tr key={record.id}>
-                <td>{record.id}</td>
-                <td>{record.name}</td>
-                <td>₱{record.baseSalary.toFixed(2)}</td>
-                <td>₱{record.bonus.toFixed(2)}</td>
-                <td>₱{record.deductions.toFixed(2)}</td>
-                <td>₱{calculateTotal(record.baseSalary, record.bonus, record.deductions).toFixed(2)}</td>
-                <td>
-                  <button onClick={() => removePayrollItem(record.id)}>
-                    Remove
+            {salaryRequests.map((request, index) => (
+              <tr key={index} className="hover:bg-neutral hover:text-white">
+                <td className="border px-4 py-2">{request.employeeName}</td>
+                <td className="border px-4 py-2">₱{request.salaryAmount.toFixed(2)}</td>
+                <td className="border px-4 py-2">{request.paymentMethod}</td>
+                <td className="border px-4 py-2">{request.paymentMethod === 'GCash' ? request.gCashNumber : 'N/A'}</td>
+                <td className="border px-4 py-2">{request.status}</td>
+                <td className="border px-4 py-2">
+                  <button
+                    className="btn btn-success"
+                    onClick={() => handleApproval(index)}
+                    disabled={request.status !== 'Pending'}
+                  >
+                    Approve
+                  </button>
+                  <button
+                    className="btn btn-danger ml-2"
+                    onClick={() => handleRejection(index)}
+                    disabled={request.status !== 'Pending'}
+                  >
+                    Deny
                   </button>
                 </td>
               </tr>
@@ -64,11 +71,8 @@ const PayrollDistribution = () => {
           </tbody>
         </table>
       </div>
-      <button onClick={addPayrollItem}>
-        Add Employee
-      </button>
     </div>
   );
 };
 
-export default PayrollDistribution;
+export default SalaryDistribution;

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const SalesCommissions = () => {
   const [commissions, setCommissions] = useState([
-    { id: 1, employeeName: 'Elsie', salesAmount: 10000, commissionRate: 0.05, commissionEarned: 500, date: '2024-09-01' },
-    { id: 2, employeeName: 'Rhea', salesAmount: 15000, commissionRate: 0.04, commissionEarned: 600, date: '2024-09-05' },
-    { id: 3, employeeName: 'Remie', salesAmount: 20000, commissionRate: 0.03, commissionEarned: 600, date: '2024-09-10' },
+    { employeeName: 'John Lloyd', salesAmount: 10000, commissionRate: 0.05, commissionEarned: 500, date: '2024-09-01' },
+    { employeeName: 'Oliver', salesAmount: 15000, commissionRate: 0.04, commissionEarned: 600, date: '2024-09-05' },
+    { employeeName: 'Abby', salesAmount: 20000, commissionRate: 0.03, commissionEarned: 600, date: '2024-09-10' },
   ]);
 
   const [newCommission, setNewCommission] = useState({
@@ -21,23 +21,25 @@ const SalesCommissions = () => {
 
   const handleAddCommission = () => {
     const { employeeName, salesAmount, commissionRate, date } = newCommission;
-    if (!employeeName || !salesAmount || !commissionRate || !date) return; 
+    if (!employeeName || !salesAmount || !commissionRate || !date) return;
 
     const commissionEarned = (salesAmount * commissionRate).toFixed(2);
     setCommissions((prev) => [
       ...prev,
       {
-        id: prev.length + 1,
         employeeName,
         salesAmount: parseFloat(salesAmount),
         commissionRate: parseFloat(commissionRate),
         commissionEarned: parseFloat(commissionEarned),
-        date, 
+        date,
       },
     ]);
     setNewCommission({ employeeName: '', salesAmount: '', commissionRate: '', date: '' });
   };
 
+  useEffect(() => {
+    document.title = 'Sales Commission';
+  }, []); 
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-semibold mb-6">Sales Commissions Management</h1>
@@ -98,8 +100,7 @@ const SalesCommissions = () => {
       <div className="card bg-base-100 shadow-xl">
         <table className="table w-full">
           <thead>
-            <tr>
-              <th>ID</th>
+            <tr className='bg-primary text-white'>
               <th>Employee Name</th>
               <th>Sales Amount (₱)</th>
               <th>Commission Rate (%)</th>
@@ -108,9 +109,8 @@ const SalesCommissions = () => {
             </tr>
           </thead>
           <tbody>
-            {commissions.map((commission) => (
-              <tr key={commission.id} className="hover:bg-gray-100">
-                <td>{commission.id}</td>
+            {commissions.map((commission, index) => (
+              <tr key={index} className="hover:bg-neutral hover:text-white">
                 <td>{commission.employeeName}</td>
                 <td>{commission.salesAmount.toFixed(2)}</td>
                 <td>{(commission.commissionRate * 100).toFixed(2)}</td>

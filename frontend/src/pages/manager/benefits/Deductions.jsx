@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const employeesData = [
     {
-        id: '1',
-        name: 'John Doe',
+        name: 'John Lloyd',
         benefits: [
             {
                 planName: 'PhilHealth',
@@ -68,8 +67,7 @@ const employeesData = [
         ],
     },
     {
-        id: '2',
-        name: 'Jane Smith',
+        name: 'Oliver',
         benefits: [
             {
                 planName: 'PhilHealth',
@@ -114,8 +112,7 @@ const employeesData = [
         ],
     },
     {
-        id: '3',
-        name: 'Mark Johnson',
+        name: 'Abby',
         benefits: [
             {
                 type: 'Health Insurance',
@@ -163,38 +160,42 @@ const employeesData = [
 
 const Deductions = () => {
     const [modalOpen, setModalOpen] = useState(false);
-    const [currentContributions, setCurrentContributions] = useState([]);
+    const [currentBenefitHistory, setCurrentBenefitHistory] = useState([]);
 
-    const calculateTotalDeductions = (benefits) => {
-        return benefits.reduce((total, benefit) => total + benefit.deduction, 0);
-    };
-
-    const openModal = (contributionHistory) => {
-        setCurrentContributions(contributionHistory);
+    const openModal = (history) => {
+        setCurrentBenefitHistory(history);
         setModalOpen(true);
     };
 
     const closeModal = () => {
         setModalOpen(false);
-        setCurrentContributions([]);
+        setCurrentBenefitHistory([]);
+    };
+
+    const calculateTotalDeductions = (benefits) => {
+        return benefits.reduce((total, benefit) => total + benefit.deduction, 0);
     };
 
     const uniqueEmployees = [...new Set(employeesData.map(employee => employee.name))];
 
+    useEffect(() => {
+        document.title = 'Deductions History';
+      }, []); 
     return (
-        <div className="">
+        
+        <div className='container mx-auto p-8 bg-base-200'>
             <h2 className="text-2xl font-bold mb-6 text-center">Deductions</h2>
 
-            <table className="table w-full ">
+            <table className="table-auto w-full border-collapse border border-gray-200">
                 <thead>
-                    <tr>
-                        <th>Employee</th>
-                        <th>Plan Name</th>
-                        <th>Benefit Type</th>
-                        <th>Deduction</th>
-                        <th>Description</th>
-                        <th>Contributions</th>
-                        <th>Total Deductions</th>
+                    <tr className='bg-primary text-white'>
+                        <th className="border px-4 py-2">Employee</th>
+                        <th className="border px-4 py-2">Plan Name</th>
+                        <th className="border px-4 py-2">Benefit Type</th>
+                        <th className="border px-4 py-2">Deduction</th>
+                        <th className="border px-4 py-2">Description</th>
+                        <th className="border px-4 py-2">View All Deductions</th>
+                        <th className="border px-4 py-2">Total Deductions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -205,21 +206,21 @@ const Deductions = () => {
                                 employee.benefits.map((benefit, index) => (
                                     <tr key={index}>
                                         {index === 0 ? (
-                                            <td rowSpan={employee.benefits.length}>{employee.name}</td>
+                                            <td rowSpan={employee.benefits.length}className='hover:bg-neutral hover:text-white'>{employee.name}</td>
                                         ) : null}
-                                        <td>{benefit.planName}</td>
-                                        <td>{benefit.type}</td>
-                                        <td>{benefit.deduction}</td>
-                                        <td>{benefit.description}</td>
+                                        <td className='hover:bg-neutral hover:text-white'>{benefit.planName}</td>
+                                        <td className='hover:bg-neutral hover:text-white'>{benefit.type}</td>
+                                        <td className='hover:bg-neutral hover:text-white'>{benefit.deduction}</td>
+                                        <td className='hover:bg-neutral hover:text-white'>{benefit.description}</td>
                                         <td>
                                             <button 
                                                 onClick={() => openModal(benefit.contributionHistory)}
-                                                className="btn btn-link"
+                                                className="btn bg-primary text-white"
                                             >
-                                                View Contributions
+                                                View All Deductions
                                             </button>
                                         </td>
-                                        <td>{calculateTotalDeductions(employee.benefits)}</td>
+                                        <td className='hover:bg-neutral hover:text-white'>{calculateTotalDeductions(employee.benefits)}</td>
                                     </tr>
                                 ))
                             ))
@@ -227,18 +228,29 @@ const Deductions = () => {
                 </tbody>
             </table>
 
-            {/* Modal to display contribution history */}
+            {/* Modal to display deduction details */}
             {modalOpen && (
                 <div className="modal modal-open">
                     <div className="modal-box">
-                        <h2 className="font-bold text-lg">Contribution History</h2>
-                        <ul className="py-4">
-                            {currentContributions.map((contribution, index) => (
-                                <li key={index}>
-                                    {contribution.month}: {contribution.amount}
-                                </li>
-                            ))}
-                        </ul>
+                        <h2 className="font-bold text-lg">Deduction History</h2>
+                        <table className="table w-full">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Month</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {currentBenefitHistory.map((record, index) => (
+                                    <tr key={index}>
+                                        <td>{record.date}</td>
+                                        <td>{record.month}</td>
+                                        <td>{record.amount}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                         <div className="modal-action">
                             <button className="btn" onClick={closeModal}>Close</button>
                         </div>

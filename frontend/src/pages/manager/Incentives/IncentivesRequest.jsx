@@ -1,18 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const IncentivesRequest = () => {
   const [pendingIncentives, setPendingIncentives] = useState([
     {
-      id: 1,
-      employeeName: 'John Doe',
+      employeeName: 'John Lloyd',
       name: 'Performance Bonus',
       type: 'Bonus',
       amount: '5000',
       status: 'Pending',
     },
     {
-      id: 2,
-      employeeName: 'Jane Smith',
+      employeeName: 'Oliver',
       name: 'Project Bonus',
       type: 'Bonus',
       amount: '3000',
@@ -36,6 +34,9 @@ const IncentivesRequest = () => {
     );
   };
 
+  useEffect(() => {
+    document.title = 'Incentives Requesst';
+  }, []); 
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-semibold mb-6">Incentives Management</h1>
@@ -44,7 +45,7 @@ const IncentivesRequest = () => {
         <h2 className="text-xl font-semibold mb-4">Pending Incentives for Approval</h2>
         <table className="table w-full">
           <thead>
-            <tr>
+            <tr className='bg-primary text-white'>
               <th>Employee</th>
               <th>Incentive</th>
               <th>Type</th>
@@ -56,7 +57,7 @@ const IncentivesRequest = () => {
           <tbody>
             {pendingIncentives.length > 0 ? (
               pendingIncentives.map((incentive) => (
-                <tr key={incentive.id}>
+                <tr key={incentive.id} className='hover:bg-neutral hover:text-white'>
                   <td>{incentive.employeeName}</td>
                   <td>{incentive.name}</td>
                   <td>{incentive.type}</td>

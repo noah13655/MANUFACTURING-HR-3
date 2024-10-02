@@ -90,9 +90,13 @@ const BenefitsOverview = () => {
     useEffect(() => {
         fetchBenefit();
     }, [fetchBenefit]);
+    
+    useEffect(() => {
+        document.title = 'Benefits Overview';
+      }, []); 
 
     return (
-        <div className="overflow-x-auto">
+        <div className="container mx-auto p-8 bg-base-200 overflow-x-auto">
             <h2 className="text-2xl font-bold text-center mb-4">Benefits Overview</h2>
             <div className="flex items-center mb-4">
                 <button className='btn btn-primary mr-2' onClick={toggleCreateForm}>
@@ -146,27 +150,27 @@ const BenefitsOverview = () => {
                 {error && <p className="text-red-500 text-center mb-4">{error}</p>}
             </div>
 
-            <table className="table table-zebra w-full border border-gray-300">
+            <table className="table w-full">
                 <thead>
-                    <tr>
-                        <th>Benefits Name</th>
-                        <th>Description</th>
-                        <th>Benefits Type</th>
-                        <th>Require Request</th>
-                        <th colSpan={3} className='justify-center'>Action</th>
+                    <tr className="bg-primary text-white">
+                        <th className="border px-4 py-2">Benefits Name</th>
+                        <th className="border px-4 py-2">Description</th>
+                        <th className="border px-4 py-2">Benefits Type</th>
+                        <th className="border px-4 py-2">Require Request</th>
+                        <th colSpan={3} className='justify-center border px4 py-2'>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {Array.isArray(benefits) && benefits.length > 0 ? (
                         benefits.map((benefit) => (
-                            <tr key={`${benefit._id}-${benefit.benefitsName}`}>
-                                <td>{benefit.benefitsName || 'N/A'}</td>
-                                <td>{benefit.benefitsDescription || 'N/A'}</td>
-                                <td>{benefit.benefitsType || 'N/A'}</td>
-                                <td>{benefit.requiresRequest ? 'Yes' : 'No'}</td>
-                                <td><button onClick={() => handleEditBenefit(benefit)} className='btn btn-edit'>Edit</button></td>
+                            <tr key={`${benefit._id}-${benefit.benefitsName}`} className="hover:bg-neutral hover:text-white">
+                                <td className="border px-4 py-2">{benefit.benefitsName || 'N/A'}</td>
+                                <td className="border px-4 py-2">{benefit.benefitsDescription || 'N/A'}</td>
+                                <td className="border px-4 py-2">{benefit.benefitsType || 'N/A'}</td>
+                                <td className="border px-4 py-2">{benefit.requiresRequest ? 'Yes' : 'No'}</td>
+                                <td className="border px-4 py-2"><button onClick={() => handleEditBenefit(benefit)} className='btn btn-edit bg-primary text-white'>Edit</button></td>
                                 <td>
-                                    <button onClick={() => handleDeleteBenefit(benefit._id)} className='btn btn-danger'>
+                                    <button onClick={() => handleDeleteBenefit(benefit._id)} className='btn btn-error'>
                                         Delete
                                     </button>
                                 </td>

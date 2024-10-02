@@ -88,6 +88,9 @@ const IncentivesOverview = () => {
         fetchIncentive();
     }, [fetchIncentive]);
 
+    useEffect(() => {
+        document.title = 'Incentives Overview';
+      }, []); 
     return (
         <div className="overflow-x-auto">
             <h2 className="text-2xl font-bold text-center mb-4">Incentive Overview</h2>
@@ -133,25 +136,25 @@ const IncentivesOverview = () => {
                 {error && <p className="text-red-500 text-center mb-4">{error}</p>}
             </div>
 
-            <table className="table table-zebra w-full border border-gray-300">
+            <table className="table w-full">
                 <thead>
-                    <tr>
-                        <th>Incentives Name</th>
-                        <th>Description</th>
-                        <th>Incentives Type</th>
+                    <tr className='bg-primary text-white'>
+                        <th className="border px-4 py-2">Incentives Name</th>
+                        <th className="border px-4 py-2">Description</th>
+                        <th className="border px-4 py-2">Incentives Type</th>
                         <th colSpan={3} className='justify-center'>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {Array.isArray(incentives) && incentives.length > 0 ? (
                         incentives.map((incentive) => (
-                            <tr key={`${incentive._id}-${incentive.incentivesName}`}>
-                                <td>{incentive.incentivesName || 'N/A'}</td>
-                                <td>{incentive.incentivesDescription || 'N/A'}</td>
-                                <td>{incentive.incentivesType || 'N/A'}</td>
-                                <td><button onClick={() => handleEditIncentive(incentive)} className='btn btn-edit'>Edit</button></td>
-                                <td>
-                                    <button onClick={() => handleDeleteIncentive(incentive._id)} className='btn btn-danger'>
+                            <tr key={`${incentive._id}-${incentive.incentivesName}`} className='hover:bg-neutral hover:text-white'>
+                                <td className="border px-4 py-2">{incentive.incentivesName || 'N/A'}</td>
+                                <td className="border px-4 py-2">{incentive.incentivesDescription || 'N/A'}</td>
+                                <td className="border px-4 py-2">{incentive.incentivesType || 'N/A'}</td>
+                                <td className="border px-4 py-2"><button onClick={() => handleEditIncentive(incentive)} className='btn btn-edit'>Edit</button></td>
+                                <td className="border px-4 py-2">
+                                    <button onClick={() => handleDeleteIncentive(incentive._id)} className='btn btn-error'>
                                         Delete
                                     </button>
                                 </td>

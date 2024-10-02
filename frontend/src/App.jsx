@@ -20,16 +20,24 @@ import ManagerSidebar from './pages/manager/ManagerSidebar';
 import EmployeeSidebar from './pages/employee/EmployeeSidebar';
 import Search from './pages/manager/Search';
 
-/* userlist */
-import UserList from './pages/manager/user/UserList';
-import AttendanceInfo from './pages/manager/user/AttendanceInfo';
-
 /* payroll processing */
+import PayrollProcessing from './pages/manager/payroll/PayrollProcessing';
 import SalaryComputation from './pages/manager/payroll/SalaryComputation';
 import DeductionsManagement from './pages/manager/payroll/DeductionsManagement';
-import PayrollDistribution from './pages/manager/payroll/PayrollDistribution';
 import ComplianceTracking from './pages/manager/payroll/ComplianceTracking';
 import RequestBudget from './pages/manager/payroll/RequestBudget';
+import PayrollDistribution from './pages/manager/payroll/PayrollDistribution';
+import GenerateReports from './pages/manager/payroll/GenerateReports';
+import PayrollHistory from './pages/manager/payroll/PayrollHistory';
+
+/* compensation  */
+import CompensationOverview from './pages/manager/compensation/CompensationOverview'; 
+import CompensationPlanning from './pages/manager/compensation/CompensationPlanning';
+import SalaryStructure from './pages/manager/compensation/SalaryStructure';
+import MarketAnalysis from './pages/manager/compensation/MarketAnalysis';
+import EquityAdjustments from './pages/manager/compensation/EquityAdjustments';
+import TotalRewards from './pages/manager/compensation/TotalRewards';
+import GrievanceRequest from './pages/manager/compensation/GrievanceRequest';
 
 /* benefits administration */
 import BenefitsOverview from './pages/manager/benefits/BenefitsOverview';
@@ -41,26 +49,17 @@ import Deductions from './pages/manager/benefits/Deductions';
 import IncentivesOverview from './pages/manager/incentives/IncentivesOverview';
 import IncentivesRequest from './pages/manager/incentives/IncentivesRequest';
 import SalesCommissions from './pages/manager/incentives/SalesCommissions';
-import ProfitSharing from './pages/manager/incentives/ProfitSharing';
 import RecognitionPrograms from './pages/manager/incentives/RecognitionPrograms';
 
-/* compensation planning */
-import CompensationOverview from './pages/employee/compensation/CompensationOverview';
-import SalaryPlanning from './pages/manager/compensation/SalaryPlanning';
-import MarketAnalysis from './pages/manager/compensation/MarketAnalysis';
-import EquityAdjustments from './pages/manager/compensation/EquityAdjustments';
-import TotalRewards from './pages/manager/compensation/TotalRewards';
-
 /* predictive analysis */
-import EmployeeAnalytics from './pages/manager/predictive/EmployeeAnalytics';
-import FinancialAnalytics from './pages/manager/predictive/FinancialAnalytics';
-import OperationalAnalytics from './pages/manager/predictive/OperationAnalytics';
+import PredictiveAnalytics from './pages/manager/predictive/PredictiveAnalytics';
 
 /* employee */
 import EBenefitsOverview from './pages/employee/benefits/EBenefitsOverview';
 import EIncentivesOverview from './pages/employee/incentives/EIncentivesOverview';
 import MyIncentives from './pages/employee/incentives/MyIncentives';
 import MyCommissions from './pages/employee/incentives/MyCommissions';
+import Attendance from './pages/manager/payroll/Attendance';
 
 const App = () => {
   const { checkAuth, isAuthenticated, user } = useAuthStore();
@@ -96,17 +95,27 @@ const App = () => {
                     <>
                       <Route path="/dashboard" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
                       
-                      {/* User List */}
-                      <Route path="/user-list" element={<ProtectedRoute><UserList /></ProtectedRoute>} />
-                      <Route path="/attendance-info" element={<ProtectedRoute><AttendanceInfo /></ProtectedRoute>} />
-                      
                       {/* Payroll Processing */}
+                      <Route path="/payroll-management" element={<ProtectedRoute><PayrollProcessing /></ProtectedRoute>} />
+                      <Route path="/attendance" element={<ProtectedRoute><Attendance /></ProtectedRoute>} />
                       <Route path="/salary-computation" element={<ProtectedRoute><SalaryComputation /></ProtectedRoute>} />
                       <Route path="/deductions-management" element={<ProtectedRoute><DeductionsManagement /></ProtectedRoute>} />
-                      <Route path="/payroll-distribution" element={<ProtectedRoute><PayrollDistribution /></ProtectedRoute>} />
-                      <Route path="/request-budget" element={<ProtectedRoute><RequestBudget /></ProtectedRoute>} />
                       <Route path="/compliance-tracking" element={<ProtectedRoute><ComplianceTracking /></ProtectedRoute>} />
+                      <Route path="/request-budget" element={<ProtectedRoute><RequestBudget /></ProtectedRoute>} />
+                      <Route path="/payroll-distribution" element={<ProtectedRoute><PayrollDistribution /></ProtectedRoute>} />
+                      <Route path="/generate-reports" element={<ProtectedRoute><GenerateReports /></ProtectedRoute>} />
+                      <Route path="/payroll-history" element={<ProtectedRoute><PayrollHistory /></ProtectedRoute>} />
                       
+                      {/* Compensation */}
+                      <Route path="/compensation-overview" element={<ProtectedRoute><CompensationOverview /></ProtectedRoute>} />
+                      <Route path="/compensation-planning" element={<ProtectedRoute><CompensationPlanning /></ProtectedRoute>} />
+                      <Route path="/salary-structure" element={<ProtectedRoute><SalaryStructure /></ProtectedRoute>} />
+                      <Route path="/market-analysis" element={<ProtectedRoute><MarketAnalysis /></ProtectedRoute>} />
+                      <Route path="/equity-adjustments" element={<ProtectedRoute><EquityAdjustments /></ProtectedRoute>} />
+                      <Route path="/total-rewards" element={<ProtectedRoute><TotalRewards /></ProtectedRoute>} />
+                      <Route path="/grievance-request" element={<ProtectedRoute><GrievanceRequest /></ProtectedRoute>} />
+                      
+
                       {/* Benefits Administration */}
                       <Route path="/benefits-overview" element={<ProtectedRoute><BenefitsOverview /></ProtectedRoute>} />
                       <Route path="/enrollment-submission" element={<ProtectedRoute><EnrollmentSubmission /></ProtectedRoute>} />
@@ -118,19 +127,9 @@ const App = () => {
                       <Route path="/incentives-request" element={<ProtectedRoute><IncentivesRequest /></ProtectedRoute>} />
                       <Route path="/sales-commissions" element={<ProtectedRoute><SalesCommissions /></ProtectedRoute>} />
                       <Route path="/recognition-programs" element={<ProtectedRoute><RecognitionPrograms /></ProtectedRoute>} />
-                      <Route path="/profit-sharing" element={<ProtectedRoute><ProfitSharing /></ProtectedRoute>} />
-                      
-                      {/* Compensation */}
-                      <Route path="/compensation-overview" element={<ProtectedRoute><CompensationOverview /></ProtectedRoute>} />
-                      <Route path="/salary-planning" element={<ProtectedRoute><SalaryPlanning /></ProtectedRoute>} />
-                      <Route path="/market-analysis" element={<ProtectedRoute><MarketAnalysis /></ProtectedRoute>} />
-                      <Route path="/equity-adjustments" element={<ProtectedRoute><EquityAdjustments /></ProtectedRoute>} />
-                      <Route path="/total-rewards" element={<ProtectedRoute><TotalRewards /></ProtectedRoute>} />
-                      
+
                       {/* Analytics */}
-                      <Route path="/operational-analytics" element={<ProtectedRoute><OperationalAnalytics /></ProtectedRoute>} />
-                      <Route path="/employee-analytics" element={<ProtectedRoute><EmployeeAnalytics /></ProtectedRoute>} />
-                      <Route path="/financial-analytics" element={<ProtectedRoute><FinancialAnalytics /></ProtectedRoute>} />
+                      <Route path="/predictive-analytics" element={<ProtectedRoute><PredictiveAnalytics /></ProtectedRoute>} />
                     </>
                   )}
                   
