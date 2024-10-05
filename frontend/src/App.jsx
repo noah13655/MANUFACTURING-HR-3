@@ -56,6 +56,10 @@ import PredictiveAnalytics from './pages/manager/predictive/PredictiveAnalytics'
 
 /* employee */
 import EBenefitsOverview from './pages/employee/benefits/EBenefitsOverview';
+import EIncentivesOverview from './pages/employee/incentives/EIncentivesOverview';
+import MyIncentives from './pages/employee/incentives/MyIncentives';
+import MyCommissions from './pages/employee/incentives/MyCommissions';
+import Attendance from './pages/manager/payroll/Attendance';
 
 const App = () => {
   const { checkAuth, isAuthenticated, user } = useAuthStore();
@@ -133,6 +137,9 @@ const App = () => {
                     <>
                       <Route path="/dashboard" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />                    
                       <Route path="/benefits-overview" element={<ProtectedRoute><EBenefitsOverview /></ProtectedRoute>} />                    
+                      <Route path="/incentives-overview" element={<ProtectedRoute><EIncentivesOverview /></ProtectedRoute>} />                    
+                      <Route path="/my-incentives" element={<ProtectedRoute><MyIncentives /></ProtectedRoute>} />                    
+                      <Route path="/my-commissions" element={<ProtectedRoute><MyCommissions /></ProtectedRoute>} />                    
                     </>
                   )}
 
