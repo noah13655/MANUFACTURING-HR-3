@@ -64,7 +64,7 @@ const SalaryDetails = () => {
                 </tr>
               ))}
               <tr className="font-bold">
-                <td>Total Salarys:</td>
+                <td>Total Salary:</td>
                 <td>₱{totalSalary}</td>
               </tr>
             </tbody>
