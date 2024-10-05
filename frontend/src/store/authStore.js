@@ -1,9 +1,11 @@
 import {create} from 'zustand'
 import axios from 'axios'
 
-const API_URL = process.env.NODE_ENV === "production" 
+ const API_URL = process.env.NODE_ENV === "production" 
 ? "https://backend-hr3.jjm-manufacturing.com/api/auth" 
 : "http://localhost:7687/api/auth";
+
+//  const API_URL = "https://backend-hr3.jjm-manufacturing.com/api/auth";
 
 axios.defaults.withCredentials = true;
 
@@ -22,13 +24,14 @@ export const useAuthStore = create((set)=>({
                 user:response.data.user,
                 error:null,
             });
+            return true;
         } catch (error) {
             set({
                 isAuthenticated:false,
                 user:null,
                 error:error.response?.data?.message || "Error in logging in!"
             });
-            throw error;
+            return false  ;
         }
     },
 
@@ -67,7 +70,7 @@ export const useAuthStore = create((set)=>({
       },
       fetchUsers: async () => {
         try {
-          const response = await axios.get(`${API_URL}/users`);  // Fetch users from /users route
+          const response = await axios.get(`${API_URL}/users`);  
           set({
             users: response.data.users,
             error: null,

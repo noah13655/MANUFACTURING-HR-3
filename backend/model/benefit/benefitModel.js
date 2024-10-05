@@ -14,6 +14,10 @@ const benefitSchema = new mongoose.Schema({
         enum: ['Compensation', 'Health', 'Retirement', 'Financial', 'Worklife Balance'],
         required: true
     },
-},{timestamps:true});
+    requiresRequest: {
+        type: Boolean,
+        default: false
+    }
+}, { timestamps: true });
 
 export const Benefit = mongoose.model('Benefit', benefitSchema);
