@@ -59,6 +59,18 @@ const BenefitsEnrollment = () => {
           </div>
         </div>
 
+        <h2 className="text-2xl font-bold mb-4 mt-6">Upload Documents</h2>
+        <div className="form-control mb-4">
+          <label className="label" htmlFor="proof-documents">Upload Proof Documents</label>
+          <input 
+            type="file" 
+            id="proof-documents" 
+            className="input input-bordered w-full" 
+            accept=".pdf,.doc,.docx,.jpg,.png"
+          />
+          <p className="text-sm text-gray-500">Supported formats: PDF, DOC, DOCX, JPG, PNG</p>
+        </div>
+
         <button type="submit" className="btn btn-primary mt-6">Enroll</button>
       </form>
     </div>
