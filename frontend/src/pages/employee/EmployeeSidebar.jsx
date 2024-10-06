@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MdDashboard } from 'react-icons/md';
 import { GiWallet, GiGears, GiChecklist } from 'react-icons/gi';
-import { FaRegUser } from 'react-icons/fa';
-import { AiOutlineFileSearch } from 'react-icons/ai';
-import { IoIosArrowDown, IoIosArrowUp, IoIosStats } from 'react-icons/io';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
 import jjmLogo from '../../assets/jjmlogo.jpg';
 
-const EmployeeSidebar = () => {
+const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
 
@@ -52,8 +50,8 @@ const EmployeeSidebar = () => {
         className="flex items-center gap-2 cursor-pointer mb-8 justify-center"
         aria-label="Dashboard Logo"
       >
-        <Link to="/"><img src={jjmLogo} alt="Dashboard logo" className="w-10 h-10" /></Link>
-        {!isCollapsed && <p className="text-xl font-bold">Employee Portal</p>}
+        <Link to="/dashboard"><img src={jjmLogo} alt="Dashboard logo" className="w-10 h-10" /></Link>
+        {!isCollapsed && <p className="text-xl font-bold">Portal</p>}
       </div>
 
       {/* Dashboard */}
@@ -62,35 +60,7 @@ const EmployeeSidebar = () => {
         aria-label="Dashboard"
       >
         <MdDashboard className="w-5 h-5" />
-        {!isCollapsed && <p className="text-sm font-semibold"><Link to="/">Dashboard</Link></p>}
-      </div>
-
-      {/* Personal Compensation Information */}
-      <div className="mb-2">
-        <div
-          className="flex gap-2 items-center cursor-pointer text-sm hover:text-blue-500 transition duration-200"
-          onClick={() => toggleDropdown('compensation')}
-          aria-expanded={openDropdown === 'compensation'}
-          aria-controls="compensation-dropdown"
-          aria-label="Personal Compensation Information"
-        >
-          <GiWallet className="w-5 h-5" />
-          {!isCollapsed && <span>Personal Compensation Information</span>}
-          {!isCollapsed && (
-            <div className="ml-auto">
-              {openDropdown === 'compensation' ? <IoIosArrowUp size={15} /> : <IoIosArrowDown size={15} />}
-            </div>
-          )}
-        </div>
-        <ul
-          id="compensation-dropdown"
-          className={`pl-6 mt-1 space-y-1 overflow-hidden transition-max-height duration-500 ease-in-out ${
-            openDropdown === 'compensation' ? 'max-h-screen' : 'max-h-0'
-          }`}
-        >
-          <li><Link to="/salary-details">Salary Details</Link></li>
-          <li><Link to="/compensation-history">Compensation History</Link></li>
-        </ul>
+        {!isCollapsed && <p className="text-sm font-semibold"><Link to="/dashboard">Dashboard</Link></p>}
       </div>
 
       {/* Benefits Management */}
@@ -116,10 +86,10 @@ const EmployeeSidebar = () => {
             openDropdown === 'benefits' ? 'max-h-screen' : 'max-h-0'
           }`}
         >
-          <li><Link to="/benefits-overview">Benefits Overview</Link></li>
+        <li><Link to="/benefits-overview">Benefits Overview</Link></li>
           <li><Link to="/benefits-enrollment">Benefits Enrollment</Link></li>
+          <li><Link to="/benefits-statements">Benefit Statements</Link></li>
           <li><Link to="/claims-management">Claims Management</Link></li>
-          <li><Link to="/benefit-statements">Benefit Statements</Link></li>
         </ul>
       </div>
 
@@ -146,9 +116,10 @@ const EmployeeSidebar = () => {
             openDropdown === 'payroll' ? 'max-h-screen' : 'max-h-0'
           }`}
         >
+          <li><Link to="/salary-request">Salary Request</Link></li>
+          <li><Link to="/direct-deposit">Direct Deposit</Link></li>
           <li><Link to="/pay-stubs">Pay Stubs</Link></li>
           <li><Link to="/tax-documents">Tax Documents</Link></li>
-          <li><Link to="/direct-deposit">Direct Deposit</Link></li>
         </ul>
       </div>
 
@@ -162,7 +133,7 @@ const EmployeeSidebar = () => {
           aria-label="Leave Management"
         >
           <GiChecklist className="w-5 h-5" />
-          {!isCollapsed && <span>Incentives</span>}
+          {!isCollapsed && <span>Leave Management</span>}
           {!isCollapsed && (
             <div className="ml-auto">
               {openDropdown === 'leave' ? <IoIosArrowUp size={15} /> : <IoIosArrowDown size={15} />}
@@ -175,13 +146,71 @@ const EmployeeSidebar = () => {
             openDropdown === 'leave' ? 'max-h-screen' : 'max-h-0'
           }`}
         >
+          <li><Link to="/leave-balances">Leave Balances</Link></li>
+          <li><Link to="/leave-history">Leave History</Link></li>
+          <li><Link to="/leave-requests">Leave Requests</Link></li>
+        </ul>
+      </div>
+
+      {/* Compensation History */}
+      <div className="mb-2">
+        <div
+          className="flex gap-2 items-center cursor-pointer text-sm hover:text-blue-500 transition duration-200"
+          onClick={() => toggleDropdown('compensation')}
+          aria-expanded={openDropdown === 'compensation'}
+          aria-controls="compensation-dropdown"
+          aria-label="Compensation Information"
+        >
+          <GiWallet className="w-5 h-5" />
+          {!isCollapsed && <span>Compensation Information</span>}
+          {!isCollapsed && (
+            <div className="ml-auto">
+              {openDropdown === 'compensation' ? <IoIosArrowUp size={15} /> : <IoIosArrowDown size={15} />}
+            </div>
+          )}
+        </div>
+        <ul
+          id="compensation-dropdown"
+          className={`pl-6 mt-1 space-y-1 overflow-hidden transition-max-height duration-500 ease-in-out ${
+            openDropdown === 'compensation' ? 'max-h-screen' : 'max-h-0'
+          }`}
+        >
+          <li><Link to="/compensation-history">Compensation History</Link></li>
+          <li><Link to="/salary-details">Salary Details</Link></li>
+          <li><Link to="/salary-projections">Salary Projections</Link></li>
+        </ul>
+      </div>
+
+            {/* Incentives and Commissions */}
+      <div className="mb-2">
+        <div
+          className="flex gap-2 items-center cursor-pointer text-sm hover:text-blue-500 transition duration-200"
+          onClick={() => toggleDropdown('incentives')}
+          aria-expanded={openDropdown === 'incentives'}
+          aria-controls="incentives-dropdown"
+          aria-label="Incentives"
+        >
+          <GiGears className="w-5 h-5" />
+          {!isCollapsed && <span>Incentives</span>}
+          {!isCollapsed && (
+            <div className="ml-auto">
+              {openDropdown === 'incentives' ? <IoIosArrowUp size={15} /> : <IoIosArrowDown size={15} />}
+            </div>
+          )}
+        </div>
+        <ul
+          id="incentives-dropdown"
+          className={`pl-6 mt-1 space-y-1 overflow-hidden transition-max-height duration-500 ease-in-out ${
+            openDropdown === 'incentives' ? 'max-h-screen' : 'max-h-0'
+          }`}
+        >
           <li><Link to="/incentives-overview">Incentives Overview</Link></li>
           <li><Link to="/my-incentives">My Incentives</Link></li>
           <li><Link to="/my-commissions">My Commissions</Link></li>
         </ul>
       </div>
 
-      {/* Retirement Plans */}
+          {/* Retirement plans */}
       <div className="mb-2">
         <div
           className="flex gap-2 items-center cursor-pointer text-sm hover:text-blue-500 transition duration-200"
@@ -190,7 +219,7 @@ const EmployeeSidebar = () => {
           aria-controls="retirement-dropdown"
           aria-label="Retirement Plans"
         >
-          <GiGears className="w-5 h-5" />
+          <GiWallet className="w-5 h-5" />
           {!isCollapsed && <span>Retirement Plans</span>}
           {!isCollapsed && (
             <div className="ml-auto">
@@ -204,65 +233,11 @@ const EmployeeSidebar = () => {
             openDropdown === 'retirement' ? 'max-h-screen' : 'max-h-0'
           }`}
         >
-          <li><Link to="/retirement-overview">Retirement Plan Overview</Link></li>
-          <li><Link to="/beneficiary-info">Beneficiary Information</Link></li>
+          <li><Link to="/beneficiary-information">Beneficiary Information</Link></li>
+          <li><Link to="/retirement-plan-overview">Retirement Plan Overview</Link></li>
         </ul>
       </div>
 
-      {/* Compensation Planning Tools */}
-      <div className="mb-2">
-        <div
-          className="flex gap-2 items-center cursor-pointer text-sm hover:text-blue-500 transition duration-200"
-          onClick={() => toggleDropdown('compensation-planning')}
-          aria-expanded={openDropdown === 'compensation-planning'}
-          aria-controls="compensation-planning-dropdown"
-          aria-label="Compensation Planning Tools"
-        >
-          <IoIosStats className="w-5 h-5" />
-          {!isCollapsed && <span>Compensation Planning Tools</span>}
-          {!isCollapsed && (
-            <div className="ml-auto">
-              {openDropdown === 'compensation-planning' ? <IoIosArrowUp size={15} /> : <IoIosArrowDown size={15} />}
-            </div>
-          )}
-        </div>
-        <ul
-          id="compensation-planning-dropdown"
-          className={`pl-6 mt-1 space-y-1 overflow-hidden transition-max-height duration-500 ease-in-out ${
-            openDropdown === 'compensation-planning' ? 'max-h-screen' : 'max-h-0'
-          }`}
-        >
-          <li><Link to="/salary-projections">Salary Projections</Link></li>
-          <li><Link to="/equity-adjustments">Equity Adjustments</Link></li>
-        </ul>
-      </div>
-
-      {/* Personal Information Management */}
-      <div className="mb-2">
-        <div
-          className="flex gap-2 items-center cursor-pointer text-sm hover:text-blue-500 transition duration-200"
-          onClick={() => toggleDropdown('personal-info')}
-          aria-expanded={openDropdown === 'personal-info'}
-          aria-controls="personal-info-dropdown"
-          aria-label="Personal Information Management"
-        >
-          <FaRegUser className="w-5 h-5" />
-          {!isCollapsed && <span>Personal Information Management</span>}
-          {!isCollapsed && (
-            <div className="ml-auto">
-              {openDropdown === 'personal-info' ? <IoIosArrowUp size={15} /> : <IoIosArrowDown size={15} />}
-            </div>
-          )}
-        </div>
-        <ul
-          id="personal-info-dropdown"
-          className={`pl-6 mt-1 space-y-1 overflow-hidden transition-max-height duration-500 ease-in-out ${
-            openDropdown === 'personal-info' ? 'max-h-screen' : 'max-h-0'
-          }`}
-        >
-          <li><Link to="/update-info">Update Personal Information</Link></li>
-        </ul>
-      </div>
 
       {/* Support and Resources */}
       <div className="mb-2">
@@ -273,7 +248,7 @@ const EmployeeSidebar = () => {
           aria-controls="support-dropdown"
           aria-label="Support and Resources"
         >
-          <AiOutlineFileSearch className="w-5 h-5" />
+          <GiGears className="w-5 h-5" />
           {!isCollapsed && <span>Support and Resources</span>}
           {!isCollapsed && (
             <div className="ml-auto">
@@ -287,39 +262,12 @@ const EmployeeSidebar = () => {
             openDropdown === 'support' ? 'max-h-screen' : 'max-h-0'
           }`}
         >
-          <li><Link to="/faqs">FAQs</Link></li>
           <li><Link to="/contact-hr">Contact HR</Link></li>
+          <li><Link to="/faqs">FAQs</Link></li>
         </ul>
-      </div>
-
-      {/* Notifications and Alerts */}
-      <div className="mb-2">
-        <div
-          className="flex gap-2 items-center cursor-pointer text-sm hover:text-blue-500 transition duration-200"
-          onClick={() => toggleDropdown('notifications')}
-          aria-expanded={openDropdown === 'notifications'}
-          aria-controls="notifications-dropdown"
-          aria-label="Notifications and Alerts"
-        >
-          <IoIosStats className="w-5 h-5" />
-          {!isCollapsed && <span>Notifications and Alerts</span>}
-          {!isCollapsed && (
-            <div className="ml-auto">
-              {openDropdown === 'notifications' ? <IoIosArrowUp size={15} /> : <IoIosArrowDown size={15} />}
-            </div>
-          )}
-        </div>
-        <ul
-          id="notifications-dropdown"
-          className={`pl-6 mt-1 space-y-1 overflow-hidden transition-max-height duration-500 ease-in-out ${
-            openDropdown === 'notifications' ? 'max-h-screen' : 'max-h-0'
-          }`}
-        >
-          <li><Link to="/important-updates">Important Updates</Link></li>
-        </ul>
-      </div>
+      </div>    
     </div>
   );
 };
 
-export default EmployeeSidebar;
+export default Sidebar;

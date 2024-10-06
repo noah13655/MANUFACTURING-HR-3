@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 const CompensationHistory = () => {
-  // Sample data for compensation history
   const compensationData = [
     {
       id: 1,
@@ -36,7 +35,7 @@ const CompensationHistory = () => {
       deductions: 6000,
       totalCompensation: 85000,
     },
-    // Add more employee data as needed
+  
   ];
 
   const [selectedId, setSelectedId] = useState(null);

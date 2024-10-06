@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 const SalaryDetails = () => {
   const [showDetails, setShowDetails] = useState(false);
 
-  // Sample data for the table
   const employeeData = {
     name: 'John Doe',
     code: 'E12345',

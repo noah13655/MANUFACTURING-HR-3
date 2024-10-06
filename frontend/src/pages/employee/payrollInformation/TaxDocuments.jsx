@@ -2,7 +2,6 @@ import React from 'react';
 
 const TaxDocuments = () => {
   const handleDownload = (fileName) => {
-    // Simulating download action
     alert(`Downloading ${fileName}`);
   };
 
