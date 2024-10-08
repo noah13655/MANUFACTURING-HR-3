@@ -1,89 +1,101 @@
 import React from 'react';
 
+const payStubData = [
+  {
+    id: 1,
+    name: 'Rhen',
+    designation: 'Software Engineer',
+    department: 'IT',
+    basicSalary: 60000,
+    allowances: 5000,
+    deductions: 2000,
+    totalSalary: 63000,
+    payPeriod: '2024-01-01 to 2024-01-15',
+  },
+  {
+    id: 2,
+    name: 'John llody',
+    designation: 'Project Manager',
+    department: 'Management',
+    basicSalary: 80000,
+    allowances: 7000,
+    deductions: 3000,
+    totalSalary: 85000,
+    payPeriod: '2024-01-01 to 2024-01-15',
+  },
+  // Add more pay stub data as needed
+];
+
 const PayStubs = () => {
-  const handlePrint = () => {
-    window.print();
+  const handlePrint = (stub) => {
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Pay Stub for ${stub.name}</title>
+          <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        </head>
+        <body class="p-4">
+          <h1 class="text-2xl font-bold mb-4">Pay Stub for ${stub.name}</h1>
+          <p><strong>Designation:</strong> ${stub.designation}</p>
+          <p><strong>Department:</strong> ${stub.department}</p>
+          <p><strong>Pay Period:</strong> ${stub.payPeriod}</p>
+          <table class="table w-full mb-4">
+            <thead>
+              <tr>
+                <th>Basic Salary</th>
+                <th>Allowances</th>
+                <th>Deductions</th>
+                <th>Total Salary</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>₱${stub.basicSalary.toLocaleString()}</td>
+                <td>₱${stub.allowances.toLocaleString()}</td>
+                <td>₱${stub.deductions.toLocaleString()}</td>
+                <td>₱${stub.totalSalary.toLocaleString()}</td>
+              </tr>
+            </tbody>
+          </table>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+    printWindow.print();
   };
 
   return (
-    <div className="container mx-auto p-4 pt-6 md:p-6 lg:p-12">
-      <h1 className="text-3xl font-bold mb-4">Pay Stub</h1>
-      <button onClick={handlePrint} className="btn btn-primary mb-4">
-        Print Pay Stub
-      </button>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div className="card bg-base-100 shadow-md">
-          <div className="card-body">
-            <h2 className="card-title">Employee Information</h2>
-            <table className="table w-full">
-              <thead>
-                <tr>
-                  <th>Employee ID</th>
-                  <th>Name</th>
-                  <th>Job Title</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>EMP001</td>
-                  <td>John Doe</td>
-                  <td>Software Engineer</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div className="card bg-base-100 shadow-md">
-          <div className="card-body">
-            <h2 className="card-title">Pay Information</h2>
-            <table className="table w-full">
-              <thead>
-                <tr>
-                  <th>Pay Period</th>
-                  <th>Pay Date</th>
-                  <th>Gross Pay</th>
-                  <th>Net Pay</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>01/01/2023 - 01/31/2023</td>
-                  <td>02/15/2023</td>
-                  <td>₱5,000.00</td>
-                  <td>₱3,500.00</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div className="card bg-base-100 shadow-md">
-          <div className="card-body">
-            <h2 className="card-title">Deductions</h2>
-            <table className="table w-full">
-              <thead>
-                <tr>
-                  <th>Deduction Type</th>
-                  <th>Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Health Insurance</td>
-                  <td>₱100.00</td>
-                </tr>
-                <tr>
-                  <td>401(k)</td>
-                  <td>₱500.00</td>
-                </tr>
-                <tr>
-                  <td>Taxes</td>
-                  <td>₱1,000.00</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Employee Pay Stubs</h1>
+      <table className="table table-zebra w-full mb-4">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Department</th>
+            <th>Pay Period</th>
+            <th>Total Salary</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {payStubData.map((stub) => (
+            <tr key={stub.id}>
+              <td>{stub.id}</td>
+              <td>{stub.name}</td>
+              <td>{stub.designation}</td>
+              <td>{stub.department}</td>
+              <td>{stub.payPeriod}</td>
+              <td>₱{stub.totalSalary.toLocaleString()}</td>
+              <td>
+                <button className="btn btn-primary" onClick={() => handlePrint(stub)}>Print Pay Stub</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
