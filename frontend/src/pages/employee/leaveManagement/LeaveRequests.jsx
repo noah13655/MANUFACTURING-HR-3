@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const LeaveRequests = () => {
   return (
@@ -33,5 +33,4 @@ const LeaveRequests = () => {
     </div>
   );
 };
-
-export default LeaveRequests;
+export default LeaveRequests
