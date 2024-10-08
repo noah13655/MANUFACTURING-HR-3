@@ -1,11 +1,20 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    lastname:{
+    position:{
+        type:String,
+        required:true,
+        enum:["Manager", "Employee", "Supervisor", "Intern"]
+    },
+    lastName:{
         type:String,
         required:true
     },
-    firstname:{
+    firstName:{
+        type:String,
+        required:true
+    },
+    middleName:{
         type:String,
         required:true
     },
@@ -15,6 +24,40 @@ const userSchema = new mongoose.Schema({
         required:true
     },
     password:{
+        type:String,
+        required:true
+    },
+    phoneNumber:{
+        type:String,
+        required:true
+    },
+    address:{
+        street: {
+            type:String,
+            required:true
+        },
+        municipality:{
+            type:String,
+            required:true
+        },
+        province:{
+            type:String,
+            required:true
+        },
+        postalCode:{
+            type:String,
+            required:true
+        },
+        country:{
+            type:String,
+            required:true
+        }
+    },
+    gender:{
+        type:String,
+        required:true
+    },
+    bDate:{
         type:String,
         required:true
     },

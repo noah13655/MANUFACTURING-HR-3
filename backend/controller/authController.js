@@ -71,10 +71,48 @@ export const logout = async (req, res) => {
 
 export const getUsers = async (req, res) => {
     try {
-        const users = await User.find({}, 'firstname lastname email role');
+        const users = await User.find({}, 'firstName lastName email role');
         res.status(200).json({ success: true, users });
     } catch (error) {
         console.error("Error fetching users:", error);
         res.status(500).json({ success: false, message: "Server error" });
+    }
+};
+
+export const registerUser = async (req,res) => {
+    try {
+        const {position,lastName,firstName,middleName,email,phoneNumber,address,gender,bDate} = req.body;
+        const {street,municipality,province,postalCode,country} = address  || {};
+
+        const existingUser = await User.findOne({email});
+        if(existingUser){
+            return res.status(400).json({status:false,message:"User already exist!"});
+        }
+        const password = `#${lastName.charAt(0).toUpperCase()}${lastName.charAt(1).toLowerCase()}HR3`;
+        const hashedPassword = await bcryptjs.hash(password,10);
+
+        const user = new User({
+            position,
+            lastName,
+            firstName,
+            middleName,
+            email,
+            password:hashedPassword,
+            phoneNumber,
+            address:{
+                street,
+                municipality,
+                province,
+                postalCode,
+                country
+            },
+            gender,
+            bDate
+        });
+        await user.save();
+        res.status(201).json({status:true,message:"User registered successfully!",user});
+    } catch (error) {
+        console.log(`Error in register ${error}`);
+        return res.status(500).json({message:"Server error!"});
     }
 };
