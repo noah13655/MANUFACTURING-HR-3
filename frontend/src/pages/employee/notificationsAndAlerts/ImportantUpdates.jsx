@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const ImportantUpdates = () => {
   return (
@@ -31,5 +31,4 @@ const ImportantUpdates = () => {
     </div>
   );
 };
-
-export default ImportantUpdates;
+export default ImportantUpdates
