@@ -1,6 +1,19 @@
 import React from 'react';
 
 const BenefitsEnrollment = () => {
+  const benefitOptions = [
+    { id: 'medical', label: 'Medical' },
+    { id: 'dental', label: 'Dental' },
+    { id: 'vision', label: 'Vision' },
+  ];
+
+  const coverageOptions = [
+    { value: 'employee-only', label: 'Employee Only' },
+    { value: 'employee-spouse', label: 'Employee + Spouse' },
+    { value: 'employee-child', label: 'Employee + Child(ren)' },
+    { value: 'employee-family', label: 'Employee + Family' },
+  ];
+
   return (
     <div className="container mx-auto p-4 pt-6 md:p-6 lg:p-12">
       <h1 className="text-3xl font-bold mb-4">Benefits Enrollment</h1>
@@ -26,37 +39,24 @@ const BenefitsEnrollment = () => {
         </div>
 
         <h2 className="text-2xl font-bold mb-4 mt-6">Benefits</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div className="form-control">
-            <label className="label" htmlFor="medical">Medical</label>
-            <select id="medical" className="select select-bordered w-full">
-              <option value="">Select an option</option>
-              <option value="employee-only">Employee Only</option>
-              <option value="employee-spouse">Employee + Spouse</option>
-              <option value="employee-child">Employee + Child(ren)</option>
-              <option value="employee-family">Employee + Family</option>
-            </select>
-          </div>
-          <div className="form-control">
-            <label className="label" htmlFor="dental">Dental</label>
-            <select id="dental" className="select select-bordered w-full">
-              <option value="">Select an option</option>
-              <option value="employee-only">Employee Only</option>
-              <option value="employee-spouse">Employee + Spouse</option>
-              <option value="employee-child">Employee + Child(ren)</option>
-              <option value="employee-family">Employee + Family</option>
-            </select>
-          </div>
-          <div className="form-control">
-            <label className="label" htmlFor="vision">Vision</label>
-            <select id="vision" className="select select-bordered w-full">
-              <option value="">Select an option</option>
-              <option value="employee-only">Employee Only</option>
-              <option value="employee-spouse">Employee + Spouse</option>
-              <option value="employee-child">Employee + Child(ren)</option>
-              <option value="employee-family">Employee + Family</option>
-            </select>
-          </div>
+        <div className="form-control mb-4">
+          <label className="label" htmlFor="benefit-type">Select Benefit Type</label>
+          <select id="benefit-type" className="select select-bordered w-full">
+            <option value="">Select a benefit type</option>
+            {benefitOptions.map((benefit) => (
+              <option key={benefit.id} value={benefit.id}>{benefit.label}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="form-control mb-4">
+          <label className="label" htmlFor="coverage">Select Coverage</label>
+          <select id="coverage" className="select select-bordered w-full">
+            <option value="">Select an option</option>
+            {coverageOptions.map(option => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+          </select>
         </div>
 
         <h2 className="text-2xl font-bold mb-4 mt-6">Upload Documents</h2>
