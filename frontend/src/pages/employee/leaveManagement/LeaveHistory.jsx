@@ -1,57 +1,80 @@
 import React from 'react';
 
+const leaveHistoryData = [
+  {
+    id: 1,
+    name: 'Rhen',
+    leaveType: 'Annual Leave',
+    date: '2024-01-15',
+    status: 'Approved',
+  },
+  {
+    id: 2,
+    name: 'John lloyd',
+    leaveType: 'Sick Leave',
+    date: '2024-02-10',
+    status: 'Approved',
+  },
+  {
+    id: 3,
+    name: 'Sofia',
+    leaveType: 'Personal Leave',
+    date: '2024-03-05',
+    status: 'Pending',
+  },
+  // Add more leave history data as needed
+];
+
 const LeaveHistory = () => {
-  const handleDetailsClick = (leaveType) => {
-    alert(`Showing details for ${leaveType}`);
+/*************  ✨ Codeium Command ⭐  *************/
+  /**
+   * Handles displaying leave details when a "View" button is clicked.
+   * @param {Object} leave - Leave details to be displayed
+   * @param {string} leave.name - Name of the employee
+   * @param {string} leave.leaveType - Type of leave
+   * @param {string} leave.date - Date of leave
+   * @param {string} leave.status - Status of leave
+   */
+/******  d34bfe0b-e35e-42ae-8fc0-4956976b6c26  *******/
+  const handleView = (leave) => {
+    alert(`
+      Leave Details:
+      Name: ${leave.name}
+      Leave Type: ${leave.leaveType}
+      Date: ${leave.date}
+      Status: ${leave.status}
+    `);
   };
 
   return (
-    <div className="container mx-auto p-4 pt-6 md:p-6 lg:p-12">
-      <h1 className="text-3xl font-bold mb-4">Leave History</h1>
-      <div className="card bg-base-100 shadow-md">
-        <div className="card-body">
-          <table className="table w-full">
-            <thead>
-              <tr>
-                <th>Leave Type</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Vacation</td>
-                <td>2023-01-01</td>
-                <td>2023-01-10</td>
-                <td>Approved</td>
-                <td>
-                  <button className="btn btn-secondary" onClick={() => handleDetailsClick('Vacation')}>Details</button>
-                </td>
-              </tr>
-              <tr>
-                <td>Sick Leave</td>
-                <td>2023-02-01</td>
-                <td>2023-02-05</td>
-                <td>Approved</td>
-                <td>
-                  <button className="btn btn-secondary" onClick={() => handleDetailsClick('Sick Leave')}>Details</button>
-                </td>
-              </tr>
-              <tr>
-                <td>Holiday</td>
-                <td>2023-03-01</td>
-                <td>2023-03-10</td>
-                <td>Pending</td>
-                <td>
-                  <button className="btn btn-secondary" onClick={() => handleDetailsClick('Holiday')}>Details</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Leave History</h1>
+      <table className="table table-zebra w-full mb-4">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Leave Type</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th> {/* New column for action */}
+          </tr>
+        </thead>
+        <tbody>
+          {leaveHistoryData.map((leave) => (
+            <tr key={leave.id}>
+              <td>{leave.id}</td>
+              <td>{leave.name}</td>
+              <td>{leave.leaveType}</td>
+              <td>{leave.date}</td>
+              <td>{leave.status}</td>
+              <td>
+                <button className="btn btn-primary" onClick={() => handleView(leave)}>View</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
