@@ -4,8 +4,13 @@ import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js
 import jwt from 'jsonwebtoken';
 
 export const login = async (req,res) => {
+    const token = req.cookies.token;
     const {email,password} = req.body;
+
     try {
+    if(token){
+        return res.status(400).json({message:"You are already login"});
+    }
     const user = await User.findOne({ email });
     if(!user){
         return res.status(400).json({success:false,message:"Username or password is incorrect"});
