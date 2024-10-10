@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
     position:{
         type:String,
         required:true,
-        enum:["CEO", "Secretary", "Production Head", "Resellers Sales Head","Reseller"]
+        enum:["CEO", "Secretary", "Production Head", "Resellers Sales Head","Reseller","Manager"]
     },
     lastName:{
         type:String,
@@ -63,8 +63,9 @@ const userSchema = new mongoose.Schema({
     },
     role:{
         type:String,
-        enum:["employee","manager"],
-        default:"employee"
+        enum:["Employee","Manager"],
+        default:"Employee",
+        required:true
     }
 
 });

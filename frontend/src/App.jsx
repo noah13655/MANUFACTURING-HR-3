@@ -97,17 +97,17 @@ const App = () => {
         {isAuthenticated ? (
           <>
             {/* Responsive Sidebar */}
-            {user?.role === 'manager' ? <ManagerSidebar /> : <EmployeeSidebar />}
+            {user?.role === 'Manager' ? <ManagerSidebar /> : <EmployeeSidebar />}
             <main className="flex-1 p-4 flex flex-col">
               <Search />
               <div className="flex-1 overflow-y-auto">
                 <Routes>
-                  <Route path="/" element={<Navigate to={user?.role === 'manager' ? '/manager-dashboard' : '/employee-dashboard'} replace />} />
+                  <Route path="/" element={<Navigate to={user?.role === 'Manager' ? '/dashboard' : '/dashboard'} replace />} />
                   <Route path="/login" element={<RedirectAuthenticatedUser><LogIn /></RedirectAuthenticatedUser>} />
 
-                  {user?.role === 'manager' && (
+                  {user?.role === 'Manager' && (
                     <>
-                      <Route path="/manager-dashboard" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
+                      <Route path="/dashboard" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
                       
                       <Route path="/register-user" element={<ProtectedRoute><RegisterUserForm /></ProtectedRoute>} />                    
 
@@ -148,9 +148,9 @@ const App = () => {
                     </>
                   )}
                   
-                  {user?.role === 'employee' && (
+                  {user?.role === 'Employee' && (
                     <>
-                      <Route path="/employee-dashboard" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />                    
+                      <Route path="/dashboard" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />                    
                                             
                       <Route path="/benefits-overview" element={<ProtectedRoute><EBenefitsOverview /></ProtectedRoute>} />                    
                       <Route path='/benefits-enrollment' element={<ProtectedRoute><BenefitsEnrollment/></ProtectedRoute>}/>
@@ -171,7 +171,7 @@ const App = () => {
                     </>
                   )}
 
-                  <Route path="*" element={<Navigate to="/" replace />} />
+                  <Route path="*" element={<Navigate to="/dashboard" replace />} />
                 </Routes>
               </div>
             </main>

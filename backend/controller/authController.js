@@ -112,7 +112,7 @@ export const registerUser = async (req,res) => {
                 country
             },
             gender,
-            bDate
+            bDate,
         });
         await user.save();
         res.status(201).json({status:true,message:"User registered successfully!",user});

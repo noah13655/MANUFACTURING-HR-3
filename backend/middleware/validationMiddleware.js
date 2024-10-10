@@ -7,7 +7,7 @@ export const loginValidation = [
 
 export const registerValidation = [
     body("position")
-    .isIn(['CEO', 'Secretary', 'Production Head', 'Reseller Sales Head','Reseller'])
+    .isIn(['CEO', 'Secretary', 'Production Head', 'Resellers Sales Head','Reseller','Manager'])
     .withMessage("Invalid position value!"),
     body("lastName")
         .notEmpty()
@@ -45,7 +45,7 @@ export const registerValidation = [
     body("bDate")
         .isISO8601()
         .toDate()
-        .withMessage("Invalid birthdate format!"),
+        .withMessage("Invalid birthdate format!")
 ];
 
 export const validate = (req,res,next) => {

@@ -93,11 +93,12 @@ export const useAuthStore = create((set)=>({
           });
           return true;
         } catch (error) {
+          const errorMessage = error.response?.data?.message || "Error registering user";
           set({
-            error: error.response?.data?.message || "Error registering user",
+              error: errorMessage,
           });
-          return false;
-        }
+          throw new Error(errorMessage);
+      }
       },
 
 }));

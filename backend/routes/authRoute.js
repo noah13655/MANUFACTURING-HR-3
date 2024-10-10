@@ -10,9 +10,9 @@ const router = express.Router();
 router.post("/login",loginValidation,validate,login);
 
 router.get('/check-auth', verifyToken, checkAuth);
-router.get('/users', verifyToken,checkRole('manager'), getUsers);
+router.get('/users', verifyToken,checkRole('Manager'), getUsers);
 
 router.post("/logout",verifyToken,logout);
-router.post("/register",verifyToken,checkRole('manager'),registerValidation,validate,registerUser);
+router.post("/register",verifyToken,checkRole('Manager'),registerValidation,validate,registerUser);
 
 export default router

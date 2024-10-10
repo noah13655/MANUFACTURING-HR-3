@@ -26,6 +26,7 @@ const RegisterUserForm = () => {
   });
   const [generatedPassword, setGeneratedPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isRoleDisabled, setIsRoleDisabled] = useState(false); // New state for disabling role
 
   useEffect(() => {
     document.title = "Register User";
@@ -40,7 +41,14 @@ const RegisterUserForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name.includes('address')) {
+    if (name === 'position') {
+      setFormData((prev) => ({
+        ...prev,
+        position: value,
+        role: value === 'Manager' ? 'Manager' : prev.role,
+      }));
+      setIsRoleDisabled(value === 'Manager');
+    } else if (name.includes('address')) {
       const addressField = name.split('.')[1];
       setFormData((prev) => ({
         ...prev,
@@ -57,9 +65,10 @@ const RegisterUserForm = () => {
   const validateForm = () => {
     let validationErrors = [];
 
-    if (!['CEO', 'Secretary', 'Production Head', 'Resellers Sales Head', 'Reseller'].includes(formData.position)) {
+    if (!['CEO', 'Secretary', 'Production Head', 'Resellers Sales Head', 'Reseller', 'Manager'].includes(formData.position)) {
       validationErrors.push("Invalid position value!");
     }
+
     if (!formData.lastName) validationErrors.push("Lastname is required!");
     if (!formData.firstName) validationErrors.push("Firstname is required!");
     if (!formData.middleName) validationErrors.push("Middle name is required!");
@@ -113,29 +122,53 @@ const RegisterUserForm = () => {
     try {
       const result = await registerUser(dataToSubmit);
       if (result) {
-        const successMessage = 'Employee registered successfully!';
-        setMessage({ type: 'success', content: successMessage });
-        localStorage.setItem('successMessage', successMessage);
-        navigate("/register-user");
-        window.location.reload();
+          let successMessage;
+  
+          switch (formData.position) {
+              case 'Manager':
+                  successMessage = 'Manager registered successfully!';
+                  break;
+              case 'CEO':
+                  successMessage = 'CEO registered successfully!';
+                  break;
+              case 'Secretary':
+                  successMessage = 'Secretary registered successfully!';
+                  break;
+              case 'Production Head':
+                  successMessage = 'Production Head registered successfully!';
+                  break;
+              case 'Resellers Sales Head':
+                  successMessage = 'Resellers Sales Head registered successfully!';
+                  break;
+              case 'Reseller':
+                  successMessage = 'Reseller registered successfully!';
+                  break;
+              default:
+                  successMessage = 'Employee registered successfully!';
+                  break;
+          }
+  
+          setMessage({ type: 'success', content: successMessage });
+          localStorage.setItem('successMessage', successMessage);
+          navigate("/register-user");
+          window.location.reload();
       } else {
-        setMessage({ type: 'error', content: 'User already exist. Try another.' });
+
       }
-    } catch (error) {
+  } catch (error) {
       console.error(error);
       setMessage({ type: 'error', content: error.message || 'An unexpected error occurred. Please try again.' });
-    } finally {
+  } finally {
       setLoading(false);
-    }
+  }
+  
   };
 
   return (
     <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       {message.content && (
         <div
-          className={`fixed top-4 right-4 p-3 rounded-md text-white z-50 ${
-            message.type === 'success' ? 'bg-green-500' : 'bg-red-500'
-          }`}
+          className={`fixed top-4 right-4 p-3 rounded-md text-white z-50 ${message.type === 'success' ? 'bg-green-500' : 'bg-red-500'}`}
         >
           {message.content}
         </div>
@@ -154,8 +187,10 @@ const RegisterUserForm = () => {
             <option value="Production Head">Production Head</option>
             <option value="Resellers Sales Head">Resellers Sales Head</option>
             <option value="Reseller">Reseller</option>
+            <option value="Manager">Manager</option>
           </select>
         </div>
+
 
         {/* Name Fields */}
         <div className="flex gap-6">
@@ -203,7 +238,6 @@ const RegisterUserForm = () => {
         </div>
 
         {/* Address Fields */}
-        <h3 className="text-lg font-semibold mt-4">Address</h3>
         <div className="flex gap-6">
           <div className="form-control w-1/2">
             <label className="label">Street</label>
@@ -214,6 +248,7 @@ const RegisterUserForm = () => {
             <input name="address.municipality" type="text" className="input input-bordered w-full" required onChange={handleInputChange} />
           </div>
         </div>
+
         <div className="flex gap-6">
           <div className="form-control w-1/2">
             <label className="label">Province</label>
@@ -224,15 +259,13 @@ const RegisterUserForm = () => {
             <input name="address.postalCode" type="text" className="input input-bordered w-full" required onChange={handleInputChange} />
           </div>
         </div>
+
         <div className="form-control">
           <label className="label">Country</label>
           <input name="address.country" type="text" className="input input-bordered w-full" required onChange={handleInputChange} />
         </div>
-        <div className="form-control justify-center items-center">
-          <button type="submit" className="btn btn-primary w-72" disabled={loading}>
-            {loading ? 'Registering...' : 'Register'}
-          </button>
-        </div>
+
+        <button type="submit" className={`btn btn-primary w-full ${loading ? 'loading' : ''}`}>Register</button>
       </form>
     </div>
   );
