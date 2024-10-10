@@ -198,7 +198,6 @@ const RegisterUserForm = () => {
           <select name="role" className="select select-bordered w-full" required onChange={handleInputChange} disabled={isRoleDisabled}>
             <option value="">Select Role</option>
             <option value="Employee">Employee</option>
-            <option value="Manager">Manager</option>
           </select>
         </div>
 
