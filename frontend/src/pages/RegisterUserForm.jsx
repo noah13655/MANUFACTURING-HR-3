@@ -119,7 +119,7 @@ const RegisterUserForm = () => {
         navigate("/register-user");
         window.location.reload();
       } else {
-        setMessage({ type: 'error', content: 'Error registering user. Please try again.' });
+        setMessage({ type: 'error', content: 'User already exist. Try another.' });
       }
     } catch (error) {
       console.error(error);
