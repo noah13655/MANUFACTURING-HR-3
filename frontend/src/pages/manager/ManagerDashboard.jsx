@@ -81,7 +81,7 @@ const ManagerDashboard = () => {
         {icon}
       </div>
       <div className="flex gap-2 my-2">
-        <p className="text-2xl font-bold">₱{amount}</p>
+        <p className="text-2xl font-bold">{amount}</p>
         <p className={`flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold ${isPositive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
           {isPositive ? <IoIosArrowUp /> : <IoIosArrowDown />} {change}
         </p>

@@ -78,7 +78,7 @@ const PayrollProcessing = () => {
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body">
             <h2 className="card-title">Compliance Tracking</h2>
-            <p>Track compliance with labor laws, tax regulations, and other payroll rules.</p>
+            <p>Track compliance with labor laws, and other payroll rules.</p>
             <Link to="/compliance-tracking" className="btn btn-primary"><button>Track Compliance</button></Link>
           </div>
         </div>

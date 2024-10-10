@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { MdDashboard } from 'react-icons/md';
+import { MdDashboard, MdPersonAdd } from 'react-icons/md';
 import { FaDollarSign, FaMoneyBillWave, FaStar } from 'react-icons/fa';
 import { AiOutlineBarChart } from 'react-icons/ai';
 import { GiHealthNormal } from 'react-icons/gi';
@@ -70,6 +70,7 @@ const ManagerSidebar = () => {
           </div>
 
           <DashboardLink icon={<MdDashboard />} text="Dashboard" to="/" isCollapsed={isCollapsed} />
+          <DashboardLink icon={<MdPersonAdd />} text="Employee registration" to="/register-user" isCollapsed={isCollapsed} />
           <DashboardLink icon={<GiHealthNormal />} text="Benefits Administration" to="/benefits-administration" isCollapsed={isCollapsed} />
           <DashboardLink icon={<FaStar />} text="Incentives management" to="/incentives-management" isCollapsed={isCollapsed} />
           <DashboardLink icon={<FaMoneyBillWave />} text="Compensation Planning" to="/compensation-overview" isCollapsed={isCollapsed} />

@@ -7,7 +7,7 @@ export const loginValidation = [
 
 export const registerValidation = [
     body("position")
-    .isIn(['Manager', 'Employee', 'Supervisor', 'Intern'])
+    .isIn(['CEO', 'Secretary', 'Production Head', 'Reseller Sales Head','Reseller'])
     .withMessage("Invalid position value!"),
     body("lastName")
         .notEmpty()

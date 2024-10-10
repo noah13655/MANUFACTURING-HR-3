@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
     position:{
         type:String,
         required:true,
-        enum:["Manager", "Employee", "Supervisor", "Intern"]
+        enum:["CEO", "Secretary", "Production Head", "Resellers Sales Head","Reseller"]
     },
     lastName:{
         type:String,

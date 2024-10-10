@@ -13,6 +13,6 @@ router.get('/check-auth', verifyToken, checkAuth);
 router.get('/users', verifyToken,checkRole('manager'), getUsers);
 
 router.post("/logout",verifyToken,logout);
-router.post("/register",verifyToken,registerValidation,validate,registerUser);
+router.post("/register",verifyToken,checkRole('manager'),registerValidation,validate,registerUser);
 
 export default router
