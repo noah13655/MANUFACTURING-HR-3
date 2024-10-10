@@ -86,7 +86,7 @@ export const getUsers = async (req, res) => {
 
 export const registerUser = async (req,res) => {
     try {
-        const {position,lastName,firstName,middleName,email,phoneNumber,address,gender,bDate} = req.body;
+        const {position,lastName,firstName,middleName,email,phoneNumber,address,gender,bDate,role} = req.body;
         const {street,municipality,province,postalCode,country} = address  || {};
 
         const existingUser = await User.findOne({email});
@@ -113,6 +113,7 @@ export const registerUser = async (req,res) => {
             },
             gender,
             bDate,
+            role,
         });
         await user.save();
         res.status(201).json({status:true,message:"User registered successfully!",user});

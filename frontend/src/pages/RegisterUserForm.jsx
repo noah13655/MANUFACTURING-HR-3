@@ -47,7 +47,7 @@ const RegisterUserForm = () => {
         position: value,
         role: value === 'Manager' ? 'Manager' : prev.role,
       }));
-      setIsRoleDisabled(value === 'Manager');
+      setIsRoleDisabled(value === 'Manager'); // Disable role dropdown if position is Manager
     } else if (name.includes('address')) {
       const addressField = name.split('.')[1];
       setFormData((prev) => ({
@@ -68,7 +68,9 @@ const RegisterUserForm = () => {
     if (!['CEO', 'Secretary', 'Production Head', 'Resellers Sales Head', 'Reseller', 'Manager'].includes(formData.position)) {
       validationErrors.push("Invalid position value!");
     }
-
+    if (!['Employee','Manager'].includes(formData.role)) {
+      validationErrors.push("Invalid Role!");
+    }
     if (!formData.lastName) validationErrors.push("Lastname is required!");
     if (!formData.firstName) validationErrors.push("Firstname is required!");
     if (!formData.middleName) validationErrors.push("Middle name is required!");
@@ -191,6 +193,14 @@ const RegisterUserForm = () => {
           </select>
         </div>
 
+        <div className="form-control">
+          <label className="label">Role</label>
+          <select name="role" className="select select-bordered w-full" required onChange={handleInputChange} disabled={isRoleDisabled}>
+            <option value="">Select Role</option>
+            <option value="Employee">Employee</option>
+            <option value="Manager">Manager</option>
+          </select>
+        </div>
 
         {/* Name Fields */}
         <div className="flex gap-6">
