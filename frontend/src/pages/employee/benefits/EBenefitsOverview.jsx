@@ -1,44 +1,81 @@
-import React, { useEffect} from 'react';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useBenefitStore } from '../../../store/benefitStore';
 
 const EBenefitsOverview = () => {
+  const { fetchBenefit ,benefit:benefits } = useBenefitStore();
 
-    const { fetchBenefit, benefit: benefits } = useBenefitStore();
+  useEffect(() => {
+    document.title = 'Benefits Administration';
+    fetchBenefit();
+  }, [fetchBenefit]);
 
-    useEffect(() => {
-        fetchBenefit();
-    }, [fetchBenefit]);
-    
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4 text-center">Benefits Overview</h1>
 
-    return (
-        <div className="overflow-x-auto">
-            <h2 className="text-2xl font-bold text-center mb-4">Benefits Overview</h2>
-            <table className="table table-zebra w-full border border-gray-300">
-                <thead>
-                    <tr>
-                        <th>Benefits Name</th>
-                        <th>Description</th>
-                        <th>Benefits Type</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {Array.isArray(benefits) && benefits.length > 0 ? (
-                        benefits.map((benefit) => (
-                            <tr key={`${benefit._id}-${benefit.benefitsName}`}>
-                                <td>{benefit.benefitsName || 'N/A'}</td>
-                                <td>{benefit.benefitsDescription || 'N/A'}</td>
-                                <td>{benefit.benefitsType || 'N/A'}</td>
-                            </tr>
-                        ))
-                    ) : (
-                        <tr>
-                            <td colSpan="6" className="text-center">No benefits found!</td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
+      <div className="mb-4">
+        <table className="table w-full mb-4">
+          <thead>
+            <tr className="bg-primary text-white">
+              <th className="border px-4 py-2">Benefits Name</th>
+              <th className="border px-4 py-2">Description</th>
+              <th className="border px-4 py-2">Benefits Type</th>
+              <th className="border px-4 py-2">Require Request</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Array.isArray(benefits) && benefits.length > 0 ? (
+              benefits.map((benefit) => (
+                <tr key={`${benefit._id}-${benefit.benefitsName}`} className="hover:bg-neutral hover:text-white">
+                  <td className="border px-4 py-2">{benefit.benefitsName || 'N/A'}</td>
+                  <td className="border px-4 py-2">{benefit.benefitsDescription || 'N/A'}</td>
+                  <td className="border px-4 py-2">{benefit.benefitsType || 'N/A'}</td>
+                  <td className="border px-4 py-2">{benefit.requiresRequest ? 'Yes' : 'No'}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4" className="text-center">No benefits found!</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+<hr />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Enroll Benefit</h2>
+            <p>Submit and manage your benefits enrollment requests</p>
+            <Link to="/benefits-enrollment" className="btn btn-primary">
+              <button>Enroll benefit</button>
+            </Link>
+          </div>
         </div>
-    );
+
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Leave Request</h2>
+            <p>Manage leave requests through this portal.</p>
+            <Link to="/leave-application" className="btn btn-primary">
+              <button>Leave Application</button>
+            </Link>
+          </div>
+        </div>
+
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Deductions</h2>
+            <p>Review and manage my deductions.</p>
+            <Link to="/my-deductions" className="btn btn-primary">
+              <button>View Deductions</button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default EBenefitsOverview;

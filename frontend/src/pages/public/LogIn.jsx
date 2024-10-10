@@ -49,7 +49,7 @@ const LogIn = () => {
           </div>
           <h1 className="text-3xl md:text-5xl font-bold">Login to HR3</h1>
           <p className="py-6">
-            Welcome to JJM Manufacturing! Please enter your credentials to access the HR3 dashboard.
+            Welcome to JJM Manufacturing! Basta Best Quality and Best Brand JJM na yan!
           </p>
         </div>
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">

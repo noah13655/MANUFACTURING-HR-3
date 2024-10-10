@@ -1,6 +1,6 @@
 import React from 'react'
 
-const LeaveRequests = () => {
+const LeaveApplication = () => {
   return (
     <div className="container mx-auto p-4 pt-6 md:p-6 lg:p-12">
       <h1 className="text-3xl font-bold mb-4">Leave Request</h1>
@@ -33,4 +33,4 @@ const LeaveRequests = () => {
     </div>
   );
 };
-export default LeaveRequests
+export default LeaveApplication

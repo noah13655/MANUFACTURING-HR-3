@@ -7,88 +7,76 @@ const CompensationOverview = () => {
   useEffect(() => {
     document.title = 'Compensation Overview';
   }, []); 
+
   return (
     <div className="container mx-auto p-8">
       <h1 className="text-3xl font-bold mb-6 text-center">Compensation Overview</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         
-        <div className="p-6 border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-          <div className="flex items-center">
-            <FaChartLine className="text-3xl text-green-600 mr-3" />
-            <h2 className="text-xl font-semibold">Salary Planning</h2>
+        {/* Salary Planning Card */}
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Salary Planning</h2>
+            <p>
+              Plan and adjust employee salaries based on performance, market trends, and company policies.
+            </p>
+            <Link to="/compensation-planning" className="btn btn-primary">
+              <button>Manage Salary Planning</button>
+            </Link>
           </div>
-          <p className="mt-2 text-gray-600">
-            Plan and adjust employee salaries based on performance, market trends, and company policies.
-          </p>
-          <Link to="/compensation-planning" className="mt-4 inline-block text-blue-500 hover:underline">
-            Manage Salary Planning
-          </Link>
         </div>
 
-        <div className="p-6 border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-          <div className="flex items-center">
-            <FaBalanceScale className="text-3xl text-green-600 mr-3" />
-            <h2 className="text-xl font-semibold">Salary Structure</h2>
+        {/* Salary Structure Card */}
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Salary Structure</h2>
+            <p>
+              Define and implement a structured salary system for all positions within the organization.
+            </p>
+            <Link to="/salary-structure" className="btn btn-primary">
+              <button>View Salary Structure</button>
+            </Link>
           </div>
-          <p className="mt-2 text-gray-600">
-            Define and implement a structured salary system for all positions within the organization.
-          </p>
-          <Link to="/salary-structure" className="mt-4 inline-block text-blue-500 hover:underline">
-            View Salary Structure
-          </Link>
         </div>
 
-        <div className="p-6 border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-          <div className="flex items-center">
-            <AiOutlineFundProjectionScreen className="text-3xl text-teal-600 mr-3" />
-            <h2 className="text-xl font-semibold">Total Rewards Overview</h2>
+        {/* Total Rewards Overview Card */}
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Total Rewards Overview</h2>
+            <p>
+              View the complete rewards package including base salary, bonuses, benefits, and more.
+            </p>
+            <Link to="/total-rewards" className="btn btn-primary">
+              <button>View Total Rewards</button>
+            </Link>
           </div>
-          <p className="mt-2 text-gray-600">
-            View the complete rewards package including base salary, bonuses, benefits, and more.
-          </p>
-          <Link to="/total-rewards" className="mt-4 inline-block text-blue-500 hover:underline">
-            View Total Rewards
-          </Link>
         </div>
 
-        <div className="p-6 border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-          <div className="flex items-center">
-            <FaUsers className="text-3xl text-blue-600 mr-3" />
-            <h2 className="text-xl font-semibold">Equity Adjustments</h2>
+        {/* Market Analysis Card */}
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Market Analysis</h2>
+            <p>
+              Compare salaries against market benchmarks to ensure competitive compensation packages.
+            </p>
+            <Link to="/market-analysis" className="btn btn-primary">
+              <button>Perform Market Analysis</button>
+            </Link>
           </div>
-          <p className="mt-2 text-gray-600">
-            Manage employee equity compensation to ensure fairness and compliance with corporate policies.
-          </p>
-          <Link to="/equity-adjustments" className="mt-4 inline-block text-blue-500 hover:underline">
-            Handle Equity Adjustments
-          </Link>
         </div>
 
-        <div className="p-6 border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-          <div className="flex items-center">
-            <AiOutlineStock className="text-3xl text-purple-600 mr-3" />
-            <h2 className="text-xl font-semibold">Market Analysis</h2>
+        {/* Grievance Request Card */}
+        <div className="card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Grievance Request</h2>
+            <p>
+              Submit a request for compensation regarding grievances within the organization.
+            </p>
+            <Link to="/grievance-request" className="btn btn-primary">
+              <button>Manage Grievance Requests</button>
+            </Link>
           </div>
-          <p className="mt-2 text-gray-600">
-            Compare salaries against market benchmarks to ensure competitive compensation packages.
-          </p>
-          <Link to="/market-analysis" className="mt-4 inline-block text-blue-500 hover:underline">
-            Perform Market Analysis
-          </Link>
-        </div>
-
-        <div className="p-6 border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-          <div className="flex items-center">
-            <FaUsers className="text-3xl text-orange-600 mr-3" />
-            <h2 className="text-xl font-semibold">Grievance Request</h2>
-          </div>
-          <p className="mt-2 text-gray-600">
-            Submit a request for compensation regarding grievances within the organization.
-          </p>
-          <Link to="/grievance-request" className="mt-4 inline-block text-blue-500 hover:underline">
-            Manage Grievance Requests
-          </Link>
         </div>
 
       </div>

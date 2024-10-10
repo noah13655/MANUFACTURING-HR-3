@@ -70,34 +70,8 @@ const ManagerSidebar = () => {
           </div>
 
           <DashboardLink icon={<MdDashboard />} text="Dashboard" to="/" isCollapsed={isCollapsed} />
-          <DropdownSection
-            icon={<GiHealthNormal />}
-            text="Benefits Administration"
-            section="benefits"
-            isCollapsed={isCollapsed}
-            isOpen={openModule === 'benefits'}
-            onClick={() => handleModuleClick('benefits')}
-            links={[
-              { to: "/benefits-overview", text: "Benefits Overview" },
-              { to: "/enrollment-submission", text: "Enrollment Submission" },
-              { to: "/leave-request", text: "Leave Request" },
-              { to: "/deductions", text: "Deductions" },
-            ]}
-          />
-           <DropdownSection
-            icon={<FaStar />}
-            text="Incentives Management"
-            section="incentives"
-            isCollapsed={isCollapsed}
-            isOpen={openModule === 'incentives'}
-            onClick={() => handleModuleClick('incentives')}
-            links={[
-              { to: "/incentives-overview", text: "Incentives Overview" },
-              { to: "/incentives-request", text: "Incentive Request" },
-              { to: "/sales-commissions", text: "Sales Commissions" },
-              { to: "/recognition-programs", text: "Recognition Programs" },
-            ]}
-          />
+          <DashboardLink icon={<GiHealthNormal />} text="Benefits Administration" to="/benefits-administration" isCollapsed={isCollapsed} />
+          <DashboardLink icon={<FaStar />} text="Incentives management" to="/incentives-management" isCollapsed={isCollapsed} />
           <DashboardLink icon={<FaMoneyBillWave />} text="Compensation Planning" to="/compensation-overview" isCollapsed={isCollapsed} />
           <DashboardLink icon={<FaDollarSign />} text="Payroll Processing" to="/payroll-management" isCollapsed={isCollapsed} />
           <DashboardLink icon={<AiOutlineBarChart />} text="Analytics" to="/predictive-analytics" isCollapsed={isCollapsed} />
@@ -112,16 +86,10 @@ const ManagerSidebar = () => {
     >
       <option value=""></option>
       <option value="/">Dashboard</option>
-      <option value="/payroll-management">Payroll Processing</option>
+      <option value="/benefits-administration">Benefits Administration</option>
+      <option value="/incentives-management">Incentives Management</option>
       <option value="/compensation-overview">Compensation Planning</option>
-      <option value="/benefits-overview">Benefits Overview</option>
-      <option value="/enrollment-submission">Enrollment Submission</option>
-      <option value="/leave-request">Leave Request</option>
-      <option value="/deductions">Deductions</option>
-      <option value="/incentives-overview">Incentives Overview</option>
-      <option value="/incentives-request">Incentive Request</option>
-      <option value="/sales-commissions">Sales Commissions</option>
-      <option value="/recognition-programs">Recognition Programs</option>
+      <option value="/payroll-management">Payroll Processing</option>
       <option value="/predictive-analytics">Employee Analytics</option>
     </select>
   </div>

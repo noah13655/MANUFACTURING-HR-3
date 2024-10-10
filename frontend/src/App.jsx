@@ -35,18 +35,17 @@ import CompensationOverview from './pages/manager/compensation/CompensationOverv
 import CompensationPlanning from './pages/manager/compensation/CompensationPlanning';
 import SalaryStructure from './pages/manager/compensation/SalaryStructure';
 import MarketAnalysis from './pages/manager/compensation/MarketAnalysis';
-import EquityAdjustments from './pages/manager/compensation/EquityAdjustments';
 import TotalRewards from './pages/manager/compensation/TotalRewards';
 import GrievanceRequest from './pages/manager/compensation/GrievanceRequest';
 
 /* benefits administration */
-import BenefitsOverview from './pages/manager/benefits/BenefitsOverview';
+import BenefitsAdministration from './pages/manager/benefits/BenefitsAdministration';
 import EnrollmentSubmission from './pages/manager/benefits/EnrollmentSubmission';
 import LeaveRequest from './pages/manager/benefits/LeaveRequest';
 import Deductions from './pages/manager/benefits/Deductions';
 
 /* incentives management */
-import IncentivesOverview from './pages/manager/incentives/IncentivesOverview';
+import IncentivesManagement from './pages/manager/incentives/IncentivesManagement';
 import IncentivesRequest from './pages/manager/incentives/IncentivesRequest';
 import SalesCommissions from './pages/manager/incentives/SalesCommissions';
 import RecognitionPrograms from './pages/manager/incentives/RecognitionPrograms';
@@ -57,37 +56,20 @@ import PredictiveAnalytics from './pages/manager/predictive/PredictiveAnalytics'
 /* employee */
 import EBenefitsOverview from './pages/employee/benefits/EBenefitsOverview';
 import BenefitsEnrollment from "./pages/employee/benefitsManagement/BenefitsEnrollment";
-import BenefitsStatements from "./pages/employee/benefitsManagement/BenefitStatements";
-import ClaimsManagement from "./pages/employee/benefitsManagement/ClaimsManagement";
-
-import SalaryProjections from "./pages/employee/compensationPlanningTools/SalaryProjections";
+import LeaveApplication from './pages/employee/benefitsManagement/LeaveApplication';
+import MyDeductions from './pages/employee/benefitsManagement/MyDeductions';
 
 import EIncentivesOverview from './pages/employee/incentives/EIncentivesOverview';
-import MyIncentives from './pages/employee/incentives/MyIncentives';
 import MyCommissions from './pages/employee/incentives/MyCommissions';
-
-import LeaveBalances from './pages/employee/leaveManagement/LeaveBalances';
-import LeaveHistory from './pages/employee/leaveManagement/LeaveHistory';
-import LeaveRequests from './pages/employee/leaveManagement/LeaveRequests';
+import IncentiveRequest from './pages/employee/incentives/IncentiveRequest';
+import IncentiveHistory from './pages/employee/incentives/IncentiveHistory';
 
 import ImportantUpdates from './pages/employee/notificationsAndAlerts/ImportantUpdates';
 
+import MySalaryInfo from './pages/employee/payroll/mySalaryInfo';
 import SalaryRequest from './pages/employee/payroll/SalaryRequest';
-
-import DirectDeposit from './pages/employee/payrollInformation/DirectDeposit';
-import PayStubs from './pages/employee/payrollInformation/PayStubs';
-import TaxDocuments from './pages/employee/payrollInformation/TaxDocuments';
-
-import CompensationHistory from './pages/employee/personalCompensationInformation/CompensationHistory';
-import SalaryDetails from './pages/employee/personalCompensationInformation/SalaryDetails';
-
-import UpdatePersonalInformation from './pages/employee/personalInformationManagement/UpdatePersonalInformation';
-
-import BeneficiaryInformation from './pages/employee/retirementPlans/BeneficiaryInformation'
-import RetirementPlanOverview from './pages/employee/retirementPlans/RetirementPlanOverview'
-
-import ContactHR from './pages/employee/supportAndResources/ContactHR';
-import FAQs from './pages/employee/supportAndResources/FAQs';
+import MyPaySlip from './pages/employee/payroll/MyPaySlip';
+import MyOvertimeBonuses from './pages/employee/payroll/MyOvertimeBonuses';
 
 import Attendance from './pages/manager/payroll/Attendance';
 
@@ -141,19 +123,18 @@ const App = () => {
                       <Route path="/compensation-planning" element={<ProtectedRoute><CompensationPlanning /></ProtectedRoute>} />
                       <Route path="/salary-structure" element={<ProtectedRoute><SalaryStructure /></ProtectedRoute>} />
                       <Route path="/market-analysis" element={<ProtectedRoute><MarketAnalysis /></ProtectedRoute>} />
-                      <Route path="/equity-adjustments" element={<ProtectedRoute><EquityAdjustments /></ProtectedRoute>} />
                       <Route path="/total-rewards" element={<ProtectedRoute><TotalRewards /></ProtectedRoute>} />
                       <Route path="/grievance-request" element={<ProtectedRoute><GrievanceRequest /></ProtectedRoute>} />
                       
 
                       {/* Benefits Administration */}
-                      <Route path="/benefits-overview" element={<ProtectedRoute><BenefitsOverview /></ProtectedRoute>} />
+                      <Route path="/benefits-administration" element={<ProtectedRoute><BenefitsAdministration/></ProtectedRoute>} />
                       <Route path="/enrollment-submission" element={<ProtectedRoute><EnrollmentSubmission /></ProtectedRoute>} />
                       <Route path="/leave-requests" element={<ProtectedRoute><LeaveRequest /></ProtectedRoute>} />
                       <Route path="/deductions" element={<ProtectedRoute><Deductions /></ProtectedRoute>} />
                       
                       {/* Incentives Management */}
-                      <Route path="/incentives-overview" element={<ProtectedRoute><IncentivesOverview /></ProtectedRoute>} />
+                      <Route path="/incentives-management" element={<ProtectedRoute><IncentivesManagement /></ProtectedRoute>} />
                       <Route path="/incentives-request" element={<ProtectedRoute><IncentivesRequest /></ProtectedRoute>} />
                       <Route path="/sales-commissions" element={<ProtectedRoute><SalesCommissions /></ProtectedRoute>} />
                       <Route path="/recognition-programs" element={<ProtectedRoute><RecognitionPrograms /></ProtectedRoute>} />
@@ -169,36 +150,19 @@ const App = () => {
                       
                       <Route path="/benefits-overview" element={<ProtectedRoute><EBenefitsOverview /></ProtectedRoute>} />                    
                       <Route path='/benefits-enrollment' element={<ProtectedRoute><BenefitsEnrollment/></ProtectedRoute>}/>
-                      <Route path='/benefit-statements' element={<ProtectedRoute><BenefitsStatements/></ProtectedRoute>}/>
-                      <Route path='/claims-management' element={<ProtectedRoute><ClaimsManagement/></ProtectedRoute>}/>
-                      
-                      <Route path='/salary-projections' element={<ProtectedRoute><SalaryProjections/></ProtectedRoute>}/>
-
-                      <Route path='/leave-balances' element={<ProtectedRoute><LeaveBalances/></ProtectedRoute>}/>
-                      <Route path='/leave-history' element={<ProtectedRoute><LeaveHistory/></ProtectedRoute>}/>
-                      <Route path='/leave-requests' element={<ProtectedRoute><LeaveRequests/></ProtectedRoute>}/>
+                      <Route path='/leave-application' element={<ProtectedRoute><LeaveApplication/></ProtectedRoute>}/>
+                      <Route path='/my-deductions' element={<ProtectedRoute><MyDeductions/></ProtectedRoute>}/>
 
                       <Route path='/important-updates' element={<ProtectedRoute><ImportantUpdates/></ProtectedRoute>}/>
 
+                      <Route path='/my-salary-info' element={<ProtectedRoute><MySalaryInfo/></ProtectedRoute>}/>
                       <Route path='/salary-request' element={<ProtectedRoute><SalaryRequest/></ProtectedRoute>}/>
-
-                      <Route path='/direct-deposit' element={<ProtectedRoute><DirectDeposit/></ProtectedRoute>}/>
-                      <Route path='/pay-stubs' element={<ProtectedRoute><PayStubs/></ProtectedRoute>}/>
-                      <Route path='/tax-documents' element={<ProtectedRoute><TaxDocuments/></ProtectedRoute>}/>
-
-                      <Route path='/compensation-history' element={<ProtectedRoute><CompensationHistory/></ProtectedRoute>}/>
-                      <Route path='/salary-details' element={<ProtectedRoute><SalaryDetails/></ProtectedRoute>}/>
-
-                      <Route path='/updated-personal-info' element={<ProtectedRoute><UpdatePersonalInformation/></ProtectedRoute>}/>
-
-                      <Route path='/beneficiary-information' element={<ProtectedRoute><BeneficiaryInformation/></ProtectedRoute>}/>
-                      <Route path='/retirement-plan-overview' element={<ProtectedRoute><RetirementPlanOverview/></ProtectedRoute>}/>
-
-                      <Route path='/contact-hr' element={<ProtectedRoute><ContactHR/></ProtectedRoute>}/>
-                      <Route path='/faqs' element={<ProtectedRoute><FAQs/></ProtectedRoute>}/>
+                      <Route path='/my-pay-slip' element={<ProtectedRoute><MyPaySlip/></ProtectedRoute>}/>
+                      <Route path='/my-overtime-bonuses' element={<ProtectedRoute><MyOvertimeBonuses/></ProtectedRoute>}/>
 
                       <Route path="/incentives-overview" element={<ProtectedRoute><EIncentivesOverview /></ProtectedRoute>} />                    
-                      <Route path="/my-incentives" element={<ProtectedRoute><MyIncentives /></ProtectedRoute>} />                    
+                      <Route path="/incentive-request" element={<ProtectedRoute><IncentiveRequest /></ProtectedRoute>} />                    
+                      <Route path="/incentive-history" element={<ProtectedRoute><IncentiveHistory /></ProtectedRoute>} />                    
                       <Route path="/my-commissions" element={<ProtectedRoute><MyCommissions /></ProtectedRoute>} />                    
                     </>
                   )}

@@ -13,7 +13,6 @@ const PayrollProcessing = () => {
         <div className="card w-full bg-base-100 shadow-xl">
           <div className="card-body">
             <h2 className="card-title">Employee List</h2>
-            <p>Manage all employee records, view, and update details.</p>
             <div className="overflow-x-auto">
               <table className="table table-zebra w-full">
                 <thead>

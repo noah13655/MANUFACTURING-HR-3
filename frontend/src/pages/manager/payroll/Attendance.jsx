@@ -3,7 +3,28 @@ import React, { useEffect } from 'react';
 const Attendance = () => {
   useEffect(() => {
     document.title = 'Attendance info';
-  }, []); 
+  }, []);
+
+  // Attendance data for specific employees
+  const attendanceData = [
+    {
+      employeeName: 'John Lloyd Padit',
+      totalHours: 160, // 8 hours per day, 20 working days
+      totalPresent: 18, // 18 days present
+      totalAbsent: 2,   // 2 days absent
+      totalOvertime: 15, // 15 hours of overtime
+      totalHoliday: 1,  // 1 holiday worked
+    },
+    {
+      employeeName: 'Abby',
+      totalHours: 160,  // 8 hours per day, 20 working days
+      totalPresent: 20, // 20 days present
+      totalAbsent: 0,   // No absences
+      totalOvertime: 12, // 12 hours of overtime
+      totalHoliday: 2,  // 2 holidays worked
+    },
+  ];
+
   return (
     <div className="container mx-auto p-8 bg-base-200">
       <h2 className="text-xl font-bold mb-4">Attendance Records</h2>
@@ -19,14 +40,14 @@ const Attendance = () => {
           </tr>
         </thead>
         <tbody>
-          {Array.from({ length: 5 }).map((_, index) => (
+          {attendanceData.map((employee, index) => (
             <tr key={index} className="hover:bg-neutral hover:text-white">
-              <td className="border border-gray-300 px-4 py-2">Employee {index + 1}</td>
-              <td className="border border-gray-300 px-4 py-2">40</td>
-              <td className="border border-gray-300 px-4 py-2">20</td>
-              <td className="border border-gray-300 px-4 py-2">5</td>
-              <td className="border border-gray-300 px-4 py-2">10</td>
-              <td className="border border-gray-300 px-4 py-2">2</td>
+              <td className="border border-gray-300 px-4 py-2">{employee.employeeName}</td>
+              <td className="border border-gray-300 px-4 py-2">{employee.totalHours}</td>
+              <td className="border border-gray-300 px-4 py-2">{employee.totalPresent}</td>
+              <td className="border border-gray-300 px-4 py-2">{employee.totalAbsent}</td>
+              <td className="border border-gray-300 px-4 py-2">{employee.totalOvertime}</td>
+              <td className="border border-gray-300 px-4 py-2">{employee.totalHoliday}</td>
             </tr>
           ))}
         </tbody>
