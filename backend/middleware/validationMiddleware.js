@@ -40,12 +40,29 @@ export const registerValidation = [
         .notEmpty()
         .withMessage("Country is required!"),
     body("gender")
-        .isIn(['Male', 'Female', 'Other'])
+        .isIn(['Male', 'Female'])
         .withMessage("Invalid gender value!"),
     body("bDate")
         .isISO8601()
         .toDate()
         .withMessage("Invalid birthdate format!")
+        .custom(value => {
+            const birthDate = new Date(value);
+            const today = new Date();
+            const age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+
+            if(monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())){
+                age--;
+            }
+            if(birthDate > today){
+                throw new Error("Birthdate cannot be a future date!");
+            }
+            if(age < 18 || age > 60){
+                throw new Error("Age must be between 18 and 60 years!");
+            }
+            return true;
+        }),
 ];
 
 export const validate = (req,res,next) => {
