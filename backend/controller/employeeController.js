@@ -8,7 +8,7 @@ export const fetchMyData = async (req,res) => {
         if(!user){
             return res.status(404).json({status:false,message:"User not found!"});
         }
-        console.log(user)
+        // console.log(user)
         res.status(200).json({status:true,user});
     } catch (error) {
         console.log(`Error in fetching user Data ${error}`);
