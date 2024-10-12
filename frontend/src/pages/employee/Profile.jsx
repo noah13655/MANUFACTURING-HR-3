@@ -5,6 +5,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import bcrypt from "bcryptjs";
 import 'react-toastify/dist/ReactToastify.css';
 
+import defaultimage from '../../assets/defaultimage.png';
+
 const Profile = () => {
   const {fetchData,user,changePassword,lastPasswordChange} = useEmployeeStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -125,7 +127,7 @@ const Profile = () => {
       <div className="flex flex-col items-center mb-6">
         <button className="relative group">
           <img
-            src={user?.profilePic}
+            src={user?.profilePic || defaultimage}
             alt="Profile"
             className="w-32 h-32 rounded-full object-cover border-2 border-gray-300"
           />

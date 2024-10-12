@@ -76,6 +76,6 @@ const userSchema = new mongoose.Schema({
         default: "https://www.pngkey.com/png/full/121-1219231_user-default-profile.png"
     }
 
-});
+},{timestamps:true});
 
 export const User = mongoose.model("User",userSchema);

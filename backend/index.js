@@ -49,6 +49,10 @@ app.use("/api/employee",employeeRoute);
 app.use("/api/benefit",benefitRoute);
 app.use("/api/incentive",incentiveRoute);
 
+app.use((req, res) => {
+    res.status(404).json({status:false,message:"Resource not found."});
+});
+
 connectDB();
 
 app.listen(PORT,() => {
