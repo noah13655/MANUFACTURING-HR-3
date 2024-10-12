@@ -14,7 +14,6 @@ import ProtectedRoute from './components/ProtectedRoute';
 import RedirectAuthenticatedUser from './components/RedirectAuthenticatedUser';
 
 /* manager */
-
 import ManagerDashboard from './pages/manager/ManagerDashboard';
 import EmployeeDashboard from './pages/employee/EmployeeDashboard';
 import ManagerSidebar from './pages/manager/ManagerSidebar';

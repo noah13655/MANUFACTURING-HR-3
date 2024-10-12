@@ -22,6 +22,18 @@ export const registerUser = async (req,res) => {
         let bDate = req.body.bDate;
         const {street,municipality,province,postalCode,country} = address  || {};
 
+        const format = (name) => name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+        //for name
+        const formattedLastName = format(lastName);
+        const formattedFirstName = format(firstName);
+        const formattedMiddleName = format(middleName);
+        //for address
+        const formattedStreet = format(street);
+        const formattedMunicipality = format(municipality);
+        const formattedProvince = format(province);
+        const formattedPostalCode = format(postalCode);
+        const formattedCountry = format(country);
+
         const existingUser = await User.findOne({email});
         if(existingUser){
             return res.status(400).json({status:false,message:"User already exist!"});
@@ -43,18 +55,18 @@ export const registerUser = async (req,res) => {
        }
         const user = new User({
             position,
-            lastName,
-            firstName,
-            middleName,
+            lastName:formattedLastName,
+            firstName:formattedFirstName,
+            middleName:formattedMiddleName,
             email,
             password:hashedPassword,
             phoneNumber,
             address:{
-                street,
-                municipality,
-                province,
-                postalCode,
-                country
+                street:formattedStreet,
+                municipality:formattedMunicipality,
+                province:formattedProvince,
+                postalCode:formattedPostalCode,
+                country:formattedCountry
             },
             gender,
             bDate,

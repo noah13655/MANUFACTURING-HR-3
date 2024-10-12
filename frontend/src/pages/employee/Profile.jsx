@@ -30,17 +30,25 @@ const Profile = () => {
               alt="Profile"
               className="w-32 h-32 rounded-full object-cover border-2 border-gray-300"
             />
-            <p>
-              dada
-            </p>
             <span className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 rounded-full transition duration-200 flex items-center justify-center">
               <span className="text-white font-medium">Edit</span>
             </span>
           </button>
           <div className="ml-6">
-            <h2 className="text-2xl font-semibold text-gray-800">
-              {user?.firstName || 'N/A'} {user?.lastName || 'N/A'} {user?.middleName || 'N/A'}
+
+          <div className="ml-6">
+          <h2 className="text-2xl font-semibold text-gray-800 flex space-x-2">
+            <abbr title="Last name" className="hover:text-blue-600 transition-colors no-underline">
+              {user?.lastName || 'N/A'}
+            </abbr>
+            <abbr title="First name" className="hover:text-blue-600 transition-colors no-underline">
+              {user?.firstName || 'N/A'}
+            </abbr>
+            <abbr title="Middle name" className="hover:text-blue-600 transition-colors no-underline">
+              {user?.middleName || 'N/A'}
+            </abbr>
             </h2>
+          </div>
             <p className="text-gray-600 mt-1">Position: {user?.position || 'N/A'}</p>
           </div>
         </div>
