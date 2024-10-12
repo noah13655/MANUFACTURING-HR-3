@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useIncentiveStore } from '../../../store/incentiveStore';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const IncentivesManagement = () => {
     const [isCreating, setIsCreating] = useState(false);
     const [incentivesName, setincentivesName] = useState("");
     const [incentivesDescription, setincentivesDescription] = useState("");
     const [incentivesType, setincentivesType] = useState("");
-    const [error, setError] = useState("");
     const [editingIncentiveId, setEditingIncentiveId] = useState(null); 
     const { createIncentive, fetchIncentive, incentive: incentives, deleteIncentive, updateIncentive } = useIncentiveStore();
 
@@ -15,15 +17,15 @@ const IncentivesManagement = () => {
         e.preventDefault();
         try {
             if (!incentivesName || !incentivesDescription || !incentivesType) {
-                setError("All fields required!");
+                toast.error("All fields required!");
                 return;
             }
             const result = await createIncentive({ incentivesName, incentivesDescription, incentivesType });
             if (!result) {
-                setError("Incentives already exist!");
+                toast.error("Incentives already exist!");
                 return;
             }
-            setError("");
+            toast.success("Incentives created successfully!");
             console.log("Incentives created successfully!", true);
             await fetchIncentive();
             resetForm();
@@ -36,8 +38,10 @@ const IncentivesManagement = () => {
         console.log("Attempting to delete incentive with ID:", id);
         const result = await deleteIncentive(id);
         if (!result) {
+            toast.error("Failed to delete incentive");
             console.error("Failed to delete incentive:", result);
         } else {
+            toast.error("Incentive deleted successfully!");
             console.log("Incentive deleted successfully!", result);
         }
     };
@@ -54,18 +58,20 @@ const IncentivesManagement = () => {
         e.preventDefault();
         try {
             if (!incentivesName || !incentivesDescription || !incentivesType) {
-                setError("All fields required!");
+                toast.error("All fields required!");
                 return;
             } 
             const result = await updateIncentive(editingIncentiveId, { incentivesName, incentivesDescription, incentivesType });
             if (!result) {
-                setError("Failed to update incentive!");
+                toast.error("Failed to update incentive!");
                 return;
             }
+            toast.success("Incentive updated successfully!");
             console.log("Incentive updated successfully!", result);
             await fetchIncentive();
             resetForm();
         } catch (error) {
+            toast.error(error);
             console.log(error);
         }
     };
@@ -74,8 +80,7 @@ const IncentivesManagement = () => {
         setincentivesName("");
         setincentivesDescription("");
         setincentivesType("");
-        setEditingIncentiveId(null);
-        setError("");
+        setEditingIncentiveId(null)
     };
 
     const toggleCreateForm = () => {
@@ -93,6 +98,7 @@ const IncentivesManagement = () => {
 
     return (
         <div className="container mx-auto p-8">
+            <ToastContainer/>
             <h1 className="text-3xl font-bold mb-6 text-center">Incentives Management</h1>
 
             {/* Incentives Overview */}
@@ -133,7 +139,6 @@ const IncentivesManagement = () => {
                             </button>
                         </form>
                     )}
-                    {error && <p className="text-red-500 text-center mb-4">{error}</p>}
                 </div>
 
                 <table className="table w-full">
@@ -152,7 +157,7 @@ const IncentivesManagement = () => {
                                     <td className="border px-4 py-2">{incentive.incentivesName || 'N/A'}</td>
                                     <td className="border px-4 py-2">{incentive.incentivesDescription || 'N/A'}</td>
                                     <td className="border px-4 py-2">{incentive.incentivesType || 'N/A'}</td>
-                                    <td className="border px-4 py-2"><button onClick={() => handleEditIncentive(incentive)} className='btn btn-edit'>Edit</button></td>
+                                    <td className="border px-4 py-2"><button onClick={() => handleEditIncentive(incentive)} className='btn btn-edit bg-primary text-white'>Edit</button></td>
                                     <td className="border px-4 py-2">
                                         <button onClick={() => handleDeleteIncentive(incentive._id)} className='btn btn-error'>
                                             Delete

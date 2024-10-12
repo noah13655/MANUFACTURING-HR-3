@@ -83,22 +83,5 @@ export const useAuthStore = create((set)=>({
         }
       },
 
-      registerUser: async (formData) => {
-        try {
-          const response = await axios.post(`${API_URL}/register`, formData);
-          set({
-            user: response.data.user || null,
-            message:response.data.message,
-            error: null,
-          });
-          return true;
-        } catch (error) {
-          const errorMessage = error.response?.data?.message || "Error registering user";
-          set({
-              error: errorMessage,
-          });
-          throw new Error(errorMessage);
-      }
-      },
 
 }));

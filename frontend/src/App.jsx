@@ -56,6 +56,8 @@ import PredictiveAnalytics from './pages/manager/predictive/PredictiveAnalytics'
 /* employee */
 import RegisterUserForm from './pages/RegisterUserForm';
 
+import Profile from './pages/employee/Profile';
+
 import EBenefitsOverview from './pages/employee/benefits/EBenefitsOverview';
 import BenefitsEnrollment from "./pages/employee/benefitsManagement/BenefitsEnrollment";
 import LeaveApplication from './pages/employee/benefitsManagement/LeaveApplication';
@@ -100,6 +102,9 @@ const App = () => {
             {user?.role === 'Manager' ? <ManagerSidebar /> : <EmployeeSidebar />}
             <main className="flex-1 p-4 flex flex-col">
               <Search />
+              <Routes>
+                
+              </Routes>
               <div className="flex-1 overflow-y-auto">
                 <Routes>
                   <Route path="/" element={<Navigate to={user?.role === 'Manager' ? '/dashboard' : '/dashboard'} replace />} />
@@ -107,8 +112,10 @@ const App = () => {
 
                   {user?.role === 'Manager' && (
                     <>
+                    
                       <Route path="/dashboard" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
                       
+                      <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />  
                       <Route path="/register-user" element={<ProtectedRoute><RegisterUserForm /></ProtectedRoute>} />                    
 
                       {/* Payroll Processing */}
@@ -151,7 +158,9 @@ const App = () => {
                   {user?.role === 'Employee' && (
                     <>
                       <Route path="/dashboard" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />                    
-                                            
+
+                      <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
+
                       <Route path="/benefits-overview" element={<ProtectedRoute><EBenefitsOverview /></ProtectedRoute>} />                    
                       <Route path='/benefits-enrollment' element={<ProtectedRoute><BenefitsEnrollment/></ProtectedRoute>}/>
                       <Route path='/leave-application' element={<ProtectedRoute><LeaveApplication/></ProtectedRoute>}/>

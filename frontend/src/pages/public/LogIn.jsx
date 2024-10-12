@@ -2,33 +2,31 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import jjmLogo from '../../assets/jjmlogo.jpg';
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  const { login, isAuthenticated, error } = useAuthStore();
+  const {login,isAuthenticated} = useAuthStore();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setErrorMessage("All fields are required!");
-      return;
+    try {
+      const result = await login(email, password);
+      if (!result) {
+        toast.error("Username or password incorrect!");
+        return;
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("An error occurred during login. Please try again later.");
     }
-
-    const result = await login(email, password);
-
-    if (!result) {
-      setErrorMessage("Username or password incorrect!");
-      return;
-    }
-
-    setErrorMessage("");
-    navigate("/dashboard");
-  };
+};
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -38,6 +36,7 @@ const LogIn = () => {
 
   return (
     <div className="hero bg-base-200 min-h-screen">
+      <ToastContainer />
       <div className="hero-content flex flex-col lg:flex-row-reverse w-full px-4 md:px-8">
         <div className="text-center lg:text-left lg:w-1/2">
           <div className="flex justify-center py-6">
@@ -81,9 +80,6 @@ const LogIn = () => {
               />
             </div>
             <div className="form-control mt-6">
-              {errorMessage && (
-                <p className="text-red-500 text-center mb-4">{errorMessage}</p>
-              )}
               <button className="btn btn-primary">Login</button>
             </div>
           </form>

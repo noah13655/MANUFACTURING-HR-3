@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useBenefitStore } from '../../../store/benefitStore';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const BenefitsAdministration = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [benefitsName, setBenefitsName] = useState("");
   const [benefitsDescription, setBenefitsDescription] = useState("");
   const [benefitsType, setBenefitsType] = useState("");
   const [requiresRequest, setRequiresRequest] = useState(false);
-  const [error, setError] = useState("");
   const [editingBenefitId, setEditingBenefitId] = useState(null);
   const { createBenefit, fetchBenefit, benefit: benefits, deleteBenefit, updateBenefit } = useBenefitStore();
 
@@ -20,16 +22,16 @@ const BenefitsAdministration = () => {
   const handleCreateBenefits = async (e) => {
     e.preventDefault();
     try {
-      if (!benefitsName || !benefitsDescription || !benefitsType) {
-        setError("All fields required!");
+      if(!benefitsName || !benefitsDescription || !benefitsType){
+        toast.error("All fields required!");
         return;
       }
       const result = await createBenefit({ benefitsName, benefitsDescription, benefitsType, requiresRequest });
-      if (!result) {
-        setError("Benefits already exist!");
+      if(!result){
+        toast.error("Benefits already exist!");
         return;
       }
-      setError("");
+      toast.success("Benefits created successfully!")
       console.log("Benefits created successfully!", true);
       await fetchBenefit();
       resetForm();
@@ -41,9 +43,11 @@ const BenefitsAdministration = () => {
   const handleDeleteBenefit = async (id) => {
     console.log("Attempting to delete benefit with ID:", id);
     const result = await deleteBenefit(id);
-    if (!result) {
+    if(!result){
+      toast.error("Failed to delete benefit");
       console.error("Failed to delete benefit:", result);
-    } else {
+    }else{
+      toast.success("Benefit  delete successfully!")
       console.log("Benefit deleted successfully!", result);
     }
   };
@@ -60,19 +64,21 @@ const BenefitsAdministration = () => {
   const handleUpdateBenefit = async (e) => {
     e.preventDefault();
     try {
-      if (!benefitsName || !benefitsDescription || !benefitsType) {
-        setError("All fields required!");
+      if(!benefitsName || !benefitsDescription || !benefitsType){
+        toast.error("All fields required!");
         return;
       }
       const result = await updateBenefit(editingBenefitId, { benefitsName, benefitsDescription, benefitsType, requiresRequest });
-      if (!result) {
-        setError("Failed to update benefit!");
+      if(!result){
+        toast.error("Failed to update benefit!");
         return;
       }
+      toast.success("Benefit updated successfully!");
       console.log("Benefit updated successfully!", result);
       await fetchBenefit();
       resetForm();
     } catch (error) {
+      toast.error(error);
       console.log(error);
     }
   };
@@ -83,7 +89,6 @@ const BenefitsAdministration = () => {
     setBenefitsType("");
     setRequiresRequest(false);
     setEditingBenefitId(null);
-    setError("");
   };
 
   const toggleCreateForm = () => {
@@ -93,6 +98,7 @@ const BenefitsAdministration = () => {
 
   return (
     <div className="container mx-auto p-4">
+      <ToastContainer />
       <h1 className="text-3xl font-bold mb-4 text-center">Benefits Administration</h1>
 
       {/* Benefits Overview Section */}
@@ -147,7 +153,6 @@ const BenefitsAdministration = () => {
               </button>
             </form>
           )}
-          {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         </div>
 
         <table className="table w-full mb-4">

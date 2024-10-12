@@ -50,7 +50,7 @@ const ManagerSidebar = () => {
     <div className="flex">
       {!isMobile ? (
         <div
-          className={`flex flex-col bg-white text-black px-4 py-4 border-r-2 sticky top-0 h-screen transition-all duration-300 ${isCollapsed ? 'w-24' : 'w-80'}`}
+          className={`flex flex-col bg-white text-black px-4 py-4 border-r-2 sticky top-0 h-screen transition-all duration-300 ${isCollapsed ? 'w-24' : 'w-72'}`}
           aria-label="Sidebar"
         >
           <div className="flex justify-end">

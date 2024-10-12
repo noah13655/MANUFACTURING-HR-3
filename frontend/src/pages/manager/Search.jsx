@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { useAuthStore } from "../../store/authStore";
@@ -57,7 +58,7 @@ const Search = () => {
               className="size-10 rounded-full"
             />
             <ul tabIndex={0} className="dropdown-content menu bg-white rounded-box z-[1] w-52 p-2 mt-2 shadow">
-              <li><a>Profile</a></li>
+              <li><Link to="/profile">Profile</Link></li>
               <li><a>Settings</a></li>
               <li><button onClick={handleLogout}>Log out</button></li>
             </ul>

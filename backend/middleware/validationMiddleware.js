@@ -47,10 +47,10 @@ export const registerValidation = [
         .toDate()
         .withMessage("Invalid birthdate format!")
         .custom(value => {
-            const birthDate = new Date(value);
-            const today = new Date();
-            const age = today.getFullYear() - birthDate.getFullYear();
-            const monthDiff = today.getMonth() - birthDate.getMonth();
+            let birthDate = new Date(value);
+            let today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            let monthDiff = today.getMonth() - birthDate.getMonth();
 
             if(monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())){
                 age--;
