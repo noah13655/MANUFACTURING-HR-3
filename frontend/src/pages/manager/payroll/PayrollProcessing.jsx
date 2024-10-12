@@ -113,7 +113,7 @@ const PayrollProcessing = () => {
           <div className="card-body">
             <h2 className="card-title">Payroll History</h2>
             <p>View historical payroll data for all employees.</p>
-            <Link to="/compliance-tracking" className="btn btn-primary"><button>Track Compliance</button></Link>
+            <Link to="/payroll-history" className="btn btn-primary"><button>Track Compliance</button></Link>
           </div>
         </div>
 

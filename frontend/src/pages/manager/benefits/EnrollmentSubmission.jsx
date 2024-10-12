@@ -121,7 +121,7 @@ const EnrollmentSubmission = () => {
 
       {/* Modal for Request Details */}
       {selectedRequest && (
-        <div className="static inset-0 flex items-center justify-center overflow-y-auto mt-10">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full overflow-auto max-h-[90vh]">
             <h2 className="text-lg font-semibold mb-2 text-blue-700">{`${selectedRequest.firstName} ${selectedRequest.lastName}`}</h2>
             <p><strong>Middle Name:</strong> {selectedRequest.middleName}</p>
