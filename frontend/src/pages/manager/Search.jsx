@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useEmployeeStore } from "../../store/employeeStore";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { useAuthStore } from "../../store/authStore";
@@ -7,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Search = () => {
   const { logout } = useAuthStore();
+  const {fetchData,user} = useEmployeeStore();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -17,6 +19,13 @@ const Search = () => {
       console.error('Error logging out:', error);
     }
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      await fetchData();
+    };
+    fetchUserData();
+  }, [fetchData]);
 
   return (
     <div className="w-full p-5 bg-white text-black/70 h-[85px] rounded-l-sm sticky top-0 z-50">
@@ -51,11 +60,11 @@ const Search = () => {
           <IoMdNotificationsOutline className="size-6 cursor-pointer" />
           <div className="dropdown dropdown-end">
             <img
-              src="https://i.pinimg.com/736x/ea/21/05/ea21052f12b135e2f343b0c5ca8aeabc.jpg"
+              src={user?.profilePic}
               tabIndex={0}
               role="button"
               alt="/"
-              className="size-10 rounded-full"
+              className="size-10 rounded-full border-2 border-neutral-500"
             />
             <ul tabIndex={0} className="dropdown-content menu bg-white rounded-box z-[1] w-52 p-2 mt-2 shadow">
               <li><Link to="/profile">Profile</Link></li>

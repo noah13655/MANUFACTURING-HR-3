@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useEmployeeStore } from "../../store/employeeStore";
 
 const Profile = () => {
-  const {fetchData,user} = useEmployeeStore();
+  const { fetchData, user } = useEmployeeStore();
 
   const formatDate = (date) => {
     const d = new Date(date);
@@ -20,24 +20,21 @@ const Profile = () => {
   }, [fetchData]);
 
   return (
-    <div className="container mx-auto mt-10 p-8 max-w-3xl bg-white shadow-lg rounded-lg">
+    <div className="container mx-auto mt-10 p-8 max-w-3xl bg-white shadow-lg border-2 rounded-lg">
       {/* Header with profile picture and Edit button */}
-      <div className="flex justify-between items-center">
-        <div className="flex items-center">
-          <button className="relative group">
-            <img
-              src={user?.profilePic}
-              alt="Profile"
-              className="w-32 h-32 rounded-full object-cover border-2 border-gray-300"
-            />
-            <span className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 rounded-full transition duration-200 flex items-center justify-center">
-              <span className="text-white font-medium">Edit</span>
-            </span>
-          </button>
-          <div className="ml-6">
-
-          <div className="ml-6">
-          <h2 className="text-2xl font-semibold text-gray-800 flex space-x-2">
+      <div className="flex flex-col items-center mb-6">
+        <button className="relative group">
+          <img
+            src={user?.profilePic}
+            alt="Profile"
+            className="w-32 h-32 rounded-full object-cover border-2 border-gray-300"
+          />
+          <span className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 rounded-full transition duration-200 flex items-center justify-center">
+            <span className="text-white font-medium">Edit</span>
+          </span>
+        </button>
+        <div className="mt-4 text-center">
+          <h2 className="text-2xl font-semibold text-gray-800 flex justify-center space-x-2">
             <abbr title="Last name" className="hover:text-blue-600 transition-colors no-underline">
               {user?.lastName || 'N/A'}
             </abbr>
@@ -47,10 +44,8 @@ const Profile = () => {
             <abbr title="Middle name" className="hover:text-blue-600 transition-colors no-underline">
               {user?.middleName || 'N/A'}
             </abbr>
-            </h2>
-          </div>
-            <p className="text-gray-600 mt-1">Position: {user?.position || 'N/A'}</p>
-          </div>
+          </h2>
+          <p className="text-gray-600 mt-1">Position: {user?.position || 'N/A'}</p>
         </div>
       </div>
 
