@@ -79,3 +79,43 @@ export const registerUser = async (req,res) => {
         return res.status(500).json({message:"Server error!"});
     }
 };
+
+export const changePassword = async (req, res) => {
+    try {
+        const {currentPassword,newPassword} = req.body;
+        const userId = req.user;
+
+        console.log("Request body:",req.body);
+        console.log("User ID:",userId);
+
+        if(!userId){
+            return res.status(401).json({status:false,message:"Unauthorized: User ID is missing."});
+        }
+
+        const user = await User.findById(userId);
+        if(!user){
+            return res.status(404).json({status:false,message:"User not found."});
+        }
+
+        const isCurrentPassword = await bcryptjs.compare(currentPassword, user.password);
+        console.log("Is current password valid:", isCurrentPassword);
+        if(!isCurrentPassword){
+            return res.status(400).json({status:false,message:"Current password is incorrect."});
+        }
+
+        const isOldPassword = await bcryptjs.compare(newPassword,user.password);
+        if(isOldPassword){
+            return res.status(400).json({status:false,message:"New password cannot be the same as the old password."});
+        }
+
+        const hashedPassword = await bcryptjs.hash(newPassword,10);
+        user.password = hashedPassword;
+        await user.save();
+
+        return res.status(200).json({status:true,message:"Password changed successfully",user});
+    } catch (error) {
+        console.error(`Error changing password: ${error}`);
+        return res.status(500).json({status:false,message:"Server error"});
+    }
+};
+

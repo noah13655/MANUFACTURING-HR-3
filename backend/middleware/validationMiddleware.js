@@ -65,6 +65,28 @@ export const registerValidation = [
         }),
 ];
 
+export const changePasswordValidation = [
+    body("currentPassword")
+        .notEmpty()
+        .withMessage("Current password is required."),
+    body("newPassword")
+        .notEmpty()
+        .withMessage("New password is required.")
+        .isLength({ min: 8 })
+        .withMessage("New password must be at least 8 characters long.")
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])/)
+        .withMessage("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character."),
+    body("confirmPassword")
+        .notEmpty()
+        .withMessage("Confirm password is required.")
+        .custom((value, { req }) => {
+            if (value !== req.body.newPassword) {
+                throw new Error("Passwords do not match.");
+            }
+            return true;
+        }),
+];
+
 export const validate = (req,res,next) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {

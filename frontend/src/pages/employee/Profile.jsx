@@ -1,8 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useEmployeeStore } from "../../store/employeeStore";
+import { toast, ToastContainer } from 'react-toastify';
+
+import bcrypt from "bcryptjs";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Profile = () => {
-  const { fetchData, user } = useEmployeeStore();
+  const {fetchData,user,changePassword} = useEmployeeStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@#$!%*?&]{8,}$/;
 
   const formatDate = (date) => {
     const d = new Date(date);
@@ -14,13 +25,66 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      await fetchData();
+      try {
+        await fetchData();
+      } catch (error) {
+        console.error("Error fetching user data:",error);
+        toast.error('Failed to load user data. Please try again.');
+      }
     };
     fetchUserData();
   }, [fetchData]);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log({currentPassword,newPassword,confirmPassword});
+
+    if (newPassword.trim() !== confirmPassword.trim()) {
+      toast.error('Passwords do not match. Please try again.'); 
+      return;
+  }
+    
+    if(!passwordRegex.test(newPassword)){
+      toast.error('New password must meet the requirements (min 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char).'); 
+      return;
+    }
+  
+    setIsLoading(true);
+    
+    try {
+      if(!user || !user.password){
+        toast.error('User data is not available. Please refresh and try again.'); 
+        return;
+      }
+  
+      const isCurrentPasswordValid = await bcrypt.compare(currentPassword,user.password);
+      if(!isCurrentPasswordValid){
+        toast.error('Current password is incorrect. Please try again.');
+        return;
+      }
+  
+      const success = await changePassword(currentPassword,newPassword,confirmPassword);
+      if(success) {
+        toast.success('Password changed successfully!');
+        setCurrentPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
+        setIsModalOpen(false);
+      }else{
+        toast.error('Error changing password. Please try again.');
+      }
+    } catch (error) {
+      console.error("Error during password change:",error);
+      toast.error(error.response?.data?.message || 'Error changing password. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  
   return (
     <div className="container mx-auto mt-10 p-8 max-w-3xl bg-white shadow-lg border-2 rounded-lg">
+      <ToastContainer />
       {/* Header with profile picture and Edit button */}
       <div className="flex flex-col items-center mb-6">
         <button className="relative group">
@@ -101,7 +165,67 @@ const Profile = () => {
       <div className="mt-8">
         <h3 className="text-xl font-medium text-gray-700 mb-4">Security</h3>
         <p className="text-lg text-gray-700 font-medium">Password: ********</p>
+        <button onClick={() => setIsModalOpen(true)} className="mt-4 text-blue-600 hover:underline">
+          Change Password
+        </button>
       </div>
+
+      {/* Change Password Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full mx-4">
+            <h2 className="text-lg font-semibold mb-4">Change Password</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">Current Password</label>
+                <input
+                  type="password"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  required
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">New Password</label>
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  required
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">Confirm New Password</label>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <button
+                  type="button"
+                  className="text-gray-500 hover:underline"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className={`px-4 py-2 rounded-md text-white ${isLoading ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'}`}
+                >
+                  {isLoading ? 'Changing...' : 'Change Password'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

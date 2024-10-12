@@ -2,7 +2,7 @@ import {create} from 'zustand'
 import axios from 'axios'
 
  const API_URL = process.env.NODE_ENV === "production" 
-? "https://backend-hr3.jjm-manufacturing.com/api/auth" 
+? "https://backend-hr3.jjm-manufacturing.com/api/employee" 
 : "http://localhost:7687/api/employee";
 
 //  const API_URL = "https://backend-hr3.jjm-manufacturing.com/api/auth";
@@ -51,6 +51,34 @@ export const useEmployeeStore = create((set)=>({
         });
         return false;
         }
-      }
+      },
+
+      changePassword: async (currentPassword, newPassword, confirmPassword) => {
+        try {
+          const response = await axios.put(`${API_URL}/change-password`, {
+            currentPassword,
+            newPassword,
+            confirmPassword,
+          });
+    
+          set({
+            message: response.data.message || "Password changed successfully.",
+            error: null,
+          });
+    
+          return true;
+        } catch (error) {
+          console.error("Change Password Error:", error);
+          const errorMessage = error.response?.data?.errors
+            ? error.response.data.errors.join(", ")
+            : "Error changing password.";
+          set({
+            message: null,
+            error: errorMessage,
+          });
+    
+          return false;
+        }
+      },
 
 }));

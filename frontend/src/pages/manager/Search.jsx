@@ -63,7 +63,7 @@ const Search = () => {
               src={user?.profilePic}
               tabIndex={0}
               role="button"
-              alt="/"
+              alt=""
               className="size-10 rounded-full border-2 border-neutral-500"
             />
             <ul tabIndex={0} className="dropdown-content menu bg-white rounded-box z-[1] w-52 p-2 mt-2 shadow">
