@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import 'react-toastify/dist/ReactToastify.css';
 
 const Profile = () => {
-  const {fetchData,user,changePassword} = useEmployeeStore();
+  const {fetchData,user,changePassword,lastPasswordChange} = useEmployeeStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -44,19 +44,52 @@ const Profile = () => {
       return;
   }
     
-    if(!passwordRegex.test(newPassword)){
-      toast.error('New password must meet the requirements (min 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char).'); 
+  const minLengthRegex = /^.{8,}$/;
+  const uppercaseRegex = /[A-Z]/;
+  const lowercaseRegex = /[a-z]/;
+  const numberRegex = /\d/;
+  const specialCharRegex = /[$@#&!%*?]/; 
+
+      if(!minLengthRegex.test(newPassword)){
+        toast.error('New password must be at least 8 characters long.');
       return;
-    }
+      }
+    
+      if(!uppercaseRegex.test(newPassword)){
+      toast.error('New password must contain at least 1 uppercase letter.');
+      return;
+      }
+
+      if(!lowercaseRegex.test(newPassword)){
+      toast.error('New password must contain at least 1 lowercase letter.');
+      return;
+      }     
+      if(!numberRegex.test(newPassword)){
+      toast.error('New password must contain at least 1 number.');
+      return;
+      } 
+      if(!specialCharRegex.test(newPassword)){
+      toast.error('New password must contain at least 1 special character (e.g., @, $, #, &, !, %).');
+      return;
+      }
   
     setIsLoading(true);
     
     try {
-      if(!user || !user.password){
+      if(!user || !user.password ||lastPasswordChange){
         toast.error('User data is not available. Please refresh and try again.'); 
         return;
       }
   
+      const currentTime = new Date();
+      const lastChangeTime = new Date(user.lastPasswordChange);
+      const timeDifference = (currentTime - lastChangeTime) / (1000 * 60);
+  
+      if (timeDifference < 5) {
+        toast.error(`You can change your password only after ${Math.ceil(5 - timeDifference)} minute(s).`);
+        return;
+      }
+
       const isCurrentPasswordValid = await bcrypt.compare(currentPassword,user.password);
       if(!isCurrentPasswordValid){
         toast.error('Current password is incorrect. Please try again.');
@@ -66,6 +99,9 @@ const Profile = () => {
       const success = await changePassword(currentPassword,newPassword,confirmPassword);
       if(success) {
         toast.success('Password changed successfully!');
+
+        await lastPasswordChange(currentTime);
+
         setCurrentPassword('');
         setNewPassword('');
         setConfirmPassword('');
