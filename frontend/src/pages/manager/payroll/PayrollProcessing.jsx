@@ -34,7 +34,7 @@ const {fetchUsers,users} = useAuthStore();
                     <th className="border px-4 py-2">Firstname</th>
                     <th className="border px-4 py-2">Position</th>
                     <th className="border px-4 py-2">Role</th>
-                    <th className="border px-4 py-2">Status</th>
+                    <th className="border px-4 py-2">Verified</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -45,7 +45,7 @@ const {fetchUsers,users} = useAuthStore();
                         <td className="border px-4 py-2">{user.firstName || 'N/A'}</td>
                         <td className="border px-4 py-2">{user.position || 'N/A'}</td>
                         <td className="border px-4 py-2">{user.role || 'N/A'}</td>
-                        <td className="border px-4 py-2">{user.status || 'N/A'}</td>
+                        <td className="border px-4 py-2">{user.verified ? 'True' : 'False'}</td>
                       </tr>
                     ))
                   ) : (

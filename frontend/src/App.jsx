@@ -76,6 +76,7 @@ import MyPaySlip from './pages/employee/payroll/MyPaySlip';
 import MyOvertimeBonuses from './pages/employee/payroll/MyOvertimeBonuses';
 
 import Attendance from './pages/manager/payroll/Attendance';
+import ResetPassword from './components/ResetPassword';
 
 const App = () => {
   const { checkAuth, isAuthenticated, user } = useAuthStore();
@@ -102,9 +103,6 @@ const App = () => {
             {user?.role === 'Manager' ? <ManagerSidebar /> : <EmployeeSidebar />}
             <main className="flex-1 p-4 flex flex-col">
               <Search />
-              <Routes>
-                
-              </Routes>
               <div className="flex-1 overflow-y-auto">
                 <Routes>
                   <Route path="/" element={<Navigate to={user?.role === 'Manager' ? '/dashboard' : '/dashboard'} replace />} />
@@ -183,10 +181,13 @@ const App = () => {
             </main>
           </>
         ) : (
+          <div className="flex flex-1 items-center justify-center">
           <Routes>
             <Route path="/login" element={<LogIn />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
+          </div>
         )}
       </div>
     </div>

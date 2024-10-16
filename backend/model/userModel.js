@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    passwordReset: { 
+        type: Boolean,
+         default: false
+     },
     phoneNumber:{
         type:String,
         required:true
@@ -72,10 +76,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "https://www.pngkey.com/png/full/121-1219231_user-default-profile.png"
     },
-    status:{
-        type: String,
-        enum: ["Online", "Offline"],
-        default: "Offline"
+    verified:{
+        type:Boolean,
+        default:false,
     }
 
 },{timestamps:true});

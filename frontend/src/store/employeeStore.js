@@ -53,7 +53,7 @@ export const useEmployeeStore = create((set)=>({
         }
       },
 
-      changePassword: async (currentPassword, newPassword, confirmPassword) => {
+      changePassword: async (currentPassword,newPassword,confirmPassword) => {
         try {
           const response = await axios.put(`${API_URL}/change-password`, {
             currentPassword,
@@ -81,4 +81,30 @@ export const useEmployeeStore = create((set)=>({
         }
       },
 
+      resetPassword: async (token,newPassword,confirmPassword) => {
+        try {
+          const response = await axios.put(`${API_URL}/reset-password/${token}`, {
+            newPassword,
+            confirmPassword,
+          });
+    
+          set({
+            message: response.data.message || "Password reset successfully.",
+            error: null,
+          });
+    
+          return true;
+        } catch (error) {
+          console.error("Change Password Error:", error);
+          const errorMessage = error.response?.data?.errors
+            ? error.response.data.errors.join(", ")
+            : "Error changing password.";
+          set({
+            message: null,
+            error: errorMessage,
+          });
+    
+          return false;
+        }
+      },
 }));

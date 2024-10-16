@@ -1,5 +1,8 @@
 import { User } from "../model/userModel.js";
 import bcryptjs from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
+
 
 export const fetchMyData = async (req,res) => {
     try {
@@ -16,18 +19,17 @@ export const fetchMyData = async (req,res) => {
     }
 };
 
-export const registerUser = async (req,res) => {
+
+export const registerUser = async (req, res) => {
     try {
         const {position,lastName,firstName,middleName,email,phoneNumber,address,gender} = req.body;
         let bDate = req.body.bDate;
-        const {street,municipality,province,postalCode,country} = address  || {};
+        const {street,municipality,province,postalCode,country} = address || {};
 
         const format = (name) => name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-        //for name
         const formattedLastName = format(lastName);
         const formattedFirstName = format(firstName);
         const formattedMiddleName = format(middleName);
-        //for address
         const formattedStreet = format(street);
         const formattedMunicipality = format(municipality);
         const formattedProvince = format(province);
@@ -36,23 +38,26 @@ export const registerUser = async (req,res) => {
 
         const existingUser = await User.findOne({email});
         if(existingUser){
-            return res.status(400).json({status:false,message:"User already exist!"});
+            return res.status(400).json({status:false,message:"User already exists!"});
         }
+
         const password = `#${lastName.charAt(0).toUpperCase()}${lastName.charAt(1).toLowerCase()}HR3`;
-        const hashedPassword = await bcryptjs.hash(password,10);
+        const hashedPassword = await bcryptjs.hash(password, 10);
 
         const employeePositions = ['CEO', 'Secretary', 'Production Head', 'Resellers Sales Head', 'Reseller'];
-       let role;
-       if(position === "Manager"){
-           role = "Manager";
-       }else if(employeePositions.includes(position)){
-           role = "Employee";
-       }else{
-           role = req.body.role;
-       }
-       if(role === "Employee" && position === "Manager"){
-           return res.status(400).json({status:false,message:"Conflicting role and position!"});
-       }
+        let role;
+        if(position === "Manager"){
+            role = "Manager";
+        }else if(employeePositions.includes(position)){
+            role = "Employee";
+        }else{
+            role = req.body.role;
+        }
+
+        if(role === "Employee" && position === "Manager"){
+            return res.status(400).json({status:false,message:"Conflicting role and position!"});
+        }
+
         const user = new User({
             position,
             lastName:formattedLastName,
@@ -73,51 +78,129 @@ export const registerUser = async (req,res) => {
             role,
         });
         await user.save();
-        res.status(201).json({status:true,message:"User registered successfully!",user});
+
+        const token = jwt.sign({id:user._id}, process.env.JWT_SECRET,{ expiresIn:'1h'});
+
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+
+        const baseUrl = process.env.NODE_ENV === "production" 
+        ? "https://backend-hr3.jjm-manufacturing.com" 
+        : "http://localhost:5173";
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Welcome! Please Set Your Password',
+            text: `Hi ${firstName},\n\nThank you for registering. To set your new password, please click the link below:\n\n` +
+                `${baseUrl}/reset-password/${token}\n\nThis link will expire in 1 hour. If you did not request this, please ignore this email.`
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        return res.status(201).json({
+            status: true,
+            message: "User registered successfully! A reset password email has been sent.",
+            user
+        });
     } catch (error) {
         console.log(`Error in register ${error}`);
-        return res.status(500).json({message:"Server error!"});
+        return res.status(500).json({ message: "Server error!" });
     }
 };
 
+
 export const changePassword = async (req, res) => {
     try {
-        const { currentPassword, newPassword } = req.body;
+        const {currentPassword,newPassword} = req.body;
         const userId = req.user;
 
-        console.log("Request body:", req.body);
-        console.log("User ID:", userId);
+        console.log("Request body:",req.body);
+        console.log("User ID:",userId);
 
         if(!userId){
-            return res.status(401).json({ status: false, message: "Unauthorized: User ID is missing." });
+            return res.status(401).json({status:false,message:"Unauthorized: User ID is missing."});
         }
 
         const user = await User.findById(userId);
         if(!user){
-            return res.status(404).json({ status: false, message: "User not found." });
+            return res.status(404).json({status:false,message:"User not found."});
+        }
+        const currentTime = new Date();
+        const lastChangeTime = new Date(user.lastPasswordChange);
+        const timeDifference = (currentTime - lastChangeTime) / (1000 * 60);
+    
+        if(timeDifference < 5){
+          return res.status(400).json({ error: `You can change your password only after ${Math.ceil(5 - timeDifference)} minute(s).` });
         }
 
-        const isCurrentPassword = await bcryptjs.compare(currentPassword, user.password);
-        console.log("Is current password valid:", isCurrentPassword);
+        const isCurrentPassword = await bcryptjs.compare(currentPassword,user.password);
+        console.log("Is current password valid:",isCurrentPassword);
         if(!isCurrentPassword){
-            return res.status(400).json({ status: false, message: "Current password is incorrect." });
+            return res.status(400).json({status:false,message:"Current password is incorrect."});
         }
 
-        const isOldPassword = await bcryptjs.compare(newPassword, user.password);
+        const isOldPassword = await bcryptjs.compare(newPassword,user.password);
         if(isOldPassword){
-            return res.status(400).json({ status: false, message: "New password cannot be the same as the old password." });
+            return res.status(400).json({status:false,message:"New password cannot be the same as the old password."});
         }
 
-        const hashedPassword = await bcryptjs.hash(newPassword, 10);
+        const hashedPassword = await bcryptjs.hash(newPassword,10);
         user.password = hashedPassword;
+        user.lastPasswordChange = currentTime;
         await user.save();
 
-        return res.status(200).json({ status: true, message: "Password changed successfully", user });
+        return res.status(200).json({status:true,message:"Password changed successfully",user});
     } catch (error) {
         console.error(`Error changing password: ${error}`);
-        return res.status(500).json({ status: false, message: "Server error" });
+        return res.status(500).json({status:false,message:"Server error"});
     }
 };
 
 
+export const resetPassword = async (req, res) => {
+    try {
+        const {token} = req.params;
+        const {newPassword} = req.body;
 
+        let decoded;
+        try {
+            decoded = jwt.verify(token,process.env.JWT_SECRET);
+        } catch (error) {
+            if(error.name === 'TokenExpiredError'){
+                return res.status(400).json({status:false,message:"Token has expired."});
+            }
+            return res.status(400).json({status:false,message:"Invalid token."});
+        }
+        
+        const userId = decoded.id;
+
+        const user = await User.findById(userId);
+        if(!user){
+            return res.status(400).json({status:false,message:"Invalid or expired token."});
+        }
+
+        if(user.passwordReset){
+            return res.status(400).json({status:false,message:"Password has already been reset."});
+        }
+        const hashedPassword = await bcryptjs.hash(newPassword, 10);
+
+        user.passwordReset = true;
+        user.password = hashedPassword;
+        user.verified = true
+        await user.save();
+
+        return res.status(200).json({status:true,message: "Password successfully changed!"});
+    } catch (error) {
+        console.log(`Error in changePassword: ${error}`);
+        if(error.name === 'TokenExpiredError'){
+            return res.status(400).json({status:false,message:"Token has expired."});
+        }
+        return res.status(500).json({message:"Server error!"});
+    }
+};
