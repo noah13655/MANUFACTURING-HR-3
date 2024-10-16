@@ -71,6 +71,11 @@ const userSchema = new mongoose.Schema({
     profilePic: {
         type: String,
         default: "https://www.pngkey.com/png/full/121-1219231_user-default-profile.png"
+    },
+    status:{
+        type: String,
+        enum: ["Online", "Offline"],
+        default: "Offline"
     }
 
 },{timestamps:true});

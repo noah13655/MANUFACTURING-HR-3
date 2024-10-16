@@ -19,6 +19,8 @@ export const login = async (req,res) => {
     if(!isPasswordValid){
         return res.status(400).json({success:false,message:"Username or password is incorrect"});
     }
+    user.status = "Online";
+    await user.save();
     generateTokenAndSetCookie(res,user._id,user.role);
         res.status(200).json({success:true,message:"Log in successfully",role:user.role});
     } catch (error) {
@@ -60,7 +62,12 @@ export const logout = async (req, res) => {
         if (!req.cookies.token) {
             return res.status(400).json({ success: false, message: "You are not logged in" });
         }
-
+        const userId = req.user;
+        const user = await User.findById(userId);
+        if (user) {
+            user.status = "Offline";
+            await user.save();
+        }
         res.clearCookie("token", {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
@@ -76,7 +83,7 @@ export const logout = async (req, res) => {
 
 export const getUsers = async (req, res) => {
     try {
-        const users = await User.find({}, 'firstName lastName email role');
+        const users = await User.find({}, 'firstName lastName email position role status');
         res.status(200).json({ success: true, users });
     } catch (error) {
         console.error("Error fetching users:", error);

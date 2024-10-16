@@ -88,29 +88,26 @@ export const changePassword = async (req, res) => {
         console.log("Request body:", req.body);
         console.log("User ID:", userId);
 
-        if (!userId) {
+        if(!userId){
             return res.status(401).json({ status: false, message: "Unauthorized: User ID is missing." });
         }
 
         const user = await User.findById(userId);
-        if (!user) {
+        if(!user){
             return res.status(404).json({ status: false, message: "User not found." });
         }
 
-        // Check if the current password is correct
         const isCurrentPassword = await bcryptjs.compare(currentPassword, user.password);
         console.log("Is current password valid:", isCurrentPassword);
-        if (!isCurrentPassword) {
+        if(!isCurrentPassword){
             return res.status(400).json({ status: false, message: "Current password is incorrect." });
         }
 
-        // Check if the new password is the same as the old password
         const isOldPassword = await bcryptjs.compare(newPassword, user.password);
-        if (isOldPassword) {
+        if(isOldPassword){
             return res.status(400).json({ status: false, message: "New password cannot be the same as the old password." });
         }
 
-        // Hash the new password and save it
         const hashedPassword = await bcryptjs.hash(newPassword, 10);
         user.password = hashedPassword;
         await user.save();

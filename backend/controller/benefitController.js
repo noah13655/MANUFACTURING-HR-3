@@ -104,20 +104,20 @@ export const enrollBenefit = async (req,res) => {
     const userId = req.user._id;
 
     try {
-        if (!Array.isArray(benefitNames) ||benefitNames.length === 0) {
+        if(!Array.isArray(benefitNames) ||benefitNames.length === 0){
             return res.status(400).json({status:false,message:"At least one Benefit name is required."});
         }
 
         const benefits = await Benefit.find({benefitsName:{$in:benefitNames}});
 
-        if (benefits.length === 0) {
+        if(benefits.length === 0){
             return res.status(404).json({status:false,message:"No valid benefits found."});
         }
 
         const benefitIds = benefits.map(benefit => benefit._id);
 
         const existingRequest = await BenefitEnrollmentRequest.findOne({userId,benefitIds:{$in:benefitIds}});
-        if (existingRequest) {
+        if(existingRequest){
             return res.status(400).json({status:false,message:"User has already requested these benefits."});
         }
 
@@ -153,7 +153,7 @@ export const getBenefitsEnrolled = async(req,res) => {
             .populate('benefitIds','benefitsName benefitsDescription') 
             .exec();
 
-        if (!enrollment) {
+        if(!enrollment){
             return res.status(404).json({status:false,message:"No enrolled benefits found for this user."});
         }
 

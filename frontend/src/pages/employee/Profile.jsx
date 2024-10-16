@@ -1,9 +1,14 @@
-import { useEffect, useState } from "react";
-import { useEmployeeStore } from "../../store/employeeStore";
-import { toast, ToastContainer } from 'react-toastify';
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import bcrypt from "bcryptjs";
+
+import { useEffect, useState } from "react";
+
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+
+import { useEmployeeStore } from "../../store/employeeStore";
+
 import defaultimage from '../../assets/defaultimage.png';
 
 const Profile = () => {
@@ -17,7 +22,7 @@ const Profile = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordChangeCooldown, setPasswordChangeCooldown] = useState(false);
-  const [remainingCooldownTime, setRemainingCooldownTime] = useState(0); // New state for remaining cooldown time
+  const [remainingCooldownTime, setRemainingCooldownTime] = useState(0);
 
   const formatDate = (date) => {
     const d = new Date(date);
