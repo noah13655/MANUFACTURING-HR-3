@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const SalaryRequest = () => {
   const [employeeName, setEmployeeName] = useState('');
@@ -15,7 +15,9 @@ const SalaryRequest = () => {
       gCashNumber: paymentMethod === 'GCash' ? gCashNumber : null,
     });
   };
-
+  useEffect(() => {
+    document.title = "Salary Request";
+  });
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Request Salary Distribution</h1>

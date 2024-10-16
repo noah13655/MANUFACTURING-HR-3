@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const MyOvertimeBonuses = () => {
@@ -19,7 +19,9 @@ const MyOvertimeBonuses = () => {
 
   const totalOvertime = overtimeData.reduce((acc, item) => acc + item.hours * item.rate, 0);
   const totalBonus = overtimeData.reduce((acc, item) => acc + item.bonus, 0);
-
+  useEffect(() => {
+    document.title = "My Overtime and Bonuses";
+  });
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4 text-center">Overtime & Bonuses</h1>

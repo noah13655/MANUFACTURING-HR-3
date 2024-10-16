@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useEmployeeStore } from "../../store/employeeStore";
-import { MdOutlineDarkMode } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { useAuthStore } from "../../store/authStore";
 import { useNavigate } from 'react-router-dom';
@@ -56,8 +55,6 @@ const Search = () => {
         </div>
 
         <div className="flex gap-3 items-center">
-          <MdOutlineDarkMode className="size-6 cursor-pointer" />
-
           <div className="relative">
             <IoMdNotificationsOutline
               className="size-6 cursor-pointer"
@@ -88,7 +85,7 @@ const Search = () => {
             />
             <ul tabIndex={0} className="dropdown-content menu bg-white rounded-box z-[1] w-52 p-2 mt-2 shadow">
               <li><Link to="/profile">Profile</Link></li>
-              <li><a>Settings</a></li>
+              <li><Link to="/settings">Settings</Link></li>
               <li><button onClick={handleLogout}>Log out</button></li>
             </ul>
           </div>

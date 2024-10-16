@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const employeeId = 1; 
 const initialEmployeeCommissions = [
@@ -39,7 +39,9 @@ const MyCommissions = () => {
     setFeedback('');
     setShowFeedback(false);
   };
-
+  useEffect(() => {
+    document.title = "My Commissions";
+  });
   return (
     <div className="flex items-center justify-center min-h-screen p-6 bg-base-100">
       <div className="container mx-auto">

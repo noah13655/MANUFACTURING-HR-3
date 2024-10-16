@@ -6,6 +6,7 @@ const EIncentivesOverview = () => {
     const { fetchIncentive, incentive: incentives } = useIncentiveStore();
 
     useEffect(() => {
+        document.title = "Incentives Overview";
         fetchIncentive();
     }, [fetchIncentive]);
 

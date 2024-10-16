@@ -26,19 +26,19 @@ const PayrollProcessing = () => {
                 <tbody>
                   <tr>
                     <td>John Lloyd</td>
-                    <td>Product Manager</td>
+                    <td>Manager</td>
                     <td>Manager</td>
                     <td>Active</td>
                   </tr>
                   <tr>
                     <td>Oliver</td>
-                    <td>Developer</td>
+                    <td>Reseller</td>
                     <td>Employee</td>
                     <td>Active</td>
                   </tr>
                   <tr>
                     <td>Abby</td>
-                    <td>Developer</td>
+                    <td>Reseller</td>
                     <td>Employee</td>
                     <td>Active</td>
                   </tr>

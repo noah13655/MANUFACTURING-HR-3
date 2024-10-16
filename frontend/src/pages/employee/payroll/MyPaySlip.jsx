@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const MyPaySlip = () => {
     const payrollData = [
@@ -38,6 +38,9 @@ const MyPaySlip = () => {
         setExpandedData(null);
     };
 
+    useEffect(() => {
+        document.title = "My Payslip";
+      });
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-semibold mb-6 text-center text-gray-800">Payroll Slips</h1>

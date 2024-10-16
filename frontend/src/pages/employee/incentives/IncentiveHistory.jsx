@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const IncentiveHistory = () => {
   const incentives = [
@@ -24,7 +24,9 @@ const IncentiveHistory = () => {
       dateGranted: '2024-07-20',
     },
   ];
-
+  useEffect(() => {
+    document.title = "Incentives History";
+  });
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-4">Incentive History</h2>

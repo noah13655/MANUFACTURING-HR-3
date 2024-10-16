@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const MySalaryInfo = () => {
+    useEffect(() => {
+        document.title = "My Salary Info";
+      });
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-center text-gray-800">Salary Information</h1>

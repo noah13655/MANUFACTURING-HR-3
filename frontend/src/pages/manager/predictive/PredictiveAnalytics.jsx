@@ -195,7 +195,7 @@ useEffect(() => {
 </div>
 
       <div className="p-4 bg-base-200 rounded-lg shadow-md">
-        <h3 className="text-2xl font-semibold mb-4 text-accent">Monthly Salary Predictions</h3>
+        <h3 className="text-2xl font-semibold mb-4 text-neutral">Monthly Salary Predictions</h3>
         <table className="table table-zebra w-full">
           <thead>
             <tr>

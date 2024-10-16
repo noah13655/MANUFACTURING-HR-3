@@ -1,21 +1,23 @@
 import { useEffect, useState } from "react";
 import { useEmployeeStore } from "../../store/employeeStore";
 import { toast, ToastContainer } from 'react-toastify';
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import bcrypt from "bcryptjs";
 import 'react-toastify/dist/ReactToastify.css';
-
 import defaultimage from '../../assets/defaultimage.png';
 
 const Profile = () => {
-  const {fetchData,user,changePassword,lastPasswordChange} = useEmployeeStore();
+  const { fetchData, user, changePassword } = useEmployeeStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@#$!%*?&]{8,}$/;
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordChangeCooldown, setPasswordChangeCooldown] = useState(false);
+  const [remainingCooldownTime, setRemainingCooldownTime] = useState(0); // New state for remaining cooldown time
 
   const formatDate = (date) => {
     const d = new Date(date);
@@ -26,104 +28,119 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    document.title = "Profile";
     const fetchUserData = async () => {
       try {
         await fetchData();
       } catch (error) {
-        console.error("Error fetching user data:",error);
+        console.error("Error fetching user data:", error);
         toast.error('Failed to load user data. Please try again.');
       }
     };
     fetchUserData();
   }, [fetchData]);
 
+  useEffect(() => {
+    if (passwordChangeCooldown) {
+      setRemainingCooldownTime(5 * 60);
+      const timer = setInterval(() => {
+        setRemainingCooldownTime((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            setPasswordChangeCooldown(false);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [passwordChangeCooldown]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({currentPassword,newPassword,confirmPassword});
 
-    if (newPassword.trim() !== confirmPassword.trim()) {
-      toast.error('Passwords do not match. Please try again.'); 
+    if(newPassword.trim() !== confirmPassword.trim()){
+      toast.error('Passwords do not match. Please try again.');
       return;
-  }
-    
-  const minLengthRegex = /^.{8,}$/;
-  const uppercaseRegex = /[A-Z]/;
-  const lowercaseRegex = /[a-z]/;
-  const numberRegex = /\d/;
-  const specialCharRegex = /[$@#&!%*?]/; 
+    }
 
-      if(!minLengthRegex.test(newPassword)){
-        toast.error('New password must be at least 8 characters long.');
+    const minLengthRegex = /^.{8,}$/;
+    const uppercaseRegex = /[A-Z]/;
+    const lowercaseRegex = /[a-z]/;
+    const numberRegex = /\d/;
+    const specialCharRegex = /[$@#&!%*?]/;
+
+    if(!minLengthRegex.test(newPassword)){
+      toast.error('New password must be at least 8 characters long.');
       return;
-      }
-    
-      if(!uppercaseRegex.test(newPassword)){
+    }
+    if(!uppercaseRegex.test(newPassword)){
       toast.error('New password must contain at least 1 uppercase letter.');
       return;
-      }
-
-      if(!lowercaseRegex.test(newPassword)){
+    }
+    if(!lowercaseRegex.test(newPassword)){
       toast.error('New password must contain at least 1 lowercase letter.');
       return;
-      }     
-      if(!numberRegex.test(newPassword)){
+    }
+    if(!numberRegex.test(newPassword)){
       toast.error('New password must contain at least 1 number.');
       return;
-      } 
-      if(!specialCharRegex.test(newPassword)){
+    }
+    if(!specialCharRegex.test(newPassword)){
       toast.error('New password must contain at least 1 special character (e.g., @, $, #, &, !, %).');
       return;
-      }
-  
+    }
+    if(passwordChangeCooldown){
+      const minutesLeft = Math.floor(remainingCooldownTime / 60);
+      const secondsLeft = remainingCooldownTime % 60;
+      toast.error(`You can change your password in ${minutesLeft}m ${secondsLeft}s.`);
+      return;
+    }
+
     setIsLoading(true);
-    
+
     try {
-      if(!user || !user.password ||lastPasswordChange){
-        toast.error('User data is not available. Please refresh and try again.'); 
-        return;
-      }
-  
-      const currentTime = new Date();
-      const lastChangeTime = new Date(user.lastPasswordChange);
-      const timeDifference = (currentTime - lastChangeTime) / (1000 * 60);
-  
-      if (timeDifference < 5) {
-        toast.error(`You can change your password only after ${Math.ceil(5 - timeDifference)} minute(s).`);
+      if(!user || !user.password){
+        toast.error('User data is not available. Please refresh and try again.');
         return;
       }
 
-      const isCurrentPasswordValid = await bcrypt.compare(currentPassword,user.password);
+      const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
       if(!isCurrentPasswordValid){
         toast.error('Current password is incorrect. Please try again.');
         return;
       }
-  
-      const success = await changePassword(currentPassword,newPassword,confirmPassword);
-      if(success) {
+
+      const isOldPassword = await bcrypt.compare(newPassword, user.password);
+      if(isOldPassword){
+        toast.error('New password cannot be the same as the current password!');
+        return;
+      }
+
+      const success = await changePassword(currentPassword, newPassword, confirmPassword);
+      if(success){
         toast.success('Password changed successfully!');
 
-        await lastPasswordChange(currentTime);
-
+        setPasswordChangeCooldown(true);
         setCurrentPassword('');
         setNewPassword('');
         setConfirmPassword('');
         setIsModalOpen(false);
-      }else{
+      } else {
         toast.error('Error changing password. Please try again.');
       }
     } catch (error) {
-      console.error("Error during password change:",error);
-      toast.error(error.response?.data?.message || 'Error changing password. Please try again.');
+      console.error("Error during password change:", error);
+      toast.error('An error occurred. Please try again later.');
     } finally {
       setIsLoading(false);
     }
   };
-  
-  
+
   return (
     <div className="container mx-auto mt-10 p-8 max-w-3xl bg-white shadow-lg border-2 rounded-lg">
       <ToastContainer />
-      {/* Header with profile picture and Edit button */}
       <div className="flex flex-col items-center mb-6">
         <button className="relative group">
           <img
@@ -151,7 +168,6 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* Personal Information Section */}
       <div className="mt-8">
         <h3 className="text-xl font-medium text-gray-700 mb-4">Personal Information</h3>
         <div className="grid grid-cols-2 gap-6">
@@ -175,7 +191,6 @@ const Profile = () => {
       </div>
       <hr className="border-t border-gray-300 my-6 w-full mx-auto" />
 
-      {/* Address Section */}
       <div className="mt-8">
         <h3 className="text-xl font-medium text-gray-700 mb-4">Address</h3>
         <div className="grid grid-cols-2 gap-6">
@@ -192,78 +207,106 @@ const Profile = () => {
             <p className="text-lg text-gray-700 font-medium">{user?.address?.postalCode || "N/A"}</p>
           </div>
           <div>
-            <p className="text-sm text-gray-500">Country</p>
-            <p className="text-lg text-gray-700 font-medium">{user?.address?.country || "N/A"}</p>
+            <p className="text-sm text-gray-500">Street</p>
+            <p className="text-lg text-gray-700 font-medium">{user?.address?.street || "N/A"}</p>
           </div>
         </div>
       </div>
+
       <hr className="border-t border-gray-300 my-6 w-full mx-auto" />
+      <h3 className="text-lg font-semibold mb-4">Security</h3>
 
-      {/* Security Section */}
-      <div className="mt-8">
-        <h3 className="text-xl font-medium text-gray-700 mb-4">Security</h3>
-        <p className="text-lg text-gray-700 font-medium">Password: ********</p>
-        <button onClick={() => setIsModalOpen(true)} className="mt-4 text-blue-600 hover:underline">
-          Change Password
-        </button>
-      </div>
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="mt-4 text-blue-600 hover:text-blue-800 font-medium"
+      >
+        Change Password
+      </button>
 
-      {/* Change Password Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full mx-4">
-            <h2 className="text-lg font-semibold mb-4">Change Password</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Current Password</label>
-                <input
-                  type="password"
-                  value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
-                  required
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">New Password</label>
-                <input
-                  type="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  required
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Confirm New Password</label>
-                <input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <button
-                  type="button"
-                  className="text-gray-500 hover:underline"
-                  onClick={() => setIsModalOpen(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className={`px-4 py-2 rounded-md text-white ${isLoading ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'}`}
-                >
-                  {isLoading ? 'Changing...' : 'Change Password'}
-                </button>
-              </div>
-            </form>
+  <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
+    <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl mx-auto"style={{ width: '400px' }}> {/* Increased max-width to max-w-xl */}
+      <h3 className="text-lg font-semibold mb-4">Change Password</h3>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Current Password</label>
+          <div className="relative">
+            <input
+              type={showCurrentPassword ? 'text' : 'password'}
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              required
+              className="border border-gray-300 rounded-lg p-2 w-full"
+            />
+            <button
+              type="button"
+              onClick={() => setShowCurrentPassword((prev) => !prev)}
+              className="absolute right-2 top-2 text-gray-600"
+            >
+              {showCurrentPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
           </div>
         </div>
-      )}
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">New Password</label>
+          <div className="relative">
+            <input
+              type={showNewPassword ? 'text' : 'password'}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+              className="border border-gray-300 rounded-lg p-2 w-full"
+            />
+            <button
+              type="button"
+              onClick={() => setShowNewPassword((prev) => !prev)}
+              className="absolute right-2 top-2 text-gray-600"
+            >
+              {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Confirm New Password</label>
+          <div className="relative">
+            <input
+              type={showConfirmPassword ? 'text' : 'password'}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              className="border border-gray-300 rounded-lg p-2 w-full"
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword((prev) => !prev)}
+              className="absolute right-2 top-2 text-gray-600"
+            >
+              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+        </div>
+        <div className="flex justify-between mt-4">
+        <button
+          type="submit"
+          disabled={isLoading}
+          className={`mt-4 w-full bg-blue-600 text-white p-2 rounded-lg ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+        >
+          {isLoading ? 'Changing...' : 'Change Password'}
+        </button>
+        </div>
+      </form>
+      <button
+        onClick={() => setIsModalOpen(false)}
+        className="mt-4 text-gray-600 hover:text-gray-800"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

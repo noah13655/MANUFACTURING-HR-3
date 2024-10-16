@@ -27,9 +27,6 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    lastPasswordChange:{
-        type:Date
-    },
     phoneNumber:{
         type:String,
         required:true

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const BenefitsEnrollment = () => {
   const [loading, setLoading] = useState(false);
@@ -34,10 +34,9 @@ const BenefitsEnrollment = () => {
   ];
 
   const coverageOptions = [
-    { value: 'employee-only', label: 'Employee Only' },
-    { value: 'employee-spouse', label: 'Employee + Spouse' },
-    { value: 'employee-child', label: 'Employee + Child(ren)' },
-    { value: 'employee-family', label: 'Employee + Family' },
+    { value: 'Myself', label: 'Myself Only' },
+    { value: 'Children', label: 'Chilren' },
+    { value: 'Spouse', label: 'Spouse' },
   ];
 
   const handleChange = (event) => {
@@ -64,6 +63,9 @@ const BenefitsEnrollment = () => {
     console.log(formData);
   };
 
+  useEffect(()=> {
+    document.title = "Benefits Enrollment";
+  });
   return (
     <div className="container mx-auto p-4 pt-6 md:p-6 lg:p-12 bg-base-200">
       <h1 className="text-3xl text-center font-bold mb-4">Benefits Enrollment</h1>
@@ -108,7 +110,8 @@ const BenefitsEnrollment = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className='flex gap-6' >
+        <div className="form-control w-1/2">
           <div className="form-control">
             <label className="label" htmlFor="date-of-birth">Date of Birth</label>
             <input 
@@ -122,7 +125,19 @@ const BenefitsEnrollment = () => {
             />
           </div>
         </div>
-
+          <div className="form-control w-1/2">
+          <label className="label">Gender</label>
+          <select 
+              name="gender" 
+              className="select select-bordered w-full" 
+              required  
+              value={formData.gender}>
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+          </div>
+        </div>
         <h2 className="text-2xl font-bold mb-4 mt-6">Address</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div className="form-control">
@@ -221,7 +236,7 @@ const BenefitsEnrollment = () => {
             </select>
           </div>
           <div className="form-control">
-            <label className="label" htmlFor="coverage-type">Select Coverage</label>
+            <label className="label" htmlFor="coverage-type">Select Beneficiary</label>
             <select 
               id="coverage-type" 
               name="coverageType" 

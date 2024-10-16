@@ -69,9 +69,8 @@ import MyCommissions from './pages/employee/incentives/MyCommissions';
 import IncentiveRequest from './pages/employee/incentives/IncentiveRequest';
 import IncentiveHistory from './pages/employee/incentives/IncentiveHistory';
 
-import ImportantUpdates from './pages/employee/notificationsAndAlerts/ImportantUpdates';
 
-import MySalaryInfo from './pages/employee/payroll/mySalaryInfo';
+import MySalaryInfo from './pages/employee/payroll/MySalaryInfo';
 import SalaryRequest from './pages/employee/payroll/SalaryRequest';
 import MyPaySlip from './pages/employee/payroll/MyPaySlip';
 import MyOvertimeBonuses from './pages/employee/payroll/MyOvertimeBonuses';
@@ -115,7 +114,6 @@ const App = () => {
                     <>
                     
                       <Route path="/dashboard" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
-                      
                       <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />  
                       <Route path="/register-user" element={<ProtectedRoute><RegisterUserForm /></ProtectedRoute>} />                    
 
@@ -166,8 +164,6 @@ const App = () => {
                       <Route path='/benefits-enrollment' element={<ProtectedRoute><BenefitsEnrollment/></ProtectedRoute>}/>
                       <Route path='/leave-application' element={<ProtectedRoute><LeaveApplication/></ProtectedRoute>}/>
                       <Route path='/my-deductions' element={<ProtectedRoute><MyDeductions/></ProtectedRoute>}/>
-
-                      <Route path='/important-updates' element={<ProtectedRoute><ImportantUpdates/></ProtectedRoute>}/>
 
                       <Route path='/my-salary-info' element={<ProtectedRoute><MySalaryInfo/></ProtectedRoute>}/>
                       <Route path='/salary-request' element={<ProtectedRoute><SalaryRequest/></ProtectedRoute>}/>

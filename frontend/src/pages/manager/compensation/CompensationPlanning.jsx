@@ -3,16 +3,16 @@ import React, { useEffect, useState } from 'react';
 const CompensationPlanning = () => {
   const [salaries, setSalaries] = useState([
     {
-      position: 'Software Engineer',
-      currentSalary: 60000,
-      plannedSalary: 65000,
+      position: 'Reseller',
+      currentSalary: 20000,
+      plannedSalary: 22000,
       deductions: 2000,
       doublePay: 3000,
       salesCommission: 5000,
       recognitionAward: 1000,
     },
     {
-      position: 'Project Manager',
+      position: 'CEO',
       currentSalary: 80000,
       plannedSalary: 85000,
       deductions: 2500,

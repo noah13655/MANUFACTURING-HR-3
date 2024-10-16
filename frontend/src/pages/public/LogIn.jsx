@@ -10,8 +10,9 @@ import jjmLogo from '../../assets/jjmlogo.jpg';
 const LogIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const {login,isAuthenticated} = useAuthStore();
+  const { login, isAuthenticated } = useAuthStore();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,7 +27,7 @@ const LogIn = () => {
       console.error("Login error:", error);
       toast.error("An error occurred during login. Please try again later.");
     }
-};
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -60,24 +61,37 @@ const LogIn = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="input input-bordered"
+                className="input input-bordered w-full"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Password</span>
+            <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  className="input input-bordered w-full"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <div 
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                </div>
+            </div>
+            <div className="form-control mt-2">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="mr-2"
+                  checked={showPassword}
+                  onChange={() => setShowPassword(!showPassword)}
+                />
+                <span className="label-text">Show Password</span>
               </label>
-              <input
-                type="password"
-                placeholder="Enter your password"
-                className="input input-bordered"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
             </div>
             <div className="form-control mt-6">
               <button className="btn btn-primary">Login</button>
