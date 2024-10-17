@@ -10,24 +10,33 @@ import jjmLogo from '../../assets/jjmlogo.jpg';
 const LogIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [verified,setVerified] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { login, isAuthenticated } = useAuthStore();
+  const { login, isAuthenticated ,error} = useAuthStore();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
-      const result = await login(email, password);
-      if (!result) {
-        toast.error("Username or password incorrect!");
-        return;
-      }
+        const result = await login(email,password,verified);
+        if(!result){
+            if(error){
+                console.log("Error message:", error);
+                if(error.toLowerCase().includes("not verified")){
+                    toast.warn("Your account is not verified. Please verify your account first!");
+                }else{
+                    toast.error("Username or password incorrect!");
+                }
+            }
+            return;
+        }else{
+            toast.success("Logged in successfully! Your account is verified.");
+        }
     } catch (error) {
-      console.error("Login error:", error);
-      toast.error("An error occurred during login. Please try again later.");
+        console.error("Login error:", error);
+        toast.error("An error occurred during login. Please try again later.");
     }
-  };
+};
 
   useEffect(() => {
     if (isAuthenticated) {
