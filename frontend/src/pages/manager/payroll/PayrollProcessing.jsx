@@ -20,46 +20,7 @@ const {fetchUsers,users} = useAuthStore();
   }, [fetchUsers]);
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4 text-center">Payroll Processing</h1>
-
-      <div className="mb-4">
-        <div className="card w-full bg-base-100 shadow-xl">
-          <div className="card-body">
-            <h2 className="card-title">Employee List</h2>
-            <div className="overflow-x-auto">
-              <table className="table w-full mb-4">
-                <thead>
-                  <tr className="bg-primary text-white">
-                    <th className="border px-4 py-2">Lastname</th>
-                    <th className="border px-4 py-2">Firstname</th>
-                    <th className="border px-4 py-2">Position</th>
-                    <th className="border px-4 py-2">Role</th>
-                    <th className="border px-4 py-2">Verified</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {Array.isArray(users) && users.length > 0 ? (
-                    users.map((user) => (
-                      <tr key={user._id} className="hover:bg-neutral hover:text-white">
-                        <td className="border px-4 py-2">{user.lastName || 'N/A'}</td>
-                        <td className="border px-4 py-2">{user.firstName || 'N/A'}</td>
-                        <td className="border px-4 py-2">{user.position || 'N/A'}</td>
-                        <td className="border px-4 py-2">{user.role || 'N/A'}</td>
-                        <td className="border px-4 py-2">{user.verified ? 'True' : 'False'}</td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="4" className="text-center">No employees found!</td>
-                    </tr>
-                  )}                
-                  </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <h1 className="text-3xl font-bold mb-8 text-center">Payroll Processing</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         
         <div className="card bg-base-100 shadow-xl">

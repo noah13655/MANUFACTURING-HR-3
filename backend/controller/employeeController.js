@@ -97,7 +97,7 @@ export const registerUser = async (req, res) => {
             from: process.env.EMAIL_USER,
             to: email,
             subject: 'Welcome! Please Set Your Password',
-            text: `Hi ${firstName},\n\nThank you for registering. To verify account set your new password, please click the link below:\n\n` +
+            text: `Hi ${lastName} ${firstName},\n\nThank you for registering. To verify account set your new password, please click the link below:\n\n` +
                 `${baseUrl}/verify-account/${token}\n\nThis link will expire in 1 hour. If you did not request this, please ignore this email.`
         };
 
