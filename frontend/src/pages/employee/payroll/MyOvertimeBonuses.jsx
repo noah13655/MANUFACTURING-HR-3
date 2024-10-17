@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 const MyOvertimeBonuses = () => {
   const overtimeData = [
@@ -10,18 +9,23 @@ const MyOvertimeBonuses = () => {
       bonus: 500,
     },
     {
-      date: "October 10, 2024",
+      date: "October 2, 2024",
       hours: 3,
       rate: 150,
       bonus: 300,
     },
   ];
 
+  // Calculate total overtime, total bonuses, total overtime pay, and total hours
   const totalOvertime = overtimeData.reduce((acc, item) => acc + item.hours * item.rate, 0);
   const totalBonus = overtimeData.reduce((acc, item) => acc + item.bonus, 0);
+  const totalOvertimePay = overtimeData.reduce((acc, item) => acc + item.hours * item.rate, 0);
+  const totalHours = overtimeData.reduce((acc, item) => acc + item.hours, 0); // Total hours calculation
+
   useEffect(() => {
     document.title = "My Overtime and Bonuses";
-  });
+  }, []);
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4 text-center">Overtime & Bonuses</h1>
@@ -31,6 +35,7 @@ const MyOvertimeBonuses = () => {
           <div className="card-body">
             <h2 className="card-title text-lg sm:text-xl font-semibold">Total Overtime</h2>
             <p className="text-lg font-bold text-green-600">₱{totalOvertime.toLocaleString()}</p>
+            <p className="text-md font-medium text-gray-600">Total Hours: {totalHours}</p> {/* Total hours display */}
           </div>
         </div>
 
@@ -42,23 +47,25 @@ const MyOvertimeBonuses = () => {
         </div>
       </div>
 
-      <h2 className="text-2xl font-bold mb-4">Overtime Records</h2>
-      <table className="min-w-full bg-white shadow-lg rounded-lg">
+      <h2 className="text-2xl font-bold mb-4 text-center">Overtime Records</h2>
+      <table className="min-w-full bg-white shadow-lg rounded-lg border border-gray-200">
         <thead>
           <tr className="bg-gray-200 text-gray-600">
-            <th className="py-2 px-4">Date</th>
-            <th className="py-2 px-4">Hours</th>
-            <th className="py-2 px-4">Rate</th>
-            <th className="py-2 px-4">Bonus</th>
+            <th className="py-3 px-4 text-left border-b">Date</th>
+            <th className="py-3 px-4 text-left border-b">Hours</th>
+            <th className="py-3 px-4 text-left border-b">Rate</th>
+            <th className="py-3 px-4 text-left border-b">Bonus</th>
+            <th className="py-3 px-4 text-left border-b">Overtime Pay</th>
           </tr>
         </thead>
         <tbody>
           {overtimeData.map((item, index) => (
-            <tr key={index} className="border-b border-gray-200">
+            <tr key={index} className="border-b border-gray-200 hover:bg-gray-100">
               <td className="py-2 px-4">{item.date}</td>
               <td className="py-2 px-4">{item.hours}</td>
               <td className="py-2 px-4">₱{item.rate.toLocaleString()}</td>
               <td className="py-2 px-4">₱{item.bonus.toLocaleString()}</td>
+              <td className="py-2 px-4">₱{(item.hours * item.rate).toLocaleString()}</td> {/* Overtime Pay for each record */}
             </tr>
           ))}
         </tbody>

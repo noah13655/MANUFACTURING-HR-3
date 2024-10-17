@@ -31,8 +31,8 @@ const EmployeeDashboard = () => {
   ];
 
   const commissionsData = [
-    { date: '2024-09-30', sales: 10000, commission: 1500 },
-    { date: '2024-08-31', sales: 8000, commission: 1000 },
+    { date: '2024-09-01', sales: 10000, commission: 500 },
+    { date: '2024-09-05', sales: 15000, commission: 600 },
   ];
   useEffect(() => {
     document.title = "Dashboard";

@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 const MarketAnalysis = () => {
   const industryData = [
-    { role: 'Software Engineer', dailyWage: 610 },
-    { role: 'Project Manager', dailyWage: 750 },
-    { role: 'HR Manager', dailyWage: 550 },
-    { role: 'Marketing Specialist', dailyWage: 500 },
+    { position: 'CEO', dailyWage: 1500 },
+    { position: 'Secretary', dailyWage: 500 },
+    { position: 'Production Head', dailyWage: 750 },
+    { position: 'Resellers Sales Head', dailyWage: 800 },
+    { position: 'Reseller', dailyWage: 450 },
+    { position: 'Manager', dailyWage: 650 },
   ];
 
   const geographicData = [
@@ -44,10 +46,12 @@ const MarketAnalysis = () => {
   ];
 
   const turnoverData = [
-    { role: 'Software Engineer', turnoverRate: 10 },
-    { role: 'Project Manager', turnoverRate: 5 },
-    { role: 'HR Manager', turnoverRate: 7 },
-    { role: 'Marketing Specialist', turnoverRate: 8 },
+    { position: 'CEO', turnoverRate: 8 },
+    { position: 'Secretary', turnoverRate: 12 },
+    { position: 'Production Head', turnoverRate: 6 },
+    { position: 'Resellers Sales Head', turnoverRate: 9 },
+    { position: 'Reseller', turnoverRate: 10 },
+    { position: 'Manager', turnoverRate: 7 },
   ];
 
   const WORKING_DAYS_PER_MONTH = 24;
@@ -79,7 +83,38 @@ const MarketAnalysis = () => {
 
   useEffect(() => {
     document.title = 'Market Analysis';
-  }, []); 
+  }, []);
+
+  const downloadCSV = () => {
+    const csvRows = [];
+
+    // Header
+    csvRows.push(['Job position', 'Daily Wage (PHP)', 'Hourly Wage (PHP)', 'Monthly Salary (PHP)', 'Weekly Salary (PHP)', 'Annual Salary (PHP)'].join(','));
+
+    // Data
+    filteredIndustryData.forEach(data => {
+      csvRows.push([
+        data.position,
+        data.dailyWage.toLocaleString(),
+        calculateHourlySalary(data.dailyWage).toLocaleString(undefined, { minimumFractionDigits: 2 }),
+        calculateMonthlySalary(data.dailyWage).toLocaleString(undefined, { minimumFractionDigits: 2 }),
+        calculateWeeklySalary(data.dailyWage).toLocaleString(undefined, { minimumFractionDigits: 2 }),
+        calculateAnnualSalary(data.dailyWage).toLocaleString(undefined, { minimumFractionDigits: 2 }),
+      ].join(','));
+    });
+
+    const csvString = csvRows.join('\n');
+    const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'market_analysis.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="container mx-auto p-8 bg-base-200">
       <h2 className="text-3xl font-bold text-center mb-10 text-primary">Market Analysis</h2>
@@ -102,12 +137,12 @@ const MarketAnalysis = () => {
       </div>
 
       <div className="mb-12">
-        <h3 className="text-2xl font-semibold mb-6 text-accent">Salary Benchmarking (Based on Daily Wage)</h3>
+        <h3 className="text-2xl font-semibold mb-6 text-neutral">Salary Benchmarking (Based on Daily Wage)</h3>
         <div className="overflow-x-auto">
           <table className="table w-full">
             <thead>
               <tr className='bg-primary text-white'>
-                <th className="border px-4 py-2">Job Role</th>
+                <th className="border px-4 py-2">Job position</th>
                 <th className="border px-4 py-2">Daily Wage (PHP)</th>
                 <th className="border px-4 py-2">Hourly Wage (PHP)</th>
                 <th className="border px-4 py-2">Monthly Salary (PHP)</th>
@@ -118,7 +153,7 @@ const MarketAnalysis = () => {
             <tbody>
               {filteredIndustryData.map((data, index) => (
                 <tr key={index} className="hover:bg-neutral hover:text-white">
-                  <td className="border px-4 py-2">{data.role}</td>
+                  <td className="border px-4 py-2">{data.position}</td>
                   <td className="border px-4 py-2">{data.dailyWage.toLocaleString()}</td>
                   <td className="border px-4 py-2">{calculateHourlySalary(data.dailyWage).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                   <td className="border px-4 py-2">{calculateMonthlySalary(data.dailyWage).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
@@ -132,6 +167,7 @@ const MarketAnalysis = () => {
         <div className="mt-4">
           <p className="font-bold">Average Daily Wage in Industry: ₱{averageIndustryWage.toFixed(2).toLocaleString()}</p>
         </div>
+        <button onClick={downloadCSV} className="btn btn-primary mt-4">Download CSV</button>
       </div>
 
       <div className="my-4">
@@ -139,7 +175,7 @@ const MarketAnalysis = () => {
       </div>
 
       <div className="mb-12">
-        <h3 className="text-2xl font-semibold mb-6 text-accent">Geographic Analysis (Based on Daily Wage)</h3>
+        <h3 className="text-2xl font-semibold mb-6 text-neutral">Geographic Analysis (Based on Daily Wage)</h3>
         <div className="overflow-x-auto">
           <table className="table w-full">
             <thead>
@@ -167,37 +203,18 @@ const MarketAnalysis = () => {
           </table>
         </div>
         <div className="mt-4">
-          <p className="font-bold">Average Daily Wage in Geography: ₱{averageGeographicWage.toFixed(2).toLocaleString()}</p>
+          <p className="font-bold">Average Daily Wage by Location: ₱{averageGeographicWage.toFixed(2).toLocaleString()}</p>
         </div>
+        <button onClick={downloadCSV} className="btn btn-primary mt-4">Download CSV</button>
+
+      </div>
+
+      <div className="my-4">
+        <hr className="border-t-2 border-gray-300 w-full" />
       </div>
 
       <div className="mb-12">
-        <h3 className="text-2xl font-semibold mb-6 text-accent">Employee Turnover Analysis</h3>
-        <div className="overflow-x-auto">
-          <table className="table w-full">
-            <thead>
-              <tr className='bg-primary text-white'>
-                <th className="border px-4 py-2">Job Role</th>
-                <th className="border px-4 py-2">Turnover Rate (%)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {turnoverData.map((data, index) => (
-                <tr key={index} className="hover:bg-neutral hover:text-white">
-                  <td className="border px-4 py-2">{data.role}</td>
-                  <td className="border px-4 py-2">{data.turnoverRate.toLocaleString()}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="mt-4">
-          <p className="font-bold">Average Turnover Rate: {averageTurnoverRate.toFixed(2)}%</p>
-        </div>
-      </div>
-
-      <div className="mb-12">
-        <h3 className="text-2xl font-semibold mb-6 text-accent">Company Incentives</h3>
+        <h3 className="text-2xl font-semibold mb-6 text-neutral">Incentives Comparison</h3>
         <div className="overflow-x-auto">
           <table className="table w-full">
             <thead>
@@ -220,25 +237,45 @@ const MarketAnalysis = () => {
         </div>
       </div>
 
+      <div className="my-4">
+        <hr className="border-t-2 border-gray-300 w-full" />
+      </div>
+
       <div className="mb-12">
-        <h3 className="text-2xl font-semibold mb-6 text-accent">Geographic Incentives</h3>
+        <h3 className="text-2xl font-semibold mb-6 text-neutral">Geographic Incentives</h3>
+        <ul className="list-disc pl-6">
+          {geographicIncentivesData.map((data, index) => (
+            <li key={index} className="my-2">{data.location}: {data.incentive}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="my-4">
+        <hr className="border-t-2 border-gray-300 w-full" />
+      </div>
+
+      <div className="mb-12">
+        <h3 className="text-2xl font-semibold mb-6 text-neutral">Turnover Rate by Job position</h3>
         <div className="overflow-x-auto">
           <table className="table w-full">
             <thead>
               <tr className='bg-primary text-white'>
-                <th className="border px-4 py-2">Location</th>
-                <th className="border px-4 py-2">Incentive</th>
+                <th className="border px-4 py-2">Job position</th>
+                <th className="border px-4 py-2">Turnover Rate (%)</th>
               </tr>
             </thead>
             <tbody>
-              {geographicIncentivesData.map((data, index) => (
+              {turnoverData.map((data, index) => (
                 <tr key={index} className="hover:bg-neutral hover:text-white">
-                  <td className="border px-4 py-2">{data.location}</td>
-                  <td className="border px-4 py-2">{data.incentive}</td>
+                  <td className="border px-4 py-2">{data.position}</td>
+                  <td className="border px-4 py-2">{data.turnoverRate}%</td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="mt-4">
+          <p className="font-bold">Average Turnover Rate: {averageTurnoverRate.toFixed(2)}%</p>
         </div>
       </div>
     </div>

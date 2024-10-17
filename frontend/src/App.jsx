@@ -55,7 +55,7 @@ import RecognitionPrograms from './pages/manager/incentives/RecognitionPrograms'
 import PredictiveAnalytics from './pages/manager/predictive/PredictiveAnalytics';
 
 /* employee */
-import RegisterUserForm from './pages/RegisterUserForm';
+import EmployeeList from './pages/EmployeeList';
 
 import Profile from './pages/employee/Profile';
 
@@ -113,7 +113,8 @@ const App = () => {
                     
                       <Route path="/dashboard" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
                       <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />  
-                      <Route path="/register-user" element={<ProtectedRoute><RegisterUserForm /></ProtectedRoute>} />                    
+                      
+                      <Route path="/employee-list" element={<ProtectedRoute><EmployeeList /></ProtectedRoute>} />                    
 
                       {/* Payroll Processing */}
                       <Route path="/payroll-management" element={<ProtectedRoute><PayrollProcessing /></ProtectedRoute>} />
@@ -172,6 +173,7 @@ const App = () => {
                       <Route path="/incentive-request" element={<ProtectedRoute><IncentiveRequest /></ProtectedRoute>} />                    
                       <Route path="/incentive-history" element={<ProtectedRoute><IncentiveHistory /></ProtectedRoute>} />                    
                       <Route path="/my-commissions" element={<ProtectedRoute><MyCommissions /></ProtectedRoute>} />                    
+                      
                     </>
                   )}
 

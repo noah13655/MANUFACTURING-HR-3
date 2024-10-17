@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { MdDashboard, MdPersonAdd } from 'react-icons/md';
-import { FaDollarSign, FaMoneyBillWave, FaStar } from 'react-icons/fa';
-import { AiOutlineBarChart } from 'react-icons/ai';
+import { MdDashboard } from 'react-icons/md';
+import { FaMoneyBillWave, FaStar } from 'react-icons/fa';
 import { GiHealthNormal } from 'react-icons/gi';
 import { RiNavigationFill } from "react-icons/ri";
 import { BiSolidNavigation } from "react-icons/bi";
@@ -53,7 +52,6 @@ const EmployeeSidebar = () => {
         <DashboardLink icon={<GiHealthNormal />} text="My Benefits" to="/benefits-overview" isCollapsed={isCollapsed} isActive={activeLink === 'benefits'} onClick={() => handleLinkClick('benefits')} />
         <DashboardLink icon={<FaStar />} text="My Incentives" to="/incentives-overview" isCollapsed={isCollapsed} isActive={activeLink === 'incentives'} onClick={() => handleLinkClick('incentives')} />
         <DashboardLink icon={<FaMoneyBillWave />} text="My Salary" to="/my-salary-info" isCollapsed={isCollapsed} isActive={activeLink === 'salary'} onClick={() => handleLinkClick('salary')} />
-        <DashboardLink icon={<AiOutlineBarChart />} text="Analytics" to="/predictive-analytics" isCollapsed={isCollapsed} isActive={activeLink === 'analytics'} onClick={() => handleLinkClick('analytics')} />
       </div>
     </div>
   );

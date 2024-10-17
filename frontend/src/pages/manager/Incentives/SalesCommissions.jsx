@@ -40,61 +40,64 @@ const SalesCommissions = () => {
   useEffect(() => {
     document.title = 'Sales Commission';
   }, []); 
+
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-semibold mb-6">Sales Commissions Management</h1>
+      <h1 className="text-3xl font-semibold mb-6 text-center">Sales Commissions Management</h1>
 
       <div className="card bg-base-100 shadow-xl mb-6 p-6">
         <h2 className="text-xl font-semibold mb-4">Add New Sales Commission</h2>
-        <div className="mb-4">
-          <label className="label">Employee Name</label>
-          <input
-            type="text"
-            name="employeeName"
-            value={newCommission.employeeName}
-            onChange={handleInputChange}
-            placeholder="e.g., Name"
-            className="input input-bordered w-full"
-          />
+        <div className="space-y-4">
+          <div>
+            <label className="label">Employee Name</label>
+            <input
+              type="text"
+              name="employeeName"
+              value={newCommission.employeeName}
+              onChange={handleInputChange}
+              placeholder="e.g., Name"
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label className="label">Sales Amount (₱)</label>
+            <input
+              type="number"
+              name="salesAmount"
+              value={newCommission.salesAmount}
+              onChange={handleInputChange}
+              placeholder="e.g., 1000"
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label className="label">Commission Rate (%)</label>
+            <input
+              type="number"
+              name="commissionRate"
+              value={newCommission.commissionRate}
+              onChange={handleInputChange}
+              placeholder="e.g., 5"
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label className="label">Date</label>
+            <input
+              type="date"
+              name="date"
+              value={newCommission.date}
+              onChange={handleInputChange}
+              className="input input-bordered w-full"
+            />
+          </div>
+          <button
+            onClick={handleAddCommission}
+            className="btn btn-primary w-full"
+          >
+            Add Commission
+          </button>
         </div>
-        <div className="mb-4">
-          <label className="label">Sales Amount (₱)</label>
-          <input
-            type="number"
-            name="salesAmount"
-            value={newCommission.salesAmount}
-            onChange={handleInputChange}
-            placeholder="e.g., 1000"
-            className="input input-bordered w-full"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="label">Commission Rate (%)</label>
-          <input
-            type="number"
-            name="commissionRate"
-            value={newCommission.commissionRate}
-            onChange={handleInputChange}
-            placeholder="e.g., 5"
-            className="input input-bordered w-full"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="label">Date</label>
-          <input
-            type="date"
-            name="date"
-            value={newCommission.date}
-            onChange={handleInputChange}
-            className="input input-bordered w-full"
-          />
-        </div>
-        <button
-          onClick={handleAddCommission}
-          className="btn btn-primary"
-        >
-          Add Commission
-        </button>
       </div>
 
       <div className="card bg-base-100 shadow-xl">

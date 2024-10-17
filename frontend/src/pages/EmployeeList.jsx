@@ -4,7 +4,7 @@ import { useAuthStore } from '../store/authStore';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const RegisterUserForm = () => {
+const EmployeeList = () => {
   const { registerUser } = useEmployeeStore();
   const {fetchUsers,users} = useAuthStore();
 
@@ -369,4 +369,4 @@ const RegisterUserForm = () => {
   );
 };
 
-export default RegisterUserForm;
+export default EmployeeList;

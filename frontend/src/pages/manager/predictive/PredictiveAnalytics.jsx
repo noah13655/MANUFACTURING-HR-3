@@ -1,23 +1,15 @@
 import React, { useEffect } from 'react';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-} from 'recharts';
+import {LineChart,Line,XAxis,YAxis,CartesianGrid,Tooltip,Legend,ResponsiveContainer,BarChart,Bar,} from 'recharts';
 
 const PredictiveAnalytics = () => {
+
   const industryData = [
-    { role: 'Software Engineer', dailyWage:800,count:25},
-    { role: 'Project Manager', dailyWage:1000,count:25},
-    { role: 'HR Manager', dailyWage:900,count:25},
-    { role: 'Marketing Specialist', dailyWage:750,count:25},
+    { position: 'CEO', dailyWage: 1500 ,count:1},
+    { position: 'Secretary', dailyWage: 500,count:5 },
+    { position: 'Production Head', dailyWage: 750 ,count:5},
+    { position: 'Resellers Sales Head', dailyWage: 800 ,count:5},
+    { position: 'Reseller', dailyWage: 450 ,count:25},
+    { position: 'Manager', dailyWage: 650 ,count:1},
   ];
 
 
@@ -47,10 +39,12 @@ const PredictiveAnalytics = () => {
   }));
 
   const employeeSatisfactionData = [
-    { role: 'Software Engineer', satisfaction: 85, benefitsSatisfaction: 90 },
-    { role: 'Project Manager', satisfaction: 75, benefitsSatisfaction: 80 },
-    { role: 'HR Manager', satisfaction: 80, benefitsSatisfaction: 85 },
-    { role: 'Marketing Specialist', satisfaction: 70, benefitsSatisfaction: 75 },
+    { position: 'CEO', satisfaction: 85, benefitsSatisfaction: 90 },
+    { position: 'Manager', satisfaction: 75, benefitsSatisfaction: 80 },
+    { position: 'Secretary', satisfaction: 70, benefitsSatisfaction: 75 },
+    { position: 'Production Head', satisfaction: 80, benefitsSatisfaction: 85 },
+    { position: 'Resellers Sales Head', satisfaction: 70, benefitsSatisfaction: 75 },
+    { position: 'Resellers', satisfaction: 70, benefitsSatisfaction: 75 },
   ];
 
   const analyzeEmployeeBehavior = (data) => {
@@ -64,7 +58,7 @@ const PredictiveAnalytics = () => {
   const analyzedBehaviorData = analyzeEmployeeBehavior(employeeSatisfactionData);
 
   const behavioralChartData = analyzedBehaviorData.map((employee) => ({
-    role: employee.role,
+    position: employee.position,
     satisfaction: employee.satisfaction,
     turnoverRisk: employee.turnoverRisk * 100,
     benefitsSatisfaction: employee.benefitsSatisfaction,
@@ -113,7 +107,7 @@ const handlePrint = () => {
     <table class="table-auto">
       <thead>
         <tr>
-          <th class="px-4 py-2">Role</th>
+          <th class="px-4 py-2">Position</th>
           <th class="px-4 py-2">Daily Wage</th>
           <th class="px-4 py-2">Predicted Monthly Salary</th>
           <th class="px-4 py-2">Number of Employees</th>
@@ -125,7 +119,7 @@ const handlePrint = () => {
   
   const tableRows = predictedIndustryData.map(item => `
     <tr>
-      <td class="border px-4 py-2">${item.role}</td>
+      <td class="border px-4 py-2">${item.position}</td>
       <td class="border px-4 py-2">${item.dailyWage}</td>
       <td class="border px-4 py-2">${calculateMonthlySalary(item.dailyWage)}</td>
       <td class="border px-4 py-2">${item.count}</td>
@@ -182,7 +176,7 @@ useEffect(() => {
     <ResponsiveContainer width="100%" height={200}>
       <BarChart data={behavioralChartData}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="role" />
+        <XAxis dataKey="position" />
         <YAxis />
         <Tooltip />
         <Legend />
@@ -199,7 +193,7 @@ useEffect(() => {
         <table className="table table-zebra w-full">
           <thead>
             <tr>
-              <th>Role</th>
+              <th>Position</th>
               <th>Daily Wage</th>
               <th>Predicted Monthly Salary</th>
               <th>Current Monthly Salary</th>
@@ -212,8 +206,8 @@ useEffect(() => {
               const monthlySalary = calculateMonthlySalary(item.dailyWage);
               const totalPayroll = monthlySalary * item.count;
               return (
-                <tr key={item.role}>
-                  <td>{item.role}</td>
+                <tr key={item.position}>
+                  <td>{item.position}</td>
                   <td>{item.dailyWage}</td>
                   <td>{monthlySalary}</td>
                   <td>{monthlySalary}</td>

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MdDashboard, MdPersonAdd } from 'react-icons/md';
-import { FaDollarSign, FaMoneyBillWave, FaStar } from 'react-icons/fa';
+import { FaMoneyBillWave, FaStar } from 'react-icons/fa';
+import { TbCurrencyPeso } from "react-icons/tb";
 import { AiOutlineBarChart } from 'react-icons/ai';
 import { GiHealthNormal } from 'react-icons/gi';
 import { RiNavigationFill } from "react-icons/ri";
@@ -51,11 +52,11 @@ const ManagerSidebar = () => {
         </div>
 
         <DashboardLink icon={<MdDashboard />} text="Dashboard" to="/" isCollapsed={isCollapsed} isActive={activeLink === 'dashboard'} onClick={() => handleLinkClick('dashboard')} />
-        <DashboardLink icon={<MdPersonAdd />} text="Employee registration" to="/register-user" isCollapsed={isCollapsed} isActive={activeLink === 'employee'} onClick={() => handleLinkClick('employee')} />
+        <DashboardLink icon={<MdPersonAdd />} text="Employee List" to="/employee-list" isCollapsed={isCollapsed} isActive={activeLink === 'employee'} onClick={() => handleLinkClick('employee')} />
         <DashboardLink icon={<GiHealthNormal />} text="Benefits Administration" to="/benefits-administration" isCollapsed={isCollapsed} isActive={activeLink === 'benefits'} onClick={() => handleLinkClick('benefits')} />
         <DashboardLink icon={<FaStar />} text="Incentives management" to="/incentives-management" isCollapsed={isCollapsed} isActive={activeLink === 'incentives'} onClick={() => handleLinkClick('incentives')} />
         <DashboardLink icon={<FaMoneyBillWave />} text="Compensation Planning" to="/compensation-overview" isCollapsed={isCollapsed} isActive={activeLink === 'compensation'} onClick={() => handleLinkClick('compensation')} />
-        <DashboardLink icon={<FaDollarSign />} text="Payroll Processing" to="/payroll-management" isCollapsed={isCollapsed} isActive={activeLink === 'payroll'} onClick={() => handleLinkClick('payroll')} />
+        <DashboardLink icon={<TbCurrencyPeso />} text="Payroll Processing" to="/payroll-management" isCollapsed={isCollapsed} isActive={activeLink === 'payroll'} onClick={() => handleLinkClick('payroll')} />
         <DashboardLink icon={<AiOutlineBarChart />} text="Analytics" to="/predictive-analytics" isCollapsed={isCollapsed} isActive={activeLink === 'analytics'} onClick={() => handleLinkClick('analytics')} />
       </div>
     </div>

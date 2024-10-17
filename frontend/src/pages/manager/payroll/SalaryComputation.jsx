@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 
 const SalaryComputation = () => {
-
   const dailyMinimumWage = 610;
   const holidayBonus = 2;
 
@@ -35,17 +34,50 @@ const SalaryComputation = () => {
   const calculateTotalSalary = (baseSalary, overtimeHours, holidaysWorked) => {
     const hourlyRate = baseSalary / 8;
     const overtimeRate = 1.25 * hourlyRate;
-    const holidayRate = hourlyRate * holidayBonus; 
-    
     const totalOvertime = overtimeHours * overtimeRate; 
     const totalHolidayPay = holidaysWorked * dailyMinimumWage;
     
     return baseSalary + totalOvertime + totalHolidayPay;
   };
 
+  const handleDownloadExcel = () => {
+    const rows = [
+      ['Employee Name', 'Salary per Hour', 'Salary per Day', 'Total Hours', 'Total Overtime', 'Total Present (Days Worked)', 'Total Absent', 'Total Holiday Pay', 'Total Salary'],
+    ];
+
+    employees.forEach((employee) => {
+      const baseSalary = dailyMinimumWage * employee.daysWorked;
+      const hourlyRate = dailyMinimumWage / 8;
+      const salaryPerDay = dailyMinimumWage;
+      const totalSalary = calculateTotalSalary(baseSalary, employee.overtimeHours, employee.holidaysWorked);
+
+      rows.push([
+        employee.name,
+        hourlyRate.toFixed(2),
+        salaryPerDay.toFixed(2),
+        employee.hoursWorked,
+        employee.overtimeHours,
+        employee.daysWorked,
+        employee.totalAbsent,
+        (employee.holidaysWorked * dailyMinimumWage).toFixed(2),
+        totalSalary.toFixed(2),
+      ]);
+    });
+
+    let csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "salary_report.csv");
+    document.body.appendChild(link);
+
+    link.click();
+  };
+
   useEffect(() => {
-    document.title = 'Salary computation';
+    document.title = 'Salary Computation';
   }, []); 
+
   return (
     <div className="container mx-auto p-4 md:p-8 bg-base-200 max-w-7xl">
       <h2 className="text-xl font-bold mb-4">Salary Computation</h2>
@@ -64,14 +96,14 @@ const SalaryComputation = () => {
           </tr>
         </thead>
         <tbody>
-          {employees.map((employee) => {
+          {employees.map((employee, index) => {
             const baseSalary = dailyMinimumWage * employee.daysWorked;
             const hourlyRate = dailyMinimumWage / 8;
             const salaryPerDay = dailyMinimumWage;
             const totalSalary = calculateTotalSalary(baseSalary, employee.overtimeHours, employee.holidaysWorked);
 
             return (
-              <tr key={employee.id} className="hover:bg-neutral hover:text-white">
+              <tr key={index} className="hover:bg-neutral hover:text-white">
                 <td className="border border-gray-300 px-4 py-2">{employee.name}</td>
                 <td className="border border-gray-300 px-4 py-2">PHP {hourlyRate.toFixed(2)}</td>
                 <td className="border border-gray-300 px-4 py-2">PHP {salaryPerDay.toFixed(2)}</td>
@@ -88,6 +120,12 @@ const SalaryComputation = () => {
           })}
         </tbody>
       </table>
+      <button
+        className="btn btn-primary mt-4"
+        onClick={handleDownloadExcel}
+      >
+        Download Salary Computation
+      </button>
     </div>
   );
 };

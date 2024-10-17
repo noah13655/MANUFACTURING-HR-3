@@ -41,7 +41,7 @@ const IncentivesManagement = () => {
             toast.error("Failed to delete incentive");
             console.error("Failed to delete incentive:", result);
         } else {
-            toast.error("Incentive deleted successfully!");
+            toast.success("Incentive deleted successfully!");
             console.log("Incentive deleted successfully!", result);
         }
     };

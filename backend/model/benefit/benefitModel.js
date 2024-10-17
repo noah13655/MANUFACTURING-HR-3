@@ -20,14 +20,14 @@ const benefitSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-benefitSchema.set('toJSON', {
-    transform: function (doc, ret, options) {
-        delete ret._id;
-        delete ret.__v;
-        delete ret.createdAt;
-        delete ret.updatedAt;
-        return ret;
-    }
-});
+// benefitSchema.set('toJSON', {
+//     transform: function (doc, ret, options) {
+//         delete ret._id;
+//         delete ret.__v;
+//         delete ret.createdAt;
+//         delete ret.updatedAt;
+//         return ret;
+//     }
+// });
 
 export const Benefit = mongoose.model('Benefit', benefitSchema);
