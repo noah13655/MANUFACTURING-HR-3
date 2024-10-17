@@ -90,7 +90,7 @@ export const registerUser = async (req, res) => {
         });
 
         const baseUrl = process.env.NODE_ENV === "production" 
-        ? "https://backend-hr3.jjm-manufacturing.com" 
+        ? "https://hr3.jjm-manufacturing.com" 
         : "http://localhost:5173";
 
         const mailOptions = {
