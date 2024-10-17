@@ -97,8 +97,8 @@ export const registerUser = async (req, res) => {
             from: process.env.EMAIL_USER,
             to: email,
             subject: 'Welcome! Please Set Your Password',
-            text: `Hi ${firstName},\n\nThank you for registering. To set your new password, please click the link below:\n\n` +
-                `${baseUrl}/reset-password/${token}\n\nThis link will expire in 1 hour. If you did not request this, please ignore this email.`
+            text: `Hi ${firstName},\n\nThank you for registering. To verify account set your new password, please click the link below:\n\n` +
+                `${baseUrl}/verify-account/${token}\n\nThis link will expire in 1 hour. If you did not request this, please ignore this email.`
         };
 
         await transporter.sendMail(mailOptions);
@@ -163,7 +163,7 @@ export const changePassword = async (req, res) => {
 };
 
 
-export const resetPassword = async (req, res) => {
+export const verifyAccount = async (req, res) => {
     try {
         const {token} = req.params;
         const {newPassword} = req.body;

@@ -81,9 +81,9 @@ export const useEmployeeStore = create((set)=>({
         }
       },
 
-      resetPassword: async (token,newPassword,confirmPassword) => {
+      verifyAccount: async (token,newPassword,confirmPassword) => {
         try {
-          const response = await axios.put(`${API_URL}/reset-password/${token}`, {
+          const response = await axios.put(`${API_URL}/verify-account/${token}`, {
             newPassword,
             confirmPassword,
           });

@@ -23,6 +23,7 @@ const Profile = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordChangeCooldown, setPasswordChangeCooldown] = useState(false);
   const [remainingCooldownTime, setRemainingCooldownTime] = useState(0);
+  const [showPassword,setShowPassword] = useState(false);
 
   const formatDate = (date) => {
     const d = new Date(date);
@@ -237,7 +238,7 @@ const Profile = () => {
           <label className="block text-sm font-medium text-gray-700">Current Password</label>
           <div className="relative">
             <input
-              type={showCurrentPassword ? 'text' : 'password'}
+              type={showPassword ? 'text' : 'password'}
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               required
@@ -248,7 +249,6 @@ const Profile = () => {
               onClick={() => setShowCurrentPassword((prev) => !prev)}
               className="absolute right-2 top-2 text-gray-600"
             >
-              {showCurrentPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
         </div>
@@ -257,7 +257,7 @@ const Profile = () => {
           <label className="block text-sm font-medium text-gray-700">New Password</label>
           <div className="relative">
             <input
-              type={showNewPassword ? 'text' : 'password'}
+              type={showPassword ? 'text' : 'password'}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
@@ -268,7 +268,6 @@ const Profile = () => {
               onClick={() => setShowNewPassword((prev) => !prev)}
               className="absolute right-2 top-2 text-gray-600"
             >
-              {showNewPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
         </div>
@@ -277,7 +276,7 @@ const Profile = () => {
           <label className="block text-sm font-medium text-gray-700">Confirm New Password</label>
           <div className="relative">
             <input
-              type={showConfirmPassword ? 'text' : 'password'}
+              type={showPassword ? 'text' : 'password'}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
@@ -288,19 +287,27 @@ const Profile = () => {
               onClick={() => setShowConfirmPassword((prev) => !prev)}
               className="absolute right-2 top-2 text-gray-600"
             >
-              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
         </div>
-        <div className="flex justify-between mt-4">
-        <button
-          type="submit"
-          disabled={isLoading}
-          className={`mt-4 w-full bg-blue-600 text-white p-2 rounded-lg ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-        >
-          {isLoading ? 'Changing...' : 'Change Password'}
-        </button>
-        </div>
+        <div className="mt-4">
+      <button
+        type="button"
+        onClick={() => setShowPassword(prev => !prev)}
+        className="block w-full mb-4 text-blue-600 hover:underline"
+      >
+        {showPassword ? 'Hide Passwords' : 'Show Passwords'}
+      </button>
+
+      <button
+        type="submit"
+        disabled={isLoading}
+        className={`block w-full bg-blue-600 text-white p-2 rounded-lg ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+      >
+        {isLoading ? 'Changing...' : 'Change Password'}
+      </button>
+</div>
+
       </form>
       <button
         onClick={() => setIsModalOpen(false)}

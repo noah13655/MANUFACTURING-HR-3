@@ -76,7 +76,7 @@ import MyPaySlip from './pages/employee/payroll/MyPaySlip';
 import MyOvertimeBonuses from './pages/employee/payroll/MyOvertimeBonuses';
 
 import Attendance from './pages/manager/payroll/Attendance';
-import ResetPassword from './components/ResetPassword';
+import VerifyAccount from './components/VerifyAccount';
 
 const App = () => {
   const { checkAuth, isAuthenticated, user } = useAuthStore();
@@ -184,7 +184,7 @@ const App = () => {
           <div className="flex flex-1 items-center justify-center">
           <Routes>
             <Route path="/login" element={<LogIn />} />
-            <Route path="/reset-password/:token" element={<ResetPassword />} />
+            <Route path="/verify-account/:token" element={<VerifyAccount />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
           </div>

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEmployeeStore } from '../store/employeeStore';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const ResetPassword = () => {
-    const {resetPassword} = useEmployeeStore();
+const VerifyAccount = () => {
+    const {verifyAccount} = useEmployeeStore();
     const {token} = useParams();
     const navigate = useNavigate();
     const [newPassword,setNewPassword] = useState('');
@@ -40,7 +40,7 @@ const ResetPassword = () => {
         setLoading(true);
 
         try {
-            const success = await resetPassword(token, newPassword, confirmPassword);
+            const success = await verifyAccount(token, newPassword, confirmPassword);
             if(success){
                 toast.success('Password reset successfully!');
                 setNewPassword('');
@@ -63,10 +63,15 @@ const ResetPassword = () => {
         }
     };
 
+    useEffect(()=> {
+        document.title = 'Verify Account';
+    });
+
     return (
         <div className="flex items-center justify-center min-h-screen">
             <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-lg">
-                <h2 className="text-2xl font-bold text-center mb-6 text-gray-700">Reset Your Password</h2>
+                <h2 className="text-2xl font-bold text-center mb-6 text-gray-700">Verify Your Account</h2>
+                <p>Create new password to verify your account</p>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-5">
                         <label className="block text-sm font-medium text-gray-700" htmlFor="newPassword">New Password</label>
@@ -97,11 +102,10 @@ const ResetPassword = () => {
                         {loading ? 'Resetting...' : 'Reset Password'}
                     </button>
                 </form>
-
                 <ToastContainer />
             </div>
         </div>
     );
 };
 
-export default ResetPassword;
+export default VerifyAccount;
