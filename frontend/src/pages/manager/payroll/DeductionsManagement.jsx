@@ -99,7 +99,7 @@ const DeductionsManagement = () => {
         deductions.map(({ type, amount, date }) => [
           `${employee.firstName} ${employee.lastName}`,
           type,
-          amount.toFixed(2), // Amount only (without peso sign)
+          amount.toFixed(2),
           date
         ])
       )
@@ -212,7 +212,7 @@ const DeductionsManagement = () => {
       </div>
 
       <button onClick={downloadCSV} className="bg-primary text-white rounded p-2 mb-4">
-        Download CSV
+        Download 
       </button>
 
       <table className="table-auto w-full border border-gray-300">

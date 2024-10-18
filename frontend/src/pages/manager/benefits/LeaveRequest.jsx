@@ -32,18 +32,40 @@ const LeaveRequest = () => {
     setSelectedLeaveReason(leaveReason);
   };
 
+  const handleDownload = () => {
+    const csvData = leaveRequests.map(({ employee, leaveType, startDate, endDate, status, leaveReason }) => 
+      `${employee},${leaveType},${startDate},${endDate},${status},${leaveReason}`
+    );
+
+    const csvContent = 'data:text/csv;charset=utf-8,' + 
+      ['Employee,Leave Type,Start Date,End Date,Status,Leave Reason', ...csvData].join('\n');
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', 'leave_requests.csv');
+    document.body.appendChild(link);
+
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="container mx-auto p-8 bg-base-200">
       <h1 className="text-2xl font-bold mb-4">Leave Request</h1>
-        {/* Displaying the leave reason */}
-        {selectedLeaveReason && (
-          <div className="mt-4 p-4 border border-gray-300 rounded">
-            <strong>Leave Reason:</strong> {selectedLeaveReason}
-            <button className="btn btn-secondary mt-2" onClick={() => setSelectedLeaveReason(null)}>
-              Close
-            </button>
-          </div>
-        )}
+      {selectedLeaveReason && (
+        <div className="mt-4 p-4 border border-gray-300 rounded">
+          <strong>Leave Reason:</strong> {selectedLeaveReason}
+          <button className="btn btn-secondary mt-2" onClick={() => setSelectedLeaveReason(null)}>
+            Close
+          </button>
+        </div>
+      )}
+      <div className="mb-4">
+        <button onClick={handleDownload} className="btn btn-primary mb-4">
+          Download Leave Requests
+        </button>
+      </div>
       <div className="overflow-x-auto">
         <table className="table w-full">
           <thead>
