@@ -93,18 +93,16 @@ export const useEmployeeStore = create((set)=>({
             error: null,
           });
     
-          return true;
+          return { status: true, message: response.data.message }
         } catch (error) {
           console.error("Change Password Error:", error);
-          const errorMessage = error.response?.data?.errors
-            ? error.response.data.errors.join(", ")
-            : "Error changing password.";
+          const errorMessage = error.response?.data?.message || "Error changing password.";
           set({
             message: null,
             error: errorMessage,
           });
     
-          return false;
+          return { status: false, message: errorMessage }
         }
       },
 

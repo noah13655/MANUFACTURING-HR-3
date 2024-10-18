@@ -13,6 +13,27 @@ const VerifyAccount = () => {
     const [loading,setLoading] = useState(false);
     const [showPassword,setShowPassword] = useState(false);
 
+    
+    useEffect(() => {
+        const validateToken = async () => {
+            try {
+                const response = await verifyAccount(token);
+                if(response.message === "Invalid token."){
+                    toast.error('Invalid token! Redirecting...');
+                    setTimeout(() => navigate('/'), 3000);
+                }
+            } catch (error) {
+                console.error("Error during token validation:", error);
+                toast.error('Error occurred during token validation. Redirecting...');
+                setTimeout(() => navigate('/'), 3000);
+            }
+        };
+
+        if (token) {
+            validateToken();
+        }
+    }, [token, navigate, verifyAccount]);
+
     const validateForm = () => {
         const validationErrors = [];
         if(!newPassword){
@@ -30,38 +51,54 @@ const VerifyAccount = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         const errors = validateForm();
         if(errors.length > 0){
             errors.forEach(error => toast.error(error));
             return;
         }
-
+    
         setLoading(true);
-
+    
         try {
-            const success = await verifyAccount(token,newPassword,confirmPassword);
-            if(success){
+            const response = await verifyAccount(token, newPassword, confirmPassword);
+            if(response.status === true) {
                 toast.success('Password reset successfully!');
                 setNewPassword('');
                 setConfirmPassword('');
-                            setTimeout(() => {
-                navigate('/login');
-            }, 5000);
-            }else{
-                toast.error('Token is expired!');
+                setTimeout(() => {
+                    navigate('/login');
+                }, 5000);
+            }else if(response.message === "Token has expired."){
+                toast.error('Token has expired! Redirecting...');
+                setTimeout(() => {
+                    navigate('/resend-verification');
+                }, 3000);
+            }else if(response.message === "Invalid token."){
+                toast.error('Invalid token! Redirecting...');
+                setTimeout(() => {
+                    navigate('/');
+                }, 3000);
+            }else if(response.message === "Password has already been reset."){
+                toast.error('Password has already been reset! Redirecting...');
+                setTimeout(() => {
+                    navigate('/');
+                }, 3000);
+            } else {
+                toast.error('An error occurred. Please try again later.');
             }
         } catch (error) {
-          console.error("Error during password reset:", error);
-          if(error.response){
-              toast.error(error.response.data.message || 'An error occurred. Please try again later.');
-          }else{
-              toast.error('An error occurred. Please try again later.');
-          }
+            console.error("Error during password reset:", error);
+            if(error.response && error.response.data.message){
+                toast.error(error.response.data.message || 'An error occurred. Please try again later.');
+            }else{
+                toast.error('An error occurred. Please try again later.');
+            }
         } finally {
             setLoading(false);
         }
     };
+    
 
     useEffect(()=> {
         document.title = 'Verify Account';

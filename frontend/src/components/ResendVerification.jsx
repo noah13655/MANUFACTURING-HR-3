@@ -25,7 +25,8 @@ const ResendVerification = () => {
     };
 
     useEffect(() => {
-        if (message) {
+        document.title = 'Resend Verification';
+        if(message){
             toast.success(message);
         }
         if(error){
