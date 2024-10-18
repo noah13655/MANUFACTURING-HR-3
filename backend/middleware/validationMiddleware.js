@@ -87,6 +87,13 @@ export const changePasswordValidation = [
         }),
 ];
 
+export const resendVerificationValidation = [
+    body("email")
+        .isEmail()
+        .withMessage("Invalid email address!"),
+];
+
+
 export const validate = (req,res,next) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {

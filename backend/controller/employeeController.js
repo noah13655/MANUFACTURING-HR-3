@@ -204,3 +204,71 @@ export const verifyAccount = async (req, res) => {
         return res.status(500).json({message:"Server error!"});
     }
 };
+
+export const resendVerification = async (req,res) => {
+    try {
+        const {email} = req.body;
+
+        const user = await User.findOne({email});
+        if(!user){
+            return res.status(404).json({status:false,message:"User not found."});
+        }
+
+        if(user.verified){
+            return res.status(400).json({status:false,message:"User is already verified."});
+        }
+
+
+        const currentTime = new Date();
+        const cooldownTime = 15 * 60 * 1000;
+
+        if(user.lastVerificationRequest){
+            const lastRequestTime = new Date(user.lastVerificationRequest);
+            if (currentTime - lastRequestTime < cooldownTime) {
+                const remainingTime = cooldownTime - (currentTime - lastRequestTime);
+                const minutes = Math.floor(remainingTime / (60 * 1000));
+                const seconds = Math.ceil((remainingTime % (60 * 1000)) / 1000);
+                
+                return res.status(400).json({
+                    status: false,
+                    message: `You need to wait ${minutes} minutes and ${seconds} seconds before requesting again.`
+                });
+            }
+        }
+
+        user.lastVerificationRequest = currentTime;
+        await user.save();
+
+        const token = jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:'1h'});
+
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
+        });
+
+        const baseUrl = process.env.NODE_ENV === "production" 
+            ? "https://hr3.jjm-manufacturing.com" 
+            : "http://localhost:5173";
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Account Verification',
+            text: `Hi ${user.firstName} ${user.lastName},\n\nPlease verify your account by clicking the link below:\n\n` +
+                `${baseUrl}/verify-account/${token}\n\nThis link will expire in 1 hour. If you did not request this, please ignore this email.`,
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        return res.status(200).json({
+            status: true,
+            message: "Verification email has been sent successfully!"
+        });
+    } catch (error) {
+        console.log(`Error in resendVerification: ${error}`);
+        return res.status(500).json({status:false,message:"Server error!"});
+    }
+};

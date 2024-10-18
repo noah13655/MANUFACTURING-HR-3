@@ -23,6 +23,7 @@ import Search from './pages/manager/Search';
 
 /* payroll processing */
 import PayrollProcessing from './pages/manager/payroll/PayrollProcessing';
+import Attendance from './pages/manager/payroll/Attendance';
 import SalaryComputation from './pages/manager/payroll/SalaryComputation';
 import DeductionsManagement from './pages/manager/payroll/DeductionsManagement';
 import ComplianceTracking from './pages/manager/payroll/ComplianceTracking';
@@ -75,8 +76,9 @@ import SalaryRequest from './pages/employee/payroll/SalaryRequest';
 import MyPaySlip from './pages/employee/payroll/MyPaySlip';
 import MyOvertimeBonuses from './pages/employee/payroll/MyOvertimeBonuses';
 
-import Attendance from './pages/manager/payroll/Attendance';
+
 import VerifyAccount from './components/VerifyAccount';
+import ResendVerification from './components/ResendVerification';
 
 const App = () => {
   const { checkAuth, isAuthenticated, user } = useAuthStore();
@@ -187,6 +189,7 @@ const App = () => {
           <Routes>
             <Route path="/login" element={<LogIn />} />
             <Route path="/verify-account/:token" element={<VerifyAccount />} />
+            <Route path="/resend-verification" element={<ResendVerification />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
           </div>

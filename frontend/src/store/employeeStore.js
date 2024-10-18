@@ -107,4 +107,23 @@ export const useEmployeeStore = create((set)=>({
           return false;
         }
       },
+
+      resendVerification: async (email) => {
+        try {
+            const response = await axios.post(`${API_URL}/resend-verification`, {email});
+            set({
+                message: response.data.message || "Verification email has been sent successfully!",
+                error: null,
+            });
+            return true;
+        } catch (error) {
+            console.error("Resend Verification Error:", error);
+            const errorMessage = error.response?.data?.message || "Error resending verification email.";
+            set({
+                message: null,
+                error: errorMessage,
+            });
+            return false;
+        }
+    },
 }));

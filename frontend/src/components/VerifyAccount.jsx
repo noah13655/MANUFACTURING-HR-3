@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEmployeeStore } from '../store/employeeStore';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 const VerifyAccount = () => {
     const {verifyAccount} = useEmployeeStore();
@@ -32,7 +32,7 @@ const VerifyAccount = () => {
         e.preventDefault();
 
         const errors = validateForm();
-        if (errors.length > 0) {
+        if(errors.length > 0){
             errors.forEach(error => toast.error(error));
             return;
         }
@@ -40,7 +40,7 @@ const VerifyAccount = () => {
         setLoading(true);
 
         try {
-            const success = await verifyAccount(token, newPassword, confirmPassword);
+            const success = await verifyAccount(token,newPassword,confirmPassword);
             if(success){
                 toast.success('Password reset successfully!');
                 setNewPassword('');
@@ -102,6 +102,12 @@ const VerifyAccount = () => {
                         {loading ? 'Resetting...' : 'Reset Password'}
                     </button>
                 </form>
+                <div className="mt-4 text-center">
+                    <p className="text-sm text-gray-600">
+                        {`If your token has expired, `}
+                        <Link to="/resend-verification"className="text-blue-600 hover:underline">request a new one</Link>.
+                    </p>
+                </div>
                 <ToastContainer />
             </div>
         </div>
