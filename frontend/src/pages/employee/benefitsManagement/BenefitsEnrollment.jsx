@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const BenefitsEnrollment = () => {
   const [loading, setLoading] = useState(false);
@@ -12,19 +14,21 @@ const BenefitsEnrollment = () => {
       municipality: '',
       province: '',
       postalCode: '',
-      country: ''
+      country: '',
     },
     phoneNumber: '',
     email: '',
     sssNumber: '',
     benefitType: '',
     coverageType: '',
-    tin: '',
-    selectedBenefit: '',
+    benefitDetails: '',
     pagIbigId: '',
     philHealthId: '',
-    frontIdFile: null,
-    backIdFile: null,
+    uploadedDocuments: {
+      frontIdFile: null,
+      backIdFile: null,
+    },
+    beneficiaryName: '', // Added to store beneficiary name
   });
 
   const benefitOptions = [
@@ -35,7 +39,7 @@ const BenefitsEnrollment = () => {
 
   const coverageOptions = [
     { value: 'Myself', label: 'Myself Only' },
-    { value: 'Children', label: 'Chilren' },
+    { value: 'Children', label: 'Children' },
     { value: 'Spouse', label: 'Spouse' },
   ];
 
@@ -46,7 +50,7 @@ const BenefitsEnrollment = () => {
       const addressField = name.split('.')[1];
       setFormData({
         ...formData,
-        address: { ...formData.address, [addressField]: value }
+        address: { ...formData.address, [addressField]: value },
       });
     } else {
       setFormData({ ...formData, [name]: value });
@@ -58,20 +62,32 @@ const BenefitsEnrollment = () => {
     setFormData({ ...formData, [type]: file });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
+    setLoading(true);
+
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      console.log(formData);
+      toast.success("Enrollment submitted successfully!");
+    } catch (error) {
+      console.error("Error submitting enrollment:", error);
+      toast.error("Error submitting enrollment. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     document.title = "Benefits Enrollment";
-  });
+  }, []);
+
   return (
     <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <h1 className="text-3xl text-center font-bold mb-4">Benefits Enrollment</h1>
 
       <form onSubmit={handleSubmit}>
-        <h2 className="text-2xl font-bold mb-4 mt-6">Employee Information</h2>
+        <h2 className="text-1xl font-bold mb-4 mt-6">Employee Information</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div className="form-control">
             <label className="label" htmlFor="last-name">Last Name</label>
@@ -110,9 +126,8 @@ const BenefitsEnrollment = () => {
           </div>
         </div>
 
-        <div className='flex gap-6' >
-        <div className="form-control w-1/2">
-          <div className="form-control">
+        <div className='flex gap-6'>
+          <div className="form-control w-1/2">
             <label className="label" htmlFor="date-of-birth">Date of Birth</label>
             <input 
               type="date" 
@@ -124,21 +139,23 @@ const BenefitsEnrollment = () => {
               required 
             />
           </div>
-        </div>
           <div className="form-control w-1/2">
-          <label className="label">Gender</label>
-          <select 
+            <label className="label">Gender</label>
+            <select 
               name="gender" 
               className="select select-bordered w-full" 
-              required  
-              value={formData.gender}>
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
+              required 
+              value={formData.gender}
+              onChange={handleChange}
+            >
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
           </div>
         </div>
-        <h2 className="text-2xl font-bold mb-4 mt-6">Address</h2>
+
+        <h2 className="text-1xl font-bold mb-4 mt-6">Address</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div className="form-control">
             <label className="label" htmlFor="street">Street</label>
@@ -217,14 +234,14 @@ const BenefitsEnrollment = () => {
           </div>
         </div>
 
-        <h2 className="text-2xl font-bold mb-4 mt-6">Benefits</h2>
+        <h2 className="text-1xl font-bold mb-4 mt-6">Benefits</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div className="form-control">
             <label className="label" htmlFor="selected-benefit">Select Benefit</label>
             <select 
               id="selected-benefit" 
-              name="selectedBenefit" 
-              value={formData.selectedBenefit} 
+              name="benefitDetails" 
+              value={formData.benefitDetails} 
               onChange={handleChange}
               className="select select-bordered w-full"
               required
@@ -253,7 +270,7 @@ const BenefitsEnrollment = () => {
           </div>
         </div>
 
-        {formData.selectedBenefit === 'sss' && (
+        {formData.benefitDetails === 'sss' && (
           <div className="form-control mb-4">
             <label className="label" htmlFor="sss-number">SSS Number</label>
             <input 
@@ -268,7 +285,7 @@ const BenefitsEnrollment = () => {
           </div>
         )}
 
-        {formData.selectedBenefit === 'pagibig' && (
+        {formData.benefitDetails === 'pagibig' && (
           <div className="form-control mb-4">
             <label className="label" htmlFor="pag-ibig-id">Pag-IBIG ID</label>
             <input 
@@ -283,7 +300,7 @@ const BenefitsEnrollment = () => {
           </div>
         )}
 
-        {formData.selectedBenefit === 'philhealth' && (
+        {formData.benefitDetails === 'philhealth' && (
           <div className="form-control mb-4">
             <label className="label" htmlFor="philhealth-id">PhilHealth ID</label>
             <input 
@@ -298,41 +315,61 @@ const BenefitsEnrollment = () => {
           </div>
         )}
 
-        {/* File Upload Section for ID Files */}
-        <h2 className="text-2xl font-bold mb-4 mt-6">Upload ID Files</h2>
+        {/* Conditional rendering for beneficiary input */}
+        {(formData.coverageType === 'Spouse' || formData.coverageType === 'Children') && (
+          <div className="form-control mb-4">
+            <label className="label" htmlFor="beneficiary-name">Beneficiary Name(s)</label>
+            <input 
+              type="text" 
+              id="beneficiary-name" 
+              name="beneficiaryName" 
+              value={formData.beneficiaryName} 
+              onChange={handleChange}
+              className="input input-bordered" 
+              required 
+              placeholder={formData.coverageType === 'Spouse' ? 'Enter Spouse Name' : 'Enter Children Names (comma-separated)'}
+            />
+          </div>
+        )}
+
+<h2 className="text-1xl font-bold mb-4 mt-6">Upload IDs</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div className="form-control">
-            <label className="label" htmlFor="front-id">Upload Front ID</label>
+            <label className="label" htmlFor="front-id-file">Upload Front ID</label>
             <input 
               type="file" 
-              id="front-id" 
-              accept=".jpg,.jpeg,.png,.pdf"
-              onChange={(e) => handleFileChange(e, 'frontIdFile')} 
+              id="front-id-file" 
+              onChange={(e) => handleFileChange(e, 'frontIdFile')}
+              className="file-input file-input-bordered" 
+              accept="image/*"
               required 
             />
           </div>
           <div className="form-control">
-            <label className="label" htmlFor="back-id">Upload Back ID</label>
+            <label className="label" htmlFor="back-id-file">Upload Back ID</label>
             <input 
               type="file" 
-              id="back-id" 
-              accept=".jpg,.jpeg,.png,.pdf"
-              onChange={(e) => handleFileChange(e, 'backIdFile')} 
+              id="back-id-file" 
+              onChange={(e) => handleFileChange(e, 'backIdFile')}
+              className="file-input file-input-bordered" 
+              accept="image/*"
               required 
             />
           </div>
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-4">
           <button 
             type="submit" 
-            className={`btn btn-primary ${loading ? 'loading' : ''}`}
+            className={`btn btn-primary ${loading ? 'loading' : ''}`} 
             disabled={loading}
           >
-            Submit Enrollment
+            {loading ? 'Submitting...' : 'Submit Enrollment'}
           </button>
         </div>
       </form>
+      
+      <ToastContainer />
     </div>
   );
 };
