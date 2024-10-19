@@ -11,27 +11,34 @@ export const login = async (req, res) => {
         if(token){
             return res.status(400).json({message:"You are already logged in"});
         }
-        const user = await User.findOne({email});
 
+        console.log(`Attempting to log in with email: ${email}`);
+        const user = await User.findOne({ email });
+        
         if(!user){
+            console.log("User not found");
             return res.status(400).json({success:false,message:"Username or password is incorrect"});
         }
-        const isPasswordValid = await bcryptjs.compare(password,user.password);
+
+        const isPasswordValid = await bcryptjs.compare(password, user.password);
         if(!isPasswordValid){
+            console.log("Invalid password");
             return res.status(400).json({success:false,message:"Username or password is incorrect"});
         }
+
         if(!user.verified){
+            console.log("User account not verified");
             return res.status(403).json({success:false,message:"Your account is not verified. Please verify your account before logging in."});
         }
 
-        generateTokenAndSetCookie(res,user._id,user.role);
+        generateTokenAndSetCookie(res, user._id, user.role);
+        console.log(`User ${user.email} logged in successfully`);
         return res.status(200).json({success:true,message:"Logged in successfully",role:user.role});
     } catch (error) {
-        console.log(`Error in login: ${error}`);
+        console.error(`Error in login: ${error}`);
         return res.status(500).json({success:false,message:"Server error"});
     }
 };
-
 
 export const checkAuth = async (req, res) => {
     try {
@@ -63,7 +70,7 @@ export const checkAuth = async (req, res) => {
 
 export const logout = async (req, res) => {
     try {
-        if (!req.cookies.token) {
+        if(!req.cookies.token){
             return res.status(400).json({ success: false, message: "You are not logged in" });
         }
         const userId = req.user;
@@ -75,7 +82,14 @@ export const logout = async (req, res) => {
             sameSite: "strict",
         });
 
-        return res.status(200).json({ success: true, message: "Logged out successfully" });
+        res.clearCookie("_csrf", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+        });
+        
+
+        return res.status(200).json({ success: true, message: "Logged out successfully",user });
     } catch (error) {
         console.error("Error during logout:", error);
         return res.status(500).json({ success: false, message: "Server error during logout" });

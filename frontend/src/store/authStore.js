@@ -16,23 +16,29 @@ export const useAuthStore = create((set)=>({
     message:null,
     error:null,
 
-    login: async (email,password,verified) => {
-        try {
-            const response = await axios.post(`${API_URL}/login`,{email,password,verified});
-            set({
-                isAuthenticated:true,
-                user:response.data.user,
-                error:null,
-            });
-            return true;
-        } catch (error) {
-            set({
-                isAuthenticated:false,
-                user:null,
-                error:error.response?.data?.message || "Error in logging in!"
-            });
-            return false  ;
-        }
+
+    login: async (email, password, verified) => {
+      try {
+        const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
+        const csrfToken = csrfResponse.data.csrfToken;
+  
+        const response = await axios.post(`${API_URL}/login`, 
+          { email, password, verified }, 
+          { headers:{ 'X-CSRF-Token': csrfToken}});
+        set({
+          isAuthenticated: true,
+          user: response.data.user,
+          error: null,
+        });
+        return true;
+      } catch (error) {
+        set({
+          isAuthenticated: false,
+          user: null,
+          error: error.response?.data?.message || "Error in logging in!",
+        });
+        return false;
+      }
     },
 
     checkAuth: async () => {
@@ -55,19 +61,36 @@ export const useAuthStore = create((set)=>({
     },
 
     logout: async () => {
-        try {
-          await axios.post(`${API_URL}/logout`);
-          set({
-            user: null,
-            isAuthenticated: false,
-            error: null,
-          });
-        } catch (error) {
-          set({
-            error: error.response?.data?.message || "Error logging out",
-          });
-        }
-      },
+  try {
+      const csrfResponse = await axios.get(`${API_URL}/csrf-token`,{withCredentials:true});
+      const csrfToken = csrfResponse.data.csrfToken;
+
+      await axios.post(`${API_URL}/logout`, {}, {
+          withCredentials: true,
+          headers: {
+              'CSRF-Token': csrfToken
+          }
+      });
+
+      set({
+          user: null,
+          isAuthenticated: false,
+          error: null,
+      });
+  } catch (error) {
+    if (error.response?.status === 403) {
+      console.error('Invalid CSRF token:', error.response.data.message);
+      set({
+          error: 'Your session has expired. Please log in again.',
+      });
+  } else {
+      set({
+          error: error.response?.data?.message || "Error logging out",
+      });
+  }
+  }
+},
+
       fetchUsers: async () => {
         try {
           const response = await axios.get(`${API_URL}/users`);  

@@ -11,7 +11,9 @@ router.post("/login",loginValidation,validate,login);
 
 router.get('/check-auth', verifyToken, checkAuth);
 router.get('/users', verifyToken,checkRole('Manager'), getUsers);
-
+router.get('/csrf-token', (req, res) => {
+    res.json({ csrfToken: req.csrfToken() });
+});
 router.post("/logout",verifyToken,logout);
 
 export default router
