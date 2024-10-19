@@ -54,6 +54,7 @@ import RecognitionPrograms from './pages/manager/incentives/RecognitionPrograms'
 
 /* predictive analysis */
 import PredictiveAnalytics from './pages/manager/predictive/PredictiveAnalytics';
+import BehavioralAnalytics from './pages/manager/predictive/BehaviouralAnalytics';
 
 /* employee */
 import EmployeeList from './pages/EmployeeList';
@@ -160,6 +161,7 @@ const App = () => {
 
                       {/* Analytics */}
                       <Route path="/predictive-analytics" element={<ProtectedRoute><PredictiveAnalytics /></ProtectedRoute>} />
+                      <Route path="/behavioral-analytics" element={<ProtectedRoute><BehavioralAnalytics /></ProtectedRoute>} />
                     </>
                   )}
                   

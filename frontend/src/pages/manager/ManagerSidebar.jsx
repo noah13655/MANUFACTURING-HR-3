@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { MdDashboard, MdPersonAdd } from 'react-icons/md';
 import { FaMoneyBillWave, FaStar } from 'react-icons/fa';
 import { TbCurrencyPeso } from "react-icons/tb";
-import { AiOutlineBarChart } from 'react-icons/ai';
+import { AiOutlineBarChart,AiOutlineLineChart } from 'react-icons/ai';
 import { GiHealthNormal } from 'react-icons/gi';
 
 import jjmLogo from '../../assets/jjmlogo.jpg';
@@ -38,7 +38,8 @@ const ManagerSidebar = () => {
         <DashboardLink icon={<FaStar />} text="Incentives Management" to="/incentives-management" isActive={activeLink === 'incentives'} onClick={() => handleLinkClick('incentives')} />
         <DashboardLink icon={<FaMoneyBillWave />} text="Compensation Planning" to="/compensation-overview" isActive={activeLink === 'compensation'} onClick={() => handleLinkClick('compensation')} />
         <DashboardLink icon={<TbCurrencyPeso />} text="Payroll Processing" to="/payroll-management" isActive={activeLink === 'payroll'} onClick={() => handleLinkClick('payroll')} />
-        <DashboardLink icon={<AiOutlineBarChart />} text="Analytics" to="/predictive-analytics" isActive={activeLink === 'analytics'} onClick={() => handleLinkClick('analytics')} />
+        <DashboardLink icon={<AiOutlineBarChart />} text="Predictive Analytics" to="/predictive-analytics" isActive={activeLink === 'predictive'} onClick={() => handleLinkClick('predictive')} />
+        <DashboardLink icon={<AiOutlineLineChart />} text="Behavioral Analytics" to="/Behavioral-analytics" isActive={activeLink === 'behavioural'} onClick={() => handleLinkClick('behavioral')} />
       </div>
     </div>
   );
