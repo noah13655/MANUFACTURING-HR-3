@@ -24,7 +24,7 @@ export const useAuthStore = create((set)=>({
   
         const response = await axios.post(`${API_URL}/login`, 
           { email, password, verified }, 
-          { headers:{ 'X-CSRF-Token': csrfToken}});
+          { headers:{ 'csrf-token': csrfToken}});
         set({
           isAuthenticated: true,
           user: response.data.user,
@@ -68,7 +68,7 @@ export const useAuthStore = create((set)=>({
       await axios.post(`${API_URL}/logout`, {}, {
           withCredentials: true,
           headers: {
-              'CSRF-Token': csrfToken
+              'csrf-token': csrfToken
           }
       });
 
