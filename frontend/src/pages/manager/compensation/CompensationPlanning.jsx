@@ -143,7 +143,7 @@ const CompensationPlanning = () => {
                 <td className="border px-4 py-2">₱{salary.salesCommission.toLocaleString()}</td>
                 <td className="border px-4 py-2">₱{salary.recognitionAward.toLocaleString()}</td>
                 <td className="border px-4 py-2">
-                  ₱{(salary.currentSalary / (WORKING_DAYS_PER_MONTH * WORKING_HOURS_PER_DAY)).toLocaleString()}
+                  ₱{(salary.currentSalary / (WORKING_HOURS_PER_DAY)).toLocaleString()}
                 </td>
                 <td>
                   <button className="btn btn-primary mr-2" onClick={() => handleEditSalary(index)}>

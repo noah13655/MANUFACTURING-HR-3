@@ -83,6 +83,14 @@ import ResendVerification from './components/ResendVerification';
 const App = () => {
   const { checkAuth, isAuthenticated, user } = useAuthStore();
   const [loading, setLoading] = useState(true);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+
+  const handleToggleSidebar = () => {
+    setIsSidebarVisible((prev) => {
+      console.log("Sidebar visible:", !prev);
+      return !prev;
+    });
+  };
 
   useEffect(() => {
     const authenticate = async () => {
@@ -102,10 +110,9 @@ const App = () => {
         {isAuthenticated ? (
           <>
             {/* Responsive Sidebar */}
-            {user?.role === 'Manager' ? <ManagerSidebar /> : <EmployeeSidebar />}
-            <main className="flex-1 p-4 flex flex-col">
-              <Search />
-              <div className="flex-1 overflow-y-auto">
+            {isSidebarVisible && (user?.role === 'Manager' ? <ManagerSidebar /> : <EmployeeSidebar />)}            <main className="flex-1 p-4 flex flex-col">
+            <Search onToggleSidebar={handleToggleSidebar} />
+              <div className="flex-1 max-h-screen md:max-h-auto overflow-y-auto">
                 <Routes>
                   <Route path="/" element={<Navigate to={user?.role === 'Manager' ? '/dashboard' : '/dashboard'} replace />} />
                   <Route path="/login" element={<RedirectAuthenticatedUser><LogIn /></RedirectAuthenticatedUser>} />

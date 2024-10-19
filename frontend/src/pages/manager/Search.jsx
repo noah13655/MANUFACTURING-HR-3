@@ -2,15 +2,17 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useEmployeeStore } from "../../store/employeeStore";
 import { IoMdNotificationsOutline } from "react-icons/io";
+import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { useAuthStore } from "../../store/authStore";
 import { useNavigate } from 'react-router-dom';
 
-const Search = () => {
+const Search = ({ onToggleSidebar }) => {
   const { logout } = useAuthStore();
   const { fetchData, user } = useEmployeeStore();
   const navigate = useNavigate();
   
   const [showNotifications, setShowNotifications] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -28,8 +30,22 @@ const Search = () => {
     fetchUserData();
   }, [fetchData]);
 
+  const handleToggleSidebar = () => {
+    setIsSidebarOpen(prev => !prev);
+    onToggleSidebar();
+  };
+  
   return (
     <div className="w-full p-5 bg-white text-black/70 h-[85px] rounded-l-sm sticky top-0 z-50">
+      <div className="search-container">
+        <button onClick={handleToggleSidebar} className="toggle-sidebar-button">
+          {isSidebarOpen ? (
+            <HiOutlineX className="size-6" />
+          ) : (
+            <HiOutlineMenu className="size-6" />
+          )}
+        </button>
+      </div>
       <div className="flex justify-between max-md:flex max-md:justify-end">
         <div className="flex gap-5 items-center w-[600px] max-md:hidden">
         </div>
@@ -49,7 +65,6 @@ const Search = () => {
                 </div>
                 <div className="p-4 max-h-60 overflow-y-auto backdrop:out-of-range:">
                   <p className="text-sm">You have no new notifications.</p>
-
                 </div>
               </div>
             )}
