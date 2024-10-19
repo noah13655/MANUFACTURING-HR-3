@@ -13,9 +13,14 @@ export const useBenefitStore = create((set) => ({
     benefit: null,
     error: null,
 
+    
     createBenefit: async (benefit) => {
         try {
-            const response = await axios.post(`${API_URL}/create-benefits`, benefit);
+            const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
+            const csrfToken = csrfResponse.data.csrfToken;
+
+            const response = await axios.post(`${API_URL}/create-benefits`, benefit,
+                { headers:{ 'X-CSRF-Token': csrfToken}});
             set({
                 benefit: response.data.benefit || null,
                 error: null,
@@ -46,8 +51,12 @@ export const useBenefitStore = create((set) => ({
 
     deleteBenefit: async (id) => {
         try {
+            const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
+            const csrfToken = csrfResponse.data.csrfToken;
+
             console.log("Deleting benefit with ID:", id);
-            const response = await axios.delete(`${API_URL}/delete-benefits/${id}`);
+            const response = await axios.delete(`${API_URL}/delete-benefits/${id}`,
+                { headers:{ 'X-CSRF-Token': csrfToken}});
             set((state) => ({
                 benefit: state.benefit.filter((b) => b._id !== id),
                 error: null,
@@ -64,7 +73,11 @@ export const useBenefitStore = create((set) => ({
 
     updateBenefit: async (id, benefit) => {
         try {
-            const response = await axios.put(`${API_URL}/update-benefits/${id}`, benefit);
+            const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
+            const csrfToken = csrfResponse.data.csrfToken;
+
+            const response = await axios.put(`${API_URL}/update-benefits/${id}`, benefit,
+                { headers:{ 'X-CSRF-Token': csrfToken}});
             set((state) => ({
                 benefit: state.benefit.map((b) => (b._id === id ? response.data.updatedBenefit : b)),
                 error: null,

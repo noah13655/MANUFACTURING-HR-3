@@ -18,7 +18,11 @@ export const useEmployeeStore = create((set)=>({
 
       registerUser: async (formData) => {
         try {
-          const response = await axios.post(`${API_URL}/register`, formData);
+          const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
+          const csrfToken = csrfResponse.data.csrfToken;
+
+          const response = await axios.post(`${API_URL}/register`, formData,          
+            { headers:{ 'X-CSRF-Token': csrfToken}});
           set({
             user: response.data.user || null,
             message:response.data.message,

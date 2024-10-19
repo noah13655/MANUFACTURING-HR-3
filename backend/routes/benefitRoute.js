@@ -5,16 +5,20 @@ import {  createBenefit, deleteBenefit, enrollBenefit, getBenefit, getBenefitsEn
 import { verifyToken } from "../middleware/verifyToken.js";
 import { checkRole } from "../middleware/roleMiddleware.js";
 
-const router = express.Router();
+const benefitRoute = express.Router();
 
-router.post("/create-benefits",verifyToken,checkRole('Manager'),createBenefit);
-router.get("/get-benefits",verifyToken,getBenefit);
-router.put("/update-benefits/:id",verifyToken,checkRole('Manager'),updateBenefit);
-router.delete("/delete-benefits/:id",verifyToken,checkRole('Manager'),deleteBenefit);
+benefitRoute.get('/csrf-token', (req, res) => {
+    res.json({ csrfToken: req.csrfToken() });
+});
 
-router.post("/enroll-benefits",verifyToken,enrollBenefit);
-router.get('/enrolled-benefits', verifyToken, getBenefitsEnrolled);
+benefitRoute.post("/create-benefits",verifyToken,checkRole('Manager'),createBenefit);
+benefitRoute.get("/get-benefits",verifyToken,getBenefit);
+benefitRoute.put("/update-benefits/:id",verifyToken,checkRole('Manager'),updateBenefit);
+benefitRoute.delete("/delete-benefits/:id",verifyToken,checkRole('Manager'),deleteBenefit);
 
-export default router;
+benefitRoute.post("/enroll-benefits",verifyToken,enrollBenefit);
+benefitRoute.get('/enrolled-benefits', verifyToken, getBenefitsEnrolled);
+
+export default benefitRoute;
 
     

@@ -5,6 +5,10 @@ import { changePasswordValidation, registerValidation, resendVerificationValidat
 
 const employeeRoute = express.Router();
 
+employeeRoute.get('/csrf-token', (req, res) => {
+    res.json({ csrfToken: req.csrfToken() });
+});
+
 employeeRoute.post("/register",verifyToken,registerValidation,validate,registerUser);
 employeeRoute.get("/fetch",verifyToken,fetchMyData);
 employeeRoute.put("/change-password",verifyToken,changePasswordValidation,validate, changePassword);

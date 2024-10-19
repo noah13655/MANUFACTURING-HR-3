@@ -30,9 +30,9 @@ app.use(express.json());
 const csrf = csrfProtection({cookie:true});
 
 app.use("/api/auth", csrf, authRoute);
-app.use("/api/employee", employeeRoute);
-app.use("/api/benefit", benefitRoute);
-app.use("/api/incentive", incentiveRoute);
+app.use("/api/employee",csrf, employeeRoute);
+app.use("/api/benefit",csrf, benefitRoute);
+app.use("/api/incentive",csrf, incentiveRoute);
 
 app.use((req, res, next) => {
     if(req.method === "POST"){
