@@ -97,8 +97,17 @@ export const registerUser = async (req, res) => {
             from: process.env.EMAIL_USER,
             to: email,
             subject: 'Welcome! Please Set Your Password',
-            text: `Hi ${lastName} ${firstName},\n\nThank you for registering. To verify account set your new password, please click the link below:\n\n` +
-                `${baseUrl}/verify-account/${token}\n\nThis link will expire in 1 hour. If you did not request this, please ignore this email.`
+            html: `
+        <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+            <h2>Welcome to HR3, ${formattedFirstName} ${formattedLastName}!</h2>
+            <p>Thank you for registering as ${position}. To verify your account and set your new password, please click the button below:</p>
+            <a href="${baseUrl}/verify-account/${token}" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Set Your Password</a>
+            <p style="margin-top: 20px;">If the button above doesn't work, you can also click the link below:</p>
+            <a href="${baseUrl}/verify-account/${token}" style="color: #4CAF50;">${baseUrl}/verify-account/${token}</a>
+            <p>This link will expire in 1 hour. If you did not request this, please ignore this email.</p>
+            <p>Best regards,<br />HR3 Team</p>
+        </div>
+    `
         };
 
         await transporter.sendMail(mailOptions);
@@ -195,6 +204,40 @@ export const verifyAccount = async (req, res) => {
         user.verified = true
         await user.save();
 
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
+        });
+
+        const baseUrl = process.env.NODE_ENV === "production" 
+            ? "https://hr3.jjm-manufacturing.com" 
+            : "http://localhost:5173";
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: user.email,
+            subject: 'Account Verified!',
+            html: `
+            <div style="font-family: Arial, sans-serif; color: #333;">
+                <h2 style="color: #4CAF50;">Hi ${user.firstName} ${user.lastName},</h2>
+                <p>Your account verification was successful! You can now log in to the system using your credentials.</p>
+                <a href="${baseUrl}/login" 
+                   style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+                   Log In to Your Account
+                </a>
+                <p><strong>Note:</strong> This email is intended only for the recipient and cannot be forwarded to others.</p>
+                <br>
+                <p>Best regards,<br>The HR3 Team</p>
+            </div>
+        `           
+    };
+
+        await transporter.sendMail(mailOptions);
+
+
         return res.status(200).json({status:true,message: "Password successfully changed!"});
     } catch (error) {
         console.log(`Error in changePassword: ${error}`);
@@ -257,9 +300,20 @@ export const resendVerification = async (req,res) => {
             from: process.env.EMAIL_USER,
             to: email,
             subject: 'Account Verification',
-            text: `Hi ${user.firstName} ${user.lastName},\n\nPlease verify your account by clicking the link below:\n\n` +
-                `${baseUrl}/verify-account/${token}\n\nThis link will expire in 1 hour. If you did not request this, please ignore this email.`,
-        };
+            html: `
+            <div style="font-family: Arial, sans-serif; color: #333;">
+                <h2 style="color: #4CAF50;">Hi ${user.firstName} ${user.lastName},</h2>
+                <p>Please verify your account by clicking the link below:</p>
+                <a href="${baseUrl}/verify-account/${token}" 
+                   style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+                   Verify Account
+                </a>
+                <p>This link will expire in 1 hour. If you did not request this, please ignore this email.</p>
+                <br>
+                <p>Best regards,<br>The HR3 Team</p>
+            </div>
+        `
+         };
 
         await transporter.sendMail(mailOptions);
 

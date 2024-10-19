@@ -22,7 +22,7 @@ export const useEmployeeStore = create((set)=>({
           const csrfToken = csrfResponse.data.csrfToken;
 
           const response = await axios.post(`${API_URL}/register`, formData,          
-            { headers:{ 'X-CSRF-Token': csrfToken}});
+            { headers:{ 'csrf-token': csrfToken}});
           set({
             user: response.data.user || null,
             message:response.data.message,
@@ -58,12 +58,15 @@ export const useEmployeeStore = create((set)=>({
       },
 
       changePassword: async (currentPassword,newPassword,confirmPassword) => {
+        const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
+        const csrfToken = csrfResponse.data.csrfToken;
         try {
           const response = await axios.put(`${API_URL}/change-password`, {
             currentPassword,
             newPassword,
             confirmPassword,
-          });
+          },          
+          { headers:{ 'csrf-token': csrfToken}});
     
           set({
             message: response.data.message || "Password changed successfully.",
@@ -86,11 +89,14 @@ export const useEmployeeStore = create((set)=>({
       },
 
       verifyAccount: async (token,newPassword,confirmPassword) => {
+        const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
+        const csrfToken = csrfResponse.data.csrfToken;
         try {
           const response = await axios.put(`${API_URL}/verify-account/${token}`, {
             newPassword,
             confirmPassword,
-          });
+          },          
+          { headers:{ 'csrf-token': csrfToken}});
     
           set({
             message: response.data.message || "Password reset successfully.",
@@ -111,8 +117,11 @@ export const useEmployeeStore = create((set)=>({
       },
 
       resendVerification: async (email) => {
+        const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
+        const csrfToken = csrfResponse.data.csrfToken;
         try {
-            const response = await axios.post(`${API_URL}/resend-verification`, {email});
+            const response = await axios.post(`${API_URL}/resend-verification`, {email},          
+              { headers:{ 'csrf-token': csrfToken}});
             set({
                 message: response.data.message || "Verification email has been sent successfully!",
                 error: null,
