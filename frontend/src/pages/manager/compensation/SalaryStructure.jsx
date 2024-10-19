@@ -60,7 +60,7 @@ const SalaryStructure = () => {
         document.title = 'Salary Structure';
       }, []); 
     return (
-        <div className="container mx-auto p-4 md:p-6 bg-base-200 rounded-lg shadow-lg">
+        <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
             <h1 className="text-center text-3xl font-bold mb-4">Salary Structure Overview</h1>
 
             {editId && (

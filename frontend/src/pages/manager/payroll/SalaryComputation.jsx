@@ -88,7 +88,7 @@ const SalaryComputation = () => {
   }, []); 
 
   return (
-    <div className="container mx-auto p-4 md:p-8 bg-base-200 max-w-7xl">
+    <div className="relative max-w-7xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <h2 className="text-xl font-bold mb-4">Salary Computation</h2>
       <table className="table-auto w-full border-collapse border border-gray-200">
         <thead>

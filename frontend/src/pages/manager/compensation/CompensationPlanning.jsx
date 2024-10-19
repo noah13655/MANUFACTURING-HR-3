@@ -115,7 +115,7 @@ const CompensationPlanning = () => {
   const WORKING_HOURS_PER_DAY = 8;
 
   return (
-    <div className="container mx-auto p-4 md:p-8 bg-base-200 max-w-full">
+    <div className="relative max-w-full mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <h1 className="text-3xl font-bold mb-4">Compensation Planning</h1>
       <div className="overflow-x-auto">
         <table className="table w-full text-left">

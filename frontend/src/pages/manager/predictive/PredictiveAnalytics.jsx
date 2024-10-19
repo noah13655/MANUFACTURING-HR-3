@@ -154,7 +154,7 @@ useEffect(() => {
   document.title = 'Predictive Analytics';
 }, []); 
   return (
-    <div className="px-4 py-6">
+    <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
 <div className="flex flex-col md:flex-row justify-between gap-4">
   <div className="rounded-lg bg-white p-3 flex-1">
     <h3 className="font-semibold text-lg">Predicted Salary Growth</h3>
@@ -188,17 +188,17 @@ useEffect(() => {
   </div>
 </div>
 
-      <div className="p-4 bg-base-200 rounded-lg shadow-md">
+      <div className="p-4 bg-white rounded-lg shadow-md">
         <h3 className="text-2xl font-semibold mb-4 text-neutral">Monthly Salary Predictions</h3>
-        <table className="table table-zebra w-full">
+        <table className="table w-full mb-4">
           <thead>
-            <tr>
-              <th>Position</th>
-              <th>Daily Wage</th>
-              <th>Predicted Monthly Salary</th>
-              <th>Current Monthly Salary</th>
-              <th>Number of Employees</th>
-              <th>Total Payroll</th>
+            <tr className='bg-primary text-white'>
+              <th className="border px-4 py-2">Position</th>
+              <th className="border px-4 py-2">Daily Wage</th>
+              <th className="border px-4 py-2">Predicted Monthly Salary</th>
+              <th className="border px-4 py-2">Current Monthly Salary</th>
+              <th className="border px-4 py-2">Number of Employees</th>
+              <th className="border px-4 py-2">Total Payroll</th>
             </tr>
           </thead>
           <tbody>
@@ -206,13 +206,13 @@ useEffect(() => {
               const monthlySalary = calculateMonthlySalary(item.dailyWage);
               const totalPayroll = monthlySalary * item.count;
               return (
-                <tr key={item.position}>
-                  <td>{item.position}</td>
-                  <td>{item.dailyWage}</td>
-                  <td>{monthlySalary}</td>
-                  <td>{monthlySalary}</td>
-                  <td>{item.count}</td>
-                  <td>{totalPayroll.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                <tr key={item.position} className='hover:bg-neutral hover:text-white'>
+                  <td className="border px-4 py-2">{item.position}</td>
+                  <td className="border px-4 py-2">{item.dailyWage}</td>
+                  <td className="border px-4 py-2">{monthlySalary}</td>
+                  <td className="border px-4 py-2">{monthlySalary}</td>
+                  <td className="border px-4 py-2">{item.count}</td>
+                  <td className="border px-4 py-2">{totalPayroll.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                 </tr>
               );
             })}

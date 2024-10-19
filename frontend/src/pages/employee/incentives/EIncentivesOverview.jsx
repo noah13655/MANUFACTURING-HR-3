@@ -11,7 +11,7 @@ const EIncentivesOverview = () => {
     }, [fetchIncentive]);
 
     return (
-        <div className="overflow-x-auto">
+        <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
             <h2 className="text-2xl font-bold text-center mb-4">Incentive Overview</h2>
 
             <table className="table w-full mb-4">

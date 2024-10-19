@@ -51,7 +51,7 @@ const LeaveRequest = () => {
   };
 
   return (
-    <div className="container mx-auto p-8 bg-base-200">
+    <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <h1 className="text-2xl font-bold mb-4">Leave Request</h1>
       {selectedLeaveReason && (
         <div className="mt-4 p-4 border border-gray-300 rounded">

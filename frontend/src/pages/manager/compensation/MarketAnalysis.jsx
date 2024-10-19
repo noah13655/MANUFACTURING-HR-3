@@ -116,7 +116,7 @@ const MarketAnalysis = () => {
   };
 
   return (
-    <div className="container mx-auto p-8 bg-base-200">
+    <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <h2 className="text-3xl font-bold text-center mb-10 text-primary">Market Analysis</h2>
 
       <div className="mb-8">

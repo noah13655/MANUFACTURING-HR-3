@@ -26,6 +26,66 @@ const MyPaySlip = () => {
                 tax: 1400,
             },
         },
+        {
+            month: "September 2024",
+            employeeName: "John Lloyd",
+            payPeriod: "September 1 - September 15, 2024",
+            grossSalary: 24000,
+            deductions: {
+                sss: 950,
+                philhealth: 480,
+                pagIbig: 200,
+                tax: 1400,
+            },
+        },
+        {
+            month: "September 2024",
+            employeeName: "John Lloyd",
+            payPeriod: "September 1 - September 15, 2024",
+            grossSalary: 24000,
+            deductions: {
+                sss: 950,
+                philhealth: 480,
+                pagIbig: 200,
+                tax: 1400,
+            },
+        },
+        {
+            month: "September 2024",
+            employeeName: "John Lloyd",
+            payPeriod: "September 1 - September 15, 2024",
+            grossSalary: 24000,
+            deductions: {
+                sss: 950,
+                philhealth: 480,
+                pagIbig: 200,
+                tax: 1400,
+            },
+        },
+        {
+            month: "September 2024",
+            employeeName: "John Lloyd",
+            payPeriod: "September 1 - September 15, 2024",
+            grossSalary: 24000,
+            deductions: {
+                sss: 950,
+                philhealth: 480,
+                pagIbig: 200,
+                tax: 1400,
+            },
+        },
+        {
+            month: "September 2024",
+            employeeName: "John Lloyd",
+            payPeriod: "September 1 - September 15, 2024",
+            grossSalary: 24000,
+            deductions: {
+                sss: 950,
+                philhealth: 480,
+                pagIbig: 200,
+                tax: 1400,
+            },
+        },
     ];
 
     const [expandedData, setExpandedData] = useState(null);
@@ -42,7 +102,7 @@ const MyPaySlip = () => {
         document.title = "My Payslip";
       });
     return (
-        <div className="container mx-auto p-4">
+        <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
             <h1 className="text-2xl font-semibold mb-6 text-center text-gray-800">Payroll Slips</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

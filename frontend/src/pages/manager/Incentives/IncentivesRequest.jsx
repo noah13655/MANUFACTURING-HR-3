@@ -38,8 +38,8 @@ const IncentivesRequest = () => {
     document.title = 'Incentives Requesst';
   }, []); 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-semibold mb-6">Incentives Management</h1>
+    <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
+      <h1 className="text-3xl font-semibold mb-6">Incentives Request</h1>
 
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-4">Pending Incentives for Approval</h2>

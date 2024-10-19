@@ -28,13 +28,12 @@ const ComplianceTracking = () => {
     let hasComplianceIssues = false;
 
     const updatedRecords = payrollRecords.map(record => {
-      const minimumWage = 610; // Example minimum wage
-      const overtimeThreshold = 40; // Standard working hours
-      const overtimeRate = 1.5; // Overtime pay rate multiplier
+      const minimumWage = 610; 
+      const overtimeThreshold = 40;
+      const overtimeRate = 1.5;
       
       let complianceDetails = [];
 
-      // Compliance checks
       if (record.salary < minimumWage) {
         hasComplianceIssues = true;
         complianceDetails.push(`Salary below minimum wage of ₱${minimumWage}.`);
@@ -45,7 +44,6 @@ const ComplianceTracking = () => {
         complianceDetails.push(`${overtimeHours} hours of overtime pay needed.`);
       }
       
-      // Set compliance status and details
       const complianceStatus = complianceDetails.length > 0 ? 'Requires Attention' : 'Sent to Admin';
 
       return {
@@ -57,7 +55,6 @@ const ComplianceTracking = () => {
     
     setPayrollRecords(updatedRecords);
     
-    // If there are compliance issues, alert the user
     if (hasComplianceIssues) {
       alert('Some payroll records require attention due to compliance issues.');
     } else {
@@ -70,7 +67,7 @@ const ComplianceTracking = () => {
   }, []); 
   
   return (
-    <div className="container mx-auto p-4 md:p-8 bg-base-200 max-w-7xl rounded-lg shadow-lg">
+    <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <h1 className="text-3xl font-bold mb-6 text-center">Compliance Tracking</h1>
 
       <div className="mb-6">

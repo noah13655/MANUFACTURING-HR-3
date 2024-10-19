@@ -116,7 +116,7 @@ const DeductionsManagement = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 md:p-8 bg-base-200 max-w-7xl">
+    <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <h1 className="text-2xl font-bold mb-4">Deductions Management</h1>
 
       <button
@@ -215,35 +215,35 @@ const DeductionsManagement = () => {
         Download 
       </button>
 
-      <table className="table-auto w-full border border-gray-300">
+      <table className="table w-full mb-4">
         <thead>
-          <tr className="bg-gray-200">
-            <th className="border border-gray-300 p-2 text-left">Employee Name</th>
-            <th className="border border-gray-300 p-2 text-left">Deduction Type</th>
-            <th className="border border-gray-300 p-2 text-right">Amount (₱)</th>
-            <th className="border border-gray-300 p-2 text-left">Date</th>
+          <tr className="bg-primary text-white">
+            <th className="border px-4 py-2">Employee Name</th>
+            <th className="border px-4 py-2">Deduction Type</th>
+            <th className="border px-4 py-2">Amount (₱)</th>
+            <th className="border px-4 py-2">Date</th>
           </tr>
         </thead>
         <tbody>
           {filteredDeductions.map(({ employee, deductions }, index) =>
             deductions.map(({ type, amount, date }, i) => (
-              <tr key={`${employee.id}-${i}`} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                <td className="border border-gray-300 p-2">{`${employee.firstName} ${employee.lastName}`}</td>
-                <td className="border border-gray-300 p-2">{type}</td>
-                <td className="border border-gray-300 p-2 text-right">{amount.toFixed(2)}</td>
-                <td className="border border-gray-300 p-2">{date}</td>
+              <tr key={`${employee.id}-${i}`} className={index % 2 === 0 ? 'hover:bg-neutral hover:text-white' : 'hover:bg-neutral hover:text-white'}>
+                <td className="border px-4 py-2">{`${employee.firstName} ${employee.lastName}`}</td>
+                <td className="border px-4 py-2">{type}</td>
+                <td className="border px-4 py-2 text-right">{amount.toFixed(2)}</td>
+                <td className="border px-4 py-2">{date}</td>
               </tr>
             ))
           )}
           {filteredDeductions.length === 0 && (
             <tr>
-              <td colSpan="4" className="border border-gray-300 p-2 text-center">No deductions found.</td>
+              <td colSpan="4" className="border px-4 py-2 text-center">No deductions found.</td>
             </tr>
           )}
           <tr className="font-bold">
-            <td colSpan="2" className="border border-gray-300 p-2 text-right">Total Deductions:</td>
-            <td className="border border-gray-300 p-2 text-right">{overallTotalDeductions.toFixed(2)}</td>
-            <td className="border border-gray-300 p-2"></td>
+            <td colSpan="2" className="border px-4 py-2 text-right">Total Deductions:</td>
+            <td className="border px-4 py-2 text-right">{overallTotalDeductions.toFixed(2)}</td>
+            <td className="border px-4 py-2"></td>
           </tr>
         </tbody>
       </table>

@@ -67,7 +67,7 @@ const BenefitsEnrollment = () => {
     document.title = "Benefits Enrollment";
   });
   return (
-    <div className="container mx-auto p-4 pt-6 md:p-6 lg:p-12 bg-base-200">
+    <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <h1 className="text-3xl text-center font-bold mb-4">Benefits Enrollment</h1>
 
       <form onSubmit={handleSubmit}>

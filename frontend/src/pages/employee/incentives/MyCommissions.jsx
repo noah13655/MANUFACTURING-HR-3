@@ -43,7 +43,7 @@ const MyCommissions = () => {
     document.title = "My Commissions";
   });
   return (
-    <div className="flex items-center justify-center min-h-screen p-6 bg-base-100">
+    <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <div className="container mx-auto">
         <h1 className="text-3xl font-semibold mb-6 text-center">My Sales Commissions</h1>
 

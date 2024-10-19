@@ -97,7 +97,7 @@ const BenefitsAdministration = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <ToastContainer />
       <h1 className="text-3xl font-bold mb-4 text-center">Benefits Administration</h1>
 
