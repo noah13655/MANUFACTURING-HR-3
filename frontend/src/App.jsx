@@ -110,7 +110,8 @@ const App = () => {
         {isAuthenticated ? (
           <>
             {/* Responsive Sidebar */}
-            {isSidebarVisible && (user?.role === 'Manager' ? <ManagerSidebar /> : <EmployeeSidebar />)}            <main className="flex-1 p-4 flex flex-col">
+            {isSidebarVisible && (user?.role === 'Manager' ? <ManagerSidebar /> : <EmployeeSidebar />)}            
+            <main className="flex-1 p-4 flex flex-col">
             <Search onToggleSidebar={handleToggleSidebar} />
               <div className="flex-1 max-h-screen md:max-h-auto overflow-y-auto">
                 <Routes>

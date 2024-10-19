@@ -145,7 +145,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="container mx-auto mt-10 p-8 max-w-3xl bg-white shadow-lg border-2 rounded-lg">
+    <div className="container mx-auto mt-10 p-8 max-w-4xl bg-white shadow-lg border-2 rounded-lg">
       <ToastContainer />
       <div className="flex flex-col items-center mb-6">
         <button className="relative group">
