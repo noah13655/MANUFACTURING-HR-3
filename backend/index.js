@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 7687;
 app.use(cors({
     origin: process.env.NODE_ENV === "production"
         ? "https://manufacturing-hr-3-26nb.onrender.com"
-        : "http://localhost:4173",
+        : "http://localhost:5173",
     credentials: true,
 }));
 
