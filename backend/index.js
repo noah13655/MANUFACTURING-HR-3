@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import csrfProtection from 'csurf';
+import path from 'path';
 
 import { connectDB } from "./config/db.js";
 import authRoute from './routes/authRoute.js';
@@ -22,7 +23,7 @@ app.use(cors({
         : "http://localhost:5173",
     credentials: true,
 }));
-//aa
+
 app.use(cookieParser());
 app.use(express.json());
 
@@ -41,6 +42,21 @@ app.use((req, res, next) => {
         }
     }
     next();
+});
+
+// =========================
+// Serve the Frontend Build
+// =========================
+
+// This section serves your frontend after the backend routes are defined
+const __dirname = path.resolve(); // Get the absolute path for serving static files
+
+// Serve frontend static assets from the frontend build folder
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+// Handle any routes that don't match the backend API and serve index.html
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../frontend/dist", "index.html"));
 });
 
 // Listen on the specified PORT and bind to all interfaces
