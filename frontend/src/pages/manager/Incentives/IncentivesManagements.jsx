@@ -5,7 +5,7 @@ import { useIncentiveStore } from '../../../store/incentiveStore';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const IncentivesManagement = () => {
+const IncentivesManagements = () => {
     const [isCreating, setIsCreating] = useState(false);
     const [incentivesName, setincentivesName] = useState("");
     const [incentivesDescription, setincentivesDescription] = useState("");
@@ -219,4 +219,4 @@ const IncentivesManagement = () => {
     );
 };
 
-export default IncentivesManagement;
+export default IncentivesManagements;
