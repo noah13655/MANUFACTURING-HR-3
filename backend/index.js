@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 7687;
 const __dirname = path.resolve();
 app.use(cors({
     origin: process.env.NODE_ENV === "production"
-        ? "https://manufacturing-hr-3-26nb.onrender.com"
+        ? "https://hr3-jjm-manufacturing-1p4f.onrender.com/"
         : "http://localhost:5173",
     credentials: true,
 }));

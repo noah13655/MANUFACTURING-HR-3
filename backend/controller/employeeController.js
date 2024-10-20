@@ -213,7 +213,7 @@ export const verifyAccount = async (req, res) => {
         });
 
         const baseUrl = process.env.NODE_ENV === "production"
-        ? "https://manufacturing-hr-3-26nb.onrender.com"
+        ? "https://hr3-jjm-manufacturing-1p4f.onrender.com"
         : "http://localhost:5173";
 
         const mailOptions = {
@@ -293,7 +293,7 @@ export const resendVerification = async (req,res) => {
         });
 
         const baseUrl = process.env.NODE_ENV === "production"
-        ? "https://manufacturing-hr-3-26nb.onrender.com"
+        ? "https://hr3-jjm-manufacturing-1p4f.onrender.com"
         : "http://localhost:5173";
 
         const mailOptions = {
