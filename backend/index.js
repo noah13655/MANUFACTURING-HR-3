@@ -16,7 +16,7 @@ connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 7687;
-
+const __dirname = path.resolve();
 app.use(cors({
     origin: process.env.NODE_ENV === "production"
         ? "https://manufacturing-hr-3-26nb.onrender.com"
@@ -49,15 +49,16 @@ app.use((req, res, next) => {
 // =========================
 
 // This section serves your frontend after the backend routes are defined
-const __dirname = path.resolve(); // Get the absolute path for serving static files
+// Get the absolute path for serving static files
 
 // Serve frontend static assets from the frontend build folder
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
-// Handle any routes that don't match the backend API and serve index.html
-app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../frontend/dist", "index.html"));
-});
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+	});
+}
 
 // Listen on the specified PORT and bind to all interfaces
 app.listen(PORT, '0.0.0.0', () => {
