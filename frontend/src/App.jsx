@@ -48,7 +48,7 @@ import Deductions from './pages/manager/benefits/Deductions';
 
 /* incentives management */
 // import IncentivesManagements from './pages/IncentivesManagements';
-import IncentivesRequest from './pages/manager/incentives/IncentivesRequest';
+// import IncentivesRequest from './pages/manager/incentives/IncentivesRequest';
 import SalesCommissions from './pages/manager/incentives/SalesCommissions';
 import RecognitionPrograms from './pages/manager/incentives/RecognitionPrograms';
 
@@ -155,8 +155,8 @@ const App = () => {
                       
                       {/* Incentives Management */}
 {/*                       <Route path="/incentives-management" element={<ProtectedRoute><IncentivesManagements /></ProtectedRoute>} />*/}                  <Route path="/incentives-request" element={<ProtectedRoute><IncentivesRequest /></ProtectedRoute>} />
-                      <Route path="/sales-commissions" element={<ProtectedRoute><SalesCommissions /></ProtectedRoute>} />
-                      <Route path="/recognition-programs" element={<ProtectedRoute><RecognitionPrograms /></ProtectedRoute>} />
+{/*                       <Route path="/sales-commissions" element={<ProtectedRoute><SalesCommissions /></ProtectedRoute>} />
+ */}                      <Route path="/recognition-programs" element={<ProtectedRoute><RecognitionPrograms /></ProtectedRoute>} />
 
                       {/* Analytics */}
                       <Route path="/predictive-analytics" element={<ProtectedRoute><PredictiveAnalytics /></ProtectedRoute>} />
