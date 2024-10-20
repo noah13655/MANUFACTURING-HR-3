@@ -4,7 +4,7 @@ import axios from 'axios';
 const API_URL = process.env.NODE_ENV === "production"
   ? "https://backend-hr3.jjm-manufacturing.com/api/auth"
   : process.env.NODE_ENV === "render"
-  ? "https://manufacturing-hr-3-1.onrender.com/api/auth"
+  ? "https://backend-manufacturing-hr-3.onrender.com/api/auth"
   : "http://localhost:7687/api/auth";
 
 
