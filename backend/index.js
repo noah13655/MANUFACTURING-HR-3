@@ -44,6 +44,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.listen(PORT,'0.0.0.0' ,() => {
+app.listen(PORT, () => {
     console.log(`Server is running on PORT: ${PORT}`);
 });
