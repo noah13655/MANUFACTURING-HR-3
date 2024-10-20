@@ -25,11 +25,44 @@ const PayrollHistory = () => {
     return dateMatch && nameMatch;
   });
 
+  const downloadCSV = () => {
+    const csvData = filteredData.map(({ employeeName, salary, paymentMethod, status, date }) => ({
+      'Employee Name': employeeName,
+      Salary: `₱${salary.toFixed(2)}`,
+      'Payment Method': paymentMethod,
+      Status: status,
+      Date: date,
+    }));
+
+    const csvRows = [
+      ['Employee Name', 'Salary', 'Payment Method', 'Status', 'Date'], // Header row
+      ...csvData.map(row => [
+        row['Employee Name'],
+        row['Salary'],
+        row['Payment Method'],
+        row['Status'],
+        row['Date'],
+      ]),
+    ];
+
+    const csvString = csvRows.map(row => row.join(',')).join('\n');
+    const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.setAttribute('href', url);
+    a.setAttribute('download', 'payroll_history.csv');
+    a.style.visibility = 'hidden';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   useEffect(() => {
     document.title = 'Payroll History';
-  }, []); 
+  }, []);
+
   return (
-    <div className="container mx-auto p-4 md:p-8 bg-base-200 max-w-7xl">
+    <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <h1 className="text-2xl font-bold mb-4">Payroll History</h1>
 
       <div className="mb-4">
@@ -55,6 +88,10 @@ const PayrollHistory = () => {
           className="input input-bordered w-full"
         />
       </div>
+
+      <button onClick={downloadCSV} className="bg-primary text-white rounded p-2 mb-4">
+        Download History
+      </button>
 
       {filteredData.length > 0 ? (
         <table className="table table-auto w-full border">

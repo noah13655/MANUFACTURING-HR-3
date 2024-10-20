@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    passwordReset: { 
+        type: Boolean,
+         default: false
+     },
     phoneNumber:{
         type:String,
         required:true
@@ -55,6 +59,7 @@ const userSchema = new mongoose.Schema({
     },
     gender:{
         type:String,
+        enum:["Male","Female"],
         required:true
     },
     bDate:{
@@ -66,8 +71,20 @@ const userSchema = new mongoose.Schema({
         enum:["Employee","Manager"],
         default:"Employee",
         required:true
+    },
+    profilePic: {
+        type: String,
+        default: "https://www.pngkey.com/png/full/121-1219231_user-default-profile.png"
+    },
+    verified:{
+        type:Boolean,
+        default:false,
+    },
+    lastVerificationRequest:{
+        type: Date,
+        default: null
     }
 
-});
+},{timestamps:true});
 
 export const User = mongoose.model("User",userSchema);

@@ -3,26 +3,39 @@ import { User } from "../model/userModel.js";
 import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js';
 import jwt from 'jsonwebtoken';
 
-export const login = async (req,res) => {
+export const login = async (req, res) => {
     const token = req.cookies.token;
     const {email,password} = req.body;
 
     try {
-    if(token){
-        return res.status(400).json({message:"You are already login"});
-    }
-    const user = await User.findOne({ email });
-    if(!user){
-        return res.status(400).json({success:false,message:"Username or password is incorrect"});
-    }
-    const isPasswordValid = await bcryptjs.compare(password,user.password);
-    if(!isPasswordValid){
-        return res.status(400).json({success:false,message:"Username or password is incorrect"});
-    }
-    generateTokenAndSetCookie(res,user._id,user.role);
-        res.status(200).json({success:true,message:"Log in successfully",role:user.role});
+        if(token){
+            return res.status(400).json({message:"You are already logged in"});
+        }
+
+        console.log(`Attempting to log in with email: ${email}`);
+        const user = await User.findOne({ email });
+        
+        if(!user){
+            console.log("User not found");
+            return res.status(400).json({success:false,message:"Username or password is incorrect"});
+        }
+
+        const isPasswordValid = await bcryptjs.compare(password, user.password);
+        if(!isPasswordValid){
+            console.log("Invalid password");
+            return res.status(400).json({success:false,message:"Username or password is incorrect"});
+        }
+
+        if(!user.verified){
+            console.log("User account not verified");
+            return res.status(403).json({success:false,message:"Your account is not verified. Please verify your account before logging in."});
+        }
+
+        generateTokenAndSetCookie(res, user._id, user.role);
+        console.log(`User ${user.email} logged in successfully`);
+        return res.status(200).json({success:true,message:"Logged in successfully",role:user.role});
     } catch (error) {
-        console.log(`Error in login ${error}`);
+        console.error(`Error in login: ${error}`);
         return res.status(500).json({success:false,message:"Server error"});
     }
 };
@@ -57,9 +70,11 @@ export const checkAuth = async (req, res) => {
 
 export const logout = async (req, res) => {
     try {
-        if (!req.cookies.token) {
+        if(!req.cookies.token){
             return res.status(400).json({ success: false, message: "You are not logged in" });
         }
+        const userId = req.user;
+        const user = await User.findById(userId);
 
         res.clearCookie("token", {
             httpOnly: true,
@@ -67,7 +82,14 @@ export const logout = async (req, res) => {
             sameSite: "strict",
         });
 
-        return res.status(200).json({ success: true, message: "Logged out successfully" });
+        res.clearCookie("_csrf", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+        });
+        
+
+        return res.status(200).json({ success: true, message: "Logged out successfully",user });
     } catch (error) {
         console.error("Error during logout:", error);
         return res.status(500).json({ success: false, message: "Server error during logout" });
@@ -76,7 +98,7 @@ export const logout = async (req, res) => {
 
 export const getUsers = async (req, res) => {
     try {
-        const users = await User.find({}, 'firstName lastName email role');
+        const users = await User.find({}, 'firstName lastName email position role verified');
         res.status(200).json({ success: true, users });
     } catch (error) {
         console.error("Error fetching users:", error);
@@ -84,41 +106,3 @@ export const getUsers = async (req, res) => {
     }
 };
 
-export const registerUser = async (req,res) => {
-    try {
-        const {position,lastName,firstName,middleName,email,phoneNumber,address,gender,bDate,role} = req.body;
-        const {street,municipality,province,postalCode,country} = address  || {};
-
-        const existingUser = await User.findOne({email});
-        if(existingUser){
-            return res.status(400).json({status:false,message:"User already exist!"});
-        }
-        const password = `#${lastName.charAt(0).toUpperCase()}${lastName.charAt(1).toLowerCase()}HR3`;
-        const hashedPassword = await bcryptjs.hash(password,10);
-
-        const user = new User({
-            position,
-            lastName,
-            firstName,
-            middleName,
-            email,
-            password:hashedPassword,
-            phoneNumber,
-            address:{
-                street,
-                municipality,
-                province,
-                postalCode,
-                country
-            },
-            gender,
-            bDate,
-            role,
-        });
-        await user.save();
-        res.status(201).json({status:true,message:"User registered successfully!",user});
-    } catch (error) {
-        console.log(`Error in register ${error}`);
-        return res.status(500).json({message:"Server error!"});
-    }
-};

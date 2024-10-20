@@ -15,7 +15,6 @@ const GenerateReports = () => {
     setLoading(true);
     setSuccessMessage('');
 
-    // Simulate report generation delay
     setTimeout(() => {
       const sampleReportData = [
         { employeeName: 'John Lloyd', salary: 30000, paymentMethod: 'Cash', status: 'Approved', date: new Date().toLocaleDateString() },
@@ -67,7 +66,7 @@ const GenerateReports = () => {
   }, []);
 
   return (
-    <div className="container mx-auto p-6 md:p-8 bg-base-200 max-w-lg rounded-lg shadow-xl">
+    <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <h1 className="text-4xl font-bold mb-6">Generate Reports</h1>
 
       <div className="mb-6">

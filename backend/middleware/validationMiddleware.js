@@ -47,10 +47,10 @@ export const registerValidation = [
         .toDate()
         .withMessage("Invalid birthdate format!")
         .custom(value => {
-            const birthDate = new Date(value);
-            const today = new Date();
-            const age = today.getFullYear() - birthDate.getFullYear();
-            const monthDiff = today.getMonth() - birthDate.getMonth();
+            let birthDate = new Date(value);
+            let today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            let monthDiff = today.getMonth() - birthDate.getMonth();
 
             if(monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())){
                 age--;
@@ -64,6 +64,35 @@ export const registerValidation = [
             return true;
         }),
 ];
+
+export const changePasswordValidation = [
+    body("currentPassword")
+        .notEmpty()
+        .withMessage("Current password is required."),
+    body("newPassword")
+        .notEmpty()
+        .withMessage("New password is required.")
+        .isLength({ min: 8 })
+        .withMessage("New password must be at least 8 characters long.")
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])/)
+        .withMessage("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character."),
+    body("confirmPassword")
+        .notEmpty()
+        .withMessage("Confirm password is required.")
+        .custom((value, { req }) => {
+            if (value !== req.body.newPassword) {
+                throw new Error("Passwords do not match.");
+            }
+            return true;
+        }),
+];
+
+export const resendVerificationValidation = [
+    body("email")
+        .isEmail()
+        .withMessage("Invalid email address!"),
+];
+
 
 export const validate = (req,res,next) => {
     const errors = validationResult(req);

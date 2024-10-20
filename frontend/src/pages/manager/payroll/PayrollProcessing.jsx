@@ -1,54 +1,26 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../../../store/authStore";
 
 const PayrollProcessing = () => {
+const {fetchUsers,users} = useAuthStore();
+
   useEffect(() => {
     document.title = 'Payroll Processing';
-  }, []); 
+    const fetchUserData = async () => {
+      try {
+        await fetchUsers();
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        toast.error('Failed to load user data. Please try again.');
+      }
+    };
+    
+    fetchUserData();
+  }, [fetchUsers]);
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4 text-center">Payroll Processing</h1>
-
-      <div className="mb-4">
-        <div className="card w-full bg-base-100 shadow-xl">
-          <div className="card-body">
-            <h2 className="card-title">Employee List</h2>
-            <div className="overflow-x-auto">
-              <table className="table table-zebra w-full">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>John Lloyd</td>
-                    <td>Product Manager</td>
-                    <td>Manager</td>
-                    <td>Active</td>
-                  </tr>
-                  <tr>
-                    <td>Oliver</td>
-                    <td>Developer</td>
-                    <td>Employee</td>
-                    <td>Active</td>
-                  </tr>
-                  <tr>
-                    <td>Abby</td>
-                    <td>Developer</td>
-                    <td>Employee</td>
-                    <td>Active</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <h1 className="text-3xl font-bold mb-8 text-center">Payroll Processing</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         
         <div className="card bg-base-100 shadow-xl">
@@ -113,7 +85,7 @@ const PayrollProcessing = () => {
           <div className="card-body">
             <h2 className="card-title">Payroll History</h2>
             <p>View historical payroll data for all employees.</p>
-            <Link to="/compliance-tracking" className="btn btn-primary"><button>Track Compliance</button></Link>
+            <Link to="/payroll-history" className="btn btn-primary"><button>History</button></Link>
           </div>
         </div>
 

@@ -99,32 +99,46 @@ export const deleteBenefit = async (req, res) => {
 
 /* benefit enrollment */
 export const enrollBenefit = async (req,res) => {
+    
     const {benefitNames} = req.body; 
     const userId = req.user._id;
 
     try {
-        if (!Array.isArray(benefitNames) ||benefitNames.length === 0) {
+        if(!Array.isArray(benefitNames) ||benefitNames.length === 0){
             return res.status(400).json({status:false,message:"At least one Benefit name is required."});
         }
 
-        const benefits = await Benefit.find({ benefitsName: { $in: benefitNames } });
+        const benefits = await Benefit.find({benefitsName:{$in:benefitNames}});
 
-        if (benefits.length === 0) {
+        if(benefits.length === 0){
             return res.status(404).json({status:false,message:"No valid benefits found."});
         }
 
         const benefitIds = benefits.map(benefit => benefit._id);
 
-        const existingRequest = await BenefitEnrollmentRequest.findOne({userId,benefitIds:{ $in:benefitIds } });
-        if (existingRequest) {
-            return res.status(400).json({ status: false, message: "User has already requested these benefits."});
+        const existingRequest = await BenefitEnrollmentRequest.findOne({userId,benefitIds:{$in:benefitIds}});
+        if(existingRequest){
+            return res.status(400).json({status:false,message:"User has already requested these benefits."});
         }
 
-        const newRequest = new BenefitEnrollmentRequest({userId,benefitIds});
+        const newRequest = new BenefitEnrollmentRequest({
+            userId,
+            benefitIds,
+            userDetails: {
+                lastName: user.lastName,
+                firstName: user.firstName,
+                middleName: user.middleName,
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+                address: user.address,
+                gender: user.gender,
+                bDate: user.bDate
+            }
+        });
         await newRequest.save();
 
         return res.status(201).json({status:true,message:"Benefits request submitted successfully!",request:newRequest});
-    } catch (error) {
+    } catch (error){
         console.error("Error enrolling in benefits:",error);
         return res.status(500).json({status: false, message:"Server error"});
     }
@@ -139,7 +153,7 @@ export const getBenefitsEnrolled = async(req,res) => {
             .populate('benefitIds','benefitsName benefitsDescription') 
             .exec();
 
-        if (!enrollment) {
+        if(!enrollment){
             return res.status(404).json({status:false,message:"No enrolled benefits found for this user."});
         }
 

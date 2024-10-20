@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {PieChart,Pie,BarChart,Bar,XAxis,YAxis,Tooltip,CartesianGrid,LineChart,Line,ResponsiveContainer,} from 'recharts';
 
 const EmployeeDashboard = () => {
@@ -31,10 +31,12 @@ const EmployeeDashboard = () => {
   ];
 
   const commissionsData = [
-    { date: '2024-09-30', sales: 10000, commission: 1500 },
-    { date: '2024-08-31', sales: 8000, commission: 1000 },
+    { date: '2024-09-01', sales: 10000, commission: 500 },
+    { date: '2024-09-05', sales: 15000, commission: 600 },
   ];
-
+  useEffect(() => {
+    document.title = "Dashboard";
+  });
   return (
     <div className="container mx-auto p-5">
       <header className="mb-4">

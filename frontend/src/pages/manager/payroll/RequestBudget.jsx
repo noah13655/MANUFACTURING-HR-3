@@ -24,7 +24,7 @@ const RequestBudget = () => {
     document.title = 'Request Budget';
   }, []); 
   return (
-    <div className="p-6 bg-base-200 shadow-md rounded-lg max-w-md mx-auto">
+    <div className="p-6 bg-white shadow-md mt-10 rounded-lg max-w-md mx-auto">
       <h1 className="text-2xl font-bold text-center mb-6">Request Budget for Payroll</h1>
       
       <form onSubmit={handleSubmit} className="space-y-4">

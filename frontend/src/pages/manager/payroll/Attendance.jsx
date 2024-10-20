@@ -5,28 +5,27 @@ const Attendance = () => {
     document.title = 'Attendance info';
   }, []);
 
-  // Attendance data for specific employees
   const attendanceData = [
     {
-      employeeName: 'John Lloyd Padit',
-      totalHours: 160, // 8 hours per day, 20 working days
-      totalPresent: 18, // 18 days present
-      totalAbsent: 2,   // 2 days absent
-      totalOvertime: 15, // 15 hours of overtime
-      totalHoliday: 1,  // 1 holiday worked
+      employeeName: 'John Lloyd',
+      totalHours: 160,
+      totalPresent: 18,
+      totalAbsent: 2,
+      totalOvertime: 15,
+      totalHoliday: 1,
     },
     {
       employeeName: 'Abby',
-      totalHours: 160,  // 8 hours per day, 20 working days
-      totalPresent: 20, // 20 days present
-      totalAbsent: 0,   // No absences
-      totalOvertime: 12, // 12 hours of overtime
-      totalHoliday: 2,  // 2 holidays worked
+      totalHours: 160, 
+      totalPresent: 20, 
+      totalAbsent: 0,
+      totalOvertime: 12,
+      totalHoliday: 2,  
     },
   ];
 
   return (
-    <div className="container mx-auto p-8 bg-base-200">
+    <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <h2 className="text-xl font-bold mb-4">Attendance Records</h2>
       <table className="table-auto w-full border-collapse border border-gray-200">
         <thead>

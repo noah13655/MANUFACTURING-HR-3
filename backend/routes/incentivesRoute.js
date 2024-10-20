@@ -6,13 +6,17 @@ import { checkRole } from "../middleware/roleMiddleware.js";
 
 import { createIncentive, deleteIncentive, getIncentive, updateIncentive } from "../controller/incentiveController.js";
 
-const router = express.Router();
+const incentiveRoute = express.Router();
 
-router.post("/create-incentives",verifyToken,checkRole('Manager'),createIncentive);
-router.get("/get-incentives",verifyToken,getIncentive);
-router.put("/update-incentives/:id",verifyToken,checkRole('Manager'),updateIncentive);
-router.delete("/delete-incentives/:id",verifyToken,checkRole('Manager'),deleteIncentive);
+incentiveRoute.get('/csrf-token', (req, res) => {
+    res.json({ csrfToken: req.csrfToken() });
+});
 
-export default router;
+incentiveRoute.post("/create-incentives",verifyToken,checkRole('Manager'),createIncentive);
+incentiveRoute.get("/get-incentives",verifyToken,getIncentive);
+incentiveRoute.put("/update-incentives/:id",verifyToken,checkRole('Manager'),updateIncentive);
+incentiveRoute.delete("/delete-incentives/:id",verifyToken,checkRole('Manager'),deleteIncentive);
+
+export default incentiveRoute;
 
     

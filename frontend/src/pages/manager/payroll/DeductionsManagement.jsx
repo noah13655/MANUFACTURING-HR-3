@@ -91,8 +91,32 @@ const DeductionsManagement = () => {
   useEffect(() => {
     document.title = 'Deductions Management';
   }, []); 
+
+  const downloadCSV = () => {
+    const csvRows = [
+      ['Employee Name', 'Deduction Type', 'Amount', 'Date'],
+      ...filteredDeductions.flatMap(({ employee, deductions }) =>
+        deductions.map(({ type, amount, date }) => [
+          `${employee.firstName} ${employee.lastName}`,
+          type,
+          amount.toFixed(2),
+          date
+        ])
+      )
+    ];
+
+    const csvContent = 'data:text/csv;charset=utf-8,' + csvRows.map(e => e.join(",")).join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "deductions_summary.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
-    <div className="container mx-auto p-4 md:p-8 bg-base-200 max-w-7xl">
+    <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <h1 className="text-2xl font-bold mb-4">Deductions Management</h1>
 
       <button
@@ -179,43 +203,50 @@ const DeductionsManagement = () => {
           >
             <option value="">All Years</option>
             {Array.from(new Set(deductions.map(d => d.date.split('-')[0]))).map((year, index) => (
-              <option key={index} value={year}>{year}</option>
+              <option key={index} value={year}>
+                {year}
+              </option>
             ))}
           </select>
         </div>
       </div>
 
-      <h2 className="text-xl mb-2">Deductions Summary</h2>
-      <table className="table w-full">
+      <button onClick={downloadCSV} className="bg-primary text-white rounded p-2 mb-4">
+        Download 
+      </button>
+
+      <table className="table w-full mb-4">
         <thead>
           <tr className="bg-primary text-white">
-            <th className="py-2 px-4 border">Employee Name</th>
-            <th className="py-2 px-4 border">Deduction Type</th>
-            <th className="py-2 px-4 border">Amount</th>
-            <th className="py-2 px-4 border">Date</th>
+            <th className="border px-4 py-2">Employee Name</th>
+            <th className="border px-4 py-2">Deduction Type</th>
+            <th className="border px-4 py-2">Amount (₱)</th>
+            <th className="border px-4 py-2">Date</th>
           </tr>
         </thead>
         <tbody>
-          {filteredDeductions.map(({ employee, deductions }) => (
-            deductions.map((deduction, index) => (
-              <tr key={index}>
-                {index === 0 && (
-                  <td rowSpan={deductions.length} className="border px-4 py-2">
-                    {employee.firstName} {employee.lastName}
-                  </td>
-                )}
-                <td className="border px-4 py-2">{deduction.type}</td>
-                <td className="border px-4 py-2">₱{deduction.amount.toFixed(2)}</td>
-                <td className="border px-4 py-2">{deduction.date}</td>
+          {filteredDeductions.map(({ employee, deductions }, index) =>
+            deductions.map(({ type, amount, date }, i) => (
+              <tr key={`${employee.id}-${i}`} className={index % 2 === 0 ? 'hover:bg-neutral hover:text-white' : 'hover:bg-neutral hover:text-white'}>
+                <td className="border px-4 py-2">{`${employee.firstName} ${employee.lastName}`}</td>
+                <td className="border px-4 py-2">{type}</td>
+                <td className="border px-4 py-2 text-right">{amount.toFixed(2)}</td>
+                <td className="border px-4 py-2">{date}</td>
               </tr>
             ))
-          ))}
+          )}
+          {filteredDeductions.length === 0 && (
+            <tr>
+              <td colSpan="4" className="border px-4 py-2 text-center">No deductions found.</td>
+            </tr>
+          )}
+          <tr className="font-bold">
+            <td colSpan="2" className="border px-4 py-2 text-right">Total Deductions:</td>
+            <td className="border px-4 py-2 text-right">{overallTotalDeductions.toFixed(2)}</td>
+            <td className="border px-4 py-2"></td>
+          </tr>
         </tbody>
       </table>
-
-      <div className="mt-4 font-bold">
-        <h2>Total Deductions: ₱{overallTotalDeductions.toFixed(2)}</h2>
-      </div>
     </div>
   );
 };

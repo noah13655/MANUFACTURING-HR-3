@@ -100,7 +100,7 @@ const EnrollmentSubmission = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 pt-6 md:p-6 lg:p-12 bg-gray-50">
+    <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <h1 className="text-2xl text-center font-bold mb-4 text-blue-600">Benefits Requests</h1>
       {requests.length === 0 ? (
         <p>No enrollment requests available.</p>
@@ -121,7 +121,7 @@ const EnrollmentSubmission = () => {
 
       {/* Modal for Request Details */}
       {selectedRequest && (
-        <div className="static inset-0 flex items-center justify-center overflow-y-auto mt-10">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full overflow-auto max-h-[90vh]">
             <h2 className="text-lg font-semibold mb-2 text-blue-700">{`${selectedRequest.firstName} ${selectedRequest.lastName}`}</h2>
             <p><strong>Middle Name:</strong> {selectedRequest.middleName}</p>

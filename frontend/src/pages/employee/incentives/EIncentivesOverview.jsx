@@ -6,14 +6,15 @@ const EIncentivesOverview = () => {
     const { fetchIncentive, incentive: incentives } = useIncentiveStore();
 
     useEffect(() => {
+        document.title = "Incentives Overview";
         fetchIncentive();
     }, [fetchIncentive]);
 
     return (
-        <div className="overflow-x-auto">
+        <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
             <h2 className="text-2xl font-bold text-center mb-4">Incentive Overview</h2>
 
-            <table className="table table-zebra w-full border border-gray-300">
+            <table className="table w-full mb-4">
                 <thead>
                     <tr className='bg-primary text-white'>
                         <th className='border px-4 py-2'>Incentives Name</th>

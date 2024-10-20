@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const SalaryRequest = () => {
   const [employeeName, setEmployeeName] = useState('');
@@ -15,9 +15,11 @@ const SalaryRequest = () => {
       gCashNumber: paymentMethod === 'GCash' ? gCashNumber : null,
     });
   };
-
+  useEffect(() => {
+    document.title = "Salary Request";
+  });
   return (
-    <div className="p-4">
+    <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <h1 className="text-2xl font-bold mb-4">Request Salary Distribution</h1>
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md">
         <div className="mb-4">

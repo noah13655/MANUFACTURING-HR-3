@@ -1,10 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useEmployeeStore } from '../store/employeeStore';
+import { useAuthStore } from '../store/authStore';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const RegisterUserForm = () => {
+const EmployeeList = () => {
   const { registerUser } = useEmployeeStore();
+  const {fetchUsers,users} = useAuthStore();
+
+  useEffect(() => {
+    document.title = 'Employee List';
+    const fetchUserData = async () => {
+      try {
+        await fetchUsers();
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        toast.error('Failed to load user data. Please try again.');
+      }
+    };
+    
+    fetchUserData();
+  }, [fetchUsers]);
+
   const [formData, setFormData] = useState({
     position: '',
     lastName: '',
@@ -24,11 +41,11 @@ const RegisterUserForm = () => {
     role: ''
   });
   const [generatedPassword, setGeneratedPassword] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isRoleDisabled, setIsRoleDisabled] = useState(false);
 
   useEffect(() => {
-    document.title = "Register User";
 
     const storedMessage = localStorage.getItem('successMessage');
     if(storedMessage){
@@ -100,7 +117,7 @@ const RegisterUserForm = () => {
       if(birthDate > today) {
         validationErrors.push("Birth date cannot be a future date!");
     }else{
-        const age = today.getFullYear() - birthDate.getFullYear();
+        let age = today.getFullYear() - birthDate.getFullYear();
         const monthDiff = today.getMonth() - birthDate.getMonth();
 
         if(monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())){
@@ -192,6 +209,53 @@ const RegisterUserForm = () => {
   return (
     <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <ToastContainer />
+      <div className="mb-4">
+        <div className="card w-full bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title">Employee List</h2>
+            <div className="overflow-x-auto">
+              <table className="table w-full mb-4">
+                <thead>
+                  <tr className="bg-primary text-white">
+                    <th className="border px-4 py-2">Lastname</th>
+                    <th className="border px-4 py-2">Firstname</th>
+                    <th className="border px-4 py-2">Position</th>
+                    <th className="border px-4 py-2">Role</th>
+                    <th className="border px-4 py-2">Verified</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {Array.isArray(users) && users.length > 0 ? (
+                    users.map((user) => (
+                      <tr key={user._id} className="hover:bg-neutral hover:text-white">
+                        <td className="border px-4 py-2">{user.lastName || 'N/A'}</td>
+                        <td className="border px-4 py-2">{user.firstName || 'N/A'}</td>
+                        <td className="border px-4 py-2">{user.position || 'N/A'}</td>
+                        <td className="border px-4 py-2">{user.role || 'N/A'}</td>
+                        <td className="border px-4 py-2">{user.verified ? 'True' : 'False'}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="4" className="text-center">No employees found!</td>
+                    </tr>
+                  )}                
+                  </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        onClick={() => setIsModalOpen((prev) => !prev)}
+        className="mt-4 text-blue-600 hover:text-blue-800 font-medium"
+      >
+        {isModalOpen ?"Cancel" :  "Register new User"}
+      </button>
+
+      {isModalOpen && (
+        <div>
       <h2 className="text-3xl font-bold mb-6 text-center">Register User</h2>
 
       <form className="space-y-6" onSubmit={handleSubmit}>
@@ -299,7 +363,10 @@ const RegisterUserForm = () => {
         </div>
       </form>
     </div>
+  )}
+  </div>
+    
   );
 };
 
-export default RegisterUserForm;
+export default EmployeeList;

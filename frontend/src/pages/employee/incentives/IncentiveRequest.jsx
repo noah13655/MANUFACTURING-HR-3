@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const IncentiveRequest = () => {
     const [incentiveType, setIncentiveType] = useState('');
@@ -35,7 +35,9 @@ const IncentiveRequest = () => {
         setIncentiveType('');
         setComments('');
     };
-
+    useEffect(() => {
+        document.title = "Incentive Requests";
+      });
     return (
         <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-4">Request Incentive</h2>

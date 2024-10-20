@@ -105,10 +105,10 @@ const Deductions = () => {
     }, []);
 
     return (
-        <div className='container mx-auto p-8 bg-base-200'>
+        <div className='relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl'>
             <h2 className="text-2xl font-bold mb-6 text-center">My Deductions</h2>
 
-            <table className="table-auto w-full border-collapse border border-gray-200">
+            <table className="table w-full mb-4">
                 <thead>
                     <tr className='bg-primary text-white'>
                         <th className="border px-4 py-2">Plan Name</th>
@@ -120,7 +120,7 @@ const Deductions = () => {
                 </thead>
                 <tbody>
                     {employeeData.benefits.map((benefit, index) => (
-                        <tr key={index}>
+                        <tr key={index} className="hover:bg-neutral hover:text-white">
                             <td className='hover:bg-neutral hover:text-white'>{benefit.planName}</td>
                             <td className='hover:bg-neutral hover:text-white'>{benefit.type}</td>
                             <td className='hover:bg-neutral hover:text-white'>{benefit.deduction}</td>
