@@ -47,10 +47,10 @@ import LeaveRequest from './pages/manager/benefits/LeaveRequest';
 import Deductions from './pages/manager/benefits/Deductions';
 
 /* incentives management */
-import IncentivesManagements from './pages/manager/Incentives/IncentivesManagements';
-import IncentivesRequest from './pages/manager/Incentives/IncentivesRequest';
-import SalesCommissions from './pages/manager/Incentives/SalesCommissions';
-import RecognitionPrograms from './pages/manager/Incentives/RecognitionPrograms';
+import IncentivesManagements from './pages/manager/incentives/IncentivesManagements';
+import IncentivesRequest from './pages/manager/incentives/IncentivesRequest';
+import SalesCommissions from './pages/manager/incentives/SalesCommissions';
+import RecognitionPrograms from './pages/manager/incentives/RecognitionPrograms';
 
 /* predictive analysis */
 import PredictiveAnalytics from './pages/manager/predictive/PredictiveAnalytics';
@@ -71,12 +71,10 @@ import MyCommissions from './pages/employee/incentives/MyCommissions';
 import IncentiveRequest from './pages/employee/incentives/IncentiveRequest';
 import IncentiveHistory from './pages/employee/incentives/IncentiveHistory';
 
-
 import MySalaryInfo from './pages/employee/payroll/MySalaryInfo';
 import SalaryRequest from './pages/employee/payroll/SalaryRequest';
 import MyPaySlip from './pages/employee/payroll/MyPaySlip';
 import MyOvertimeBonuses from './pages/employee/payroll/MyOvertimeBonuses';
-
 
 import VerifyAccount from './components/VerifyAccount';
 import ResendVerification from './components/ResendVerification';
@@ -154,11 +152,11 @@ const App = () => {
                       <Route path="/deductions" element={<ProtectedRoute><Deductions /></ProtectedRoute>} />
                       
                       {/* Incentives Management */}
-                     <Route path="/incentives-management" element={<ProtectedRoute><IncentivesManagements /></ProtectedRoute>} />
+                      <Route path="/incentives-management" element={<ProtectedRoute><IncentivesManagements /></ProtectedRoute>} />
                       <Route path="/incentives-request" element={<ProtectedRoute><IncentivesRequest /></ProtectedRoute>} />
-                     <Route path="/sales-commissions" element={<ProtectedRoute><SalesCommissions /></ProtectedRoute>} />                   
-                     <Route path="/recognition-programs" element={<ProtectedRoute><RecognitionPrograms /></ProtectedRoute>} />
-                     
+                      <Route path="/sales-commissions" element={<ProtectedRoute><SalesCommissions /></ProtectedRoute>} />
+                      <Route path="/recognition-programs" element={<ProtectedRoute><RecognitionPrograms /></ProtectedRoute>} />
+
                       {/* Analytics */}
                       <Route path="/predictive-analytics" element={<ProtectedRoute><PredictiveAnalytics /></ProtectedRoute>} />
                       <Route path="/behavioral-analytics" element={<ProtectedRoute><BehavioralAnalytics /></ProtectedRoute>} />
