@@ -15,23 +15,25 @@ export const useIncentiveStore = create((set) => ({
 
     createIncentive: async (incentive) => {
         try {
-            const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
-            const csrfToken = csrfResponse.data.csrfToken;
-
-            const response = await axios.post(`${API_URL}/create-incentives`, incentive,
-                { headers:{ 'X-CSRF-Token': csrfToken}});
-            set({
-                incentive: response.data.incentive || null,
-                error: null,
-            });
-            return true;
+          const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
+          const csrfToken = csrfResponse.data.csrfToken;
+      
+          const response = await axios.post(`${API_URL}/create-incentives`, incentive, {
+            headers: {'csrf-token':csrfToken},
+          });
+          set({
+            incentive: response.data.incentive || null,
+            message: response.data.message,
+            error: null,
+          });
+          return {status:true,message:response.data.message};
         } catch (error) {
-            set({
-                error: error.response?.data.message || "Error in creating incentive"
-            });
-            return false;
+          set({
+            error: error.response?.data.message || "Error in creating Incentive",
+          });
+                return {status:false,message:error.response?.data.message || "Error in creating Incentive" };
         }
-    },
+      },
 
     fetchIncentive: async () => {
         try {
@@ -43,7 +45,7 @@ export const useIncentiveStore = create((set) => ({
         } catch (error) {
             set({
                 error: error.response?.data?.message || "Error fetching incentives",
-                benefit: [],
+                incentive: [],
             });
         }
     },
@@ -53,16 +55,16 @@ export const useIncentiveStore = create((set) => ({
             const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
             const csrfToken = csrfResponse.data.csrfToken;
 
-            console.log("Deleting benefit with ID:", id);
+            console.log("Deleting incentive with ID:", id);
             const response = await axios.delete(`${API_URL}/delete-incentives/${id}`,
-                { headers:{ 'X-CSRF-Token': csrfToken}});
+                { headers:{ 'csrf-token': csrfToken}});
             set((state) => ({
                 incentive: state.incentive.filter((i) => i._id !== id),
                 error: null,
             }));
             return response.data;
         } catch (error) {
-            console.error("Error deleting benefit:", error); 
+            console.error("Error deleting incentive:", error); 
             set({
                 error: error.response?.data.message || "Error deleting incentive",
             });
@@ -76,7 +78,7 @@ export const useIncentiveStore = create((set) => ({
             const csrfToken = csrfResponse.data.csrfToken;
 
             const response = await axios.put(`${API_URL}/update-incentives/${id}`, incentive,
-                { headers:{ 'X-CSRF-Token': csrfToken}});
+                { headers:{ 'csrf-token': csrfToken}});
             set((state) => ({
                 incentive: state.incentive.map((i) => (i._id === id ? response.data.updatedIncentive : i)),
                 error: null,

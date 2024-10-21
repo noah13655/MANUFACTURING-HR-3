@@ -19,26 +19,29 @@ const BenefitsAdministration = () => {
     fetchBenefit();
   }, [fetchBenefit]);
 
-  const handleCreateBenefits = async (e) => {
-    e.preventDefault();
-    try {
-      if(!benefitsName || !benefitsDescription || !benefitsType){
-        toast.error("All fields required!");
-        return;
-      }
-      const result = await createBenefit({ benefitsName, benefitsDescription, benefitsType, requiresRequest });
-      if(!result){
-        toast.error("Benefits already exist!");
-        return;
-      }
-      toast.success("Benefits created successfully!")
-      console.log("Benefits created successfully!", true);
-      await fetchBenefit();
-      resetForm();
-    } catch (error) {
-      console.log(error);
+const handleCreateBenefits = async (e) => {
+  e.preventDefault();
+  try {
+    const result = await createBenefit({benefitsName,benefitsDescription,benefitsType,requiresRequest});
+
+    if(result.status === false){
+      toast.error(result.message);
+      return;
     }
-  };
+
+    toast.success("Benefits created successfully!");
+    console.log("Benefits created successfully!", true);
+    await fetchBenefit();
+    resetForm();
+  } catch (error) {
+    console.log(error);
+    if(error.response && error.response.data){
+      toast.error(error.response.data.message || "An error occurred");
+    } else {
+      toast.error("An unexpected error occurred");
+    }
+  }
+};
 
   const handleDeleteBenefit = async (id) => {
     console.log("Attempting to delete benefit with ID:", id);

@@ -16,23 +16,26 @@ const IncentivesManagements = () => {
     const handleCreateIncentives = async (e) => {
         e.preventDefault();
         try {
-            if (!incentivesName || !incentivesDescription || !incentivesType) {
-                toast.error("All fields required!");
-                return;
-            }
-            const result = await createIncentive({ incentivesName, incentivesDescription, incentivesType });
-            if (!result) {
-                toast.error("Incentives already exist!");
-                return;
-            }
-            toast.success("Incentives created successfully!");
-            console.log("Incentives created successfully!", true);
-            await fetchIncentive();
-            resetForm();
+          const result = await createIncentive({incentivesName,incentivesDescription,incentivesType});
+      
+          if(result.status === false){
+            toast.error(result.message);
+            return;
+          }
+      
+          toast.success("Benefits created successfully!");
+          console.log("Benefits created successfully!", true);
+          await fetchIncentive();
+          resetForm();
         } catch (error) {
-            console.log(error);
+          console.log(error);
+          if(error.response && error.response.data){
+            toast.error(error.response.data.message || "An error occurred");
+          } else {
+            toast.error("An unexpected error occurred");
+          }
         }
-    };
+      };
 
     const handleDeleteIncentive = async (id) => {
         console.log("Attempting to delete incentive with ID:", id);

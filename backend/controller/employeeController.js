@@ -102,9 +102,9 @@ export const registerUser = async (req, res) => {
             <h2>Welcome to HR3, ${formattedFirstName} ${formattedLastName}!</h2>
             <p>Thank you for registering as ${position}. To verify your account and set your new password, please click the button below:</p>
             <a href="${baseUrl}/verify-account/${token}" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Set Your Password</a>
-            <p style="margin-top: 20px;">If the button above doesn't work, you can also click the link below:</p>
+            <p style="margin-top: 20px;">ifthe button above doesn't work, you can also clck the link below:</p>
             <a href="${baseUrl}/verify-account/${token}" style="color: #4CAF50;">${baseUrl}/verify-account/${token}</a>
-            <p>This link will expire in 1 hour. If you did not request this, please ignore this email.</p>
+            <p>This link will expire in 1 hour. ifyou did not request this, please ignore this eail.</p>
             <p>Best regards,<br />HR3 Team</p>
         </div>
     `
@@ -267,7 +267,7 @@ export const resendVerification = async (req,res) => {
 
         if(user.lastVerificationRequest){
             const lastRequestTime = new Date(user.lastVerificationRequest);
-            if (currentTime - lastRequestTime < cooldownTime) {
+            if(currentTime - lastRequestTime < cooldownTime){
                 const remainingTime = cooldownTime - (currentTime - lastRequestTime);
                 const minutes = Math.floor(remainingTime / (60 * 1000));
                 const seconds = Math.ceil((remainingTime % (60 * 1000)) / 1000);
@@ -308,7 +308,7 @@ export const resendVerification = async (req,res) => {
                    style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
                    Verify Account
                 </a>
-                <p>This link will expire in 1 hour. If you did not request this, please ignore this email.</p>
+                <p>This link will expire in 1 hour. ifyou did not request this, please ignore this eail.</p>
                 <br>
                 <p>Best regards,<br>The HR3 Team</p>
             </div>

@@ -80,7 +80,7 @@ export const changePasswordValidation = [
         .notEmpty()
         .withMessage("Confirm password is required.")
         .custom((value, { req }) => {
-            if (value !== req.body.newPassword) {
+            if(value !== req.body.newPassword){
                 throw new Error("Passwords do not match.");
             }
             return true;

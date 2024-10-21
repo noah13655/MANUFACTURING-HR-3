@@ -35,16 +35,16 @@ app.use("/api/benefit", csrf, benefitRoute);
 app.use("/api/incentive", csrf, incentiveRoute);
 
 app.use((req, res, next) => {
-    if (req.method === "POST") {
+    if(req.method === "POST"){
         const csrfToken = req.headers['csrf-token'];
-        if (!csrfToken || csrfToken !== req.csrfToken()) {
-            return res.status(403).json({ success: false, message: 'Invalid CSRF token' });
+        if(!csrfToken || csrfToken !== req.csrfToken()){
+            return res.status(403).json({success:false,message:'Invalid CSRF token'});
         }
     }
     next();
 });
 
-if (process.env.NODE_ENV === "production") {
+if(process.env.NODE_ENV === "production"){
 	app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
 	app.get("*", (req, res) => {

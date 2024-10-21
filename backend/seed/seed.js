@@ -28,9 +28,9 @@ const seedUsers = async () => {
 
         const existingEmails = existingUsers.map(user => user.email);
 
-        if (existingEmails.length > 0) {
+        if(existingEmails.length > 0){
             console.log(`Deleting existing users with emails: ${existingEmails.join(', ')}`);
-            await User.deleteMany({ email: { $in: existingEmails } });
+            await User.deleteMany({email:{ $in: existingEmails }});
         }
 
         await User.insertMany(newUsers);
