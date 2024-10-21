@@ -47,10 +47,10 @@ import LeaveRequest from './pages/manager/benefits/LeaveRequest';
 import Deductions from './pages/manager/benefits/Deductions';
 
 /* incentives management */
-import IncentivesManagements from './pages/manager/incentives/IncentivesManagements';
-import IncentivesRequest from './pages/manager/incentives/IncentivesRequest';
-import SalesCommissions from './pages/manager/incentives/SalesCommissions';
-import RecognitionPrograms from './pages/manager/incentives/RecognitionPrograms';
+import IncentivesManagements from './pages/manager/Incentives/IncentivesManagements';
+import IncentivesRequest from './pages/manager/Incentives/IncentivesRequest';
+import SalesCommissions from './pages/manager/Incentives/SalesCommissions';
+import RecognitionPrograms from './pages/manager/Incentives/RecognitionPrograms';
 
 /* predictive analysis */
 import PredictiveAnalytics from './pages/manager/predictive/PredictiveAnalytics';
