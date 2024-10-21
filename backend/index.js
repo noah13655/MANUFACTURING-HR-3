@@ -44,14 +44,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// =========================
-// Serve the Frontend Build
-// =========================
-
-// This section serves your frontend after the backend routes are defined
-// Get the absolute path for serving static files
-
-// Serve frontend static assets from the frontend build folder
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
@@ -60,7 +52,6 @@ if (process.env.NODE_ENV === "production") {
 	});
 }
 
-// Listen on the specified PORT and bind to all interfaces
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on PORT: ${PORT}`);
 });
