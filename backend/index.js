@@ -9,6 +9,7 @@ import { connectDB } from "./config/db.js";
 import authRoute from './routes/authRoute.js';
 import benefitRoute from './routes/benefitRoute.js';
 import incentiveRoute from './routes/incentivesRoute.js';
+import compensationRoute from './routes/compensationRoute.js';
 import employeeRoute from "./routes/employeeRoute.js";
 
 dotenv.config();
@@ -33,6 +34,7 @@ app.use("/api/auth", csrf, authRoute);
 app.use("/api/employee", csrf, employeeRoute);
 app.use("/api/benefit", csrf, benefitRoute);
 app.use("/api/incentive", csrf, incentiveRoute);
+app.use("/api/compensation",csrf, compensationRoute);
 
 app.use((req, res, next) => {
     if(req.method === "POST"){
