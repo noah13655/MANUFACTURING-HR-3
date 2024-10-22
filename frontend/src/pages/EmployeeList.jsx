@@ -95,8 +95,8 @@ const EmployeeList = () => {
       validationErrors.push("Email is required!");
   }else if(!/\S+@\S+\.\S+/.test(formData.email)){
       validationErrors.push("Invalid email address!");
-  }else if(formData.email.length > 25){ 
-      validationErrors.push("Email address must not exceed 25 characters!");
+  }else if(formData.email.length > 40){ 
+      validationErrors.push("Email address must not exceed 40 characters!");
   }
     if(!formData.phoneNumber){
       validationErrors.push("Phone Number is required!");
