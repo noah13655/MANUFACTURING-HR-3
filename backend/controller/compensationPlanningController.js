@@ -42,10 +42,11 @@ export const getCompensationPlan = async (req,res) => {
 
 export const getCompensationPosition = async (req,res) => {
     try {
-        const compensationPosition = await CompensationPlanning.find({},'position');
+        // const compensationPosition = await CompensationPlanning.find({},'position');
+        const compensationPosition = await CompensationPlanning.find().populate('position');
         res.status(200).json({success:true,data:compensationPosition});
     } catch (error) {
-        console.log(`error in getting compensation position ${error}`);
+        console.log(`error in getting compensation  ${error}`);
         res.status(500).json({success:false,message:"Server error",error:error.message});
     }
 };

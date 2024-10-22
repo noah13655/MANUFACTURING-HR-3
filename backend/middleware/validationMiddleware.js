@@ -7,8 +7,8 @@ export const loginValidation = [
 
 export const registerValidation = [
     body("position")
-    .isIn(['CEO', 'Secretary', 'Production Head', 'Resellers Sales Head','Reseller','Manager'])
-    .withMessage("Invalid position value!"),
+    .notEmpty()
+    .withMessage("Position is required"),
     body("lastName")
         .notEmpty()
         .withMessage("Lastname is required!"),
@@ -18,9 +18,11 @@ export const registerValidation = [
     body("middleName")
         .notEmpty()
         .withMessage("Middle name is required!"),
-    body("email")
-        .isEmail()
-        .withMessage("Invalid email address!"),
+        body("email")
+            .isEmail()
+            .withMessage("Invalid email address!")
+            .isLength({ max: 40 })
+            .withMessage(`Email address must not exceed 40 characters!`),
     body("phoneNumber")
         .matches(/^(09|\+639)\d{9}$/)
         .withMessage("Invalid phone format!"),

@@ -45,6 +45,7 @@ const EmployeeList = () => {
     bDate: '',
     role: ''
   });
+  const [generatedPassword, setGeneratedPassword] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isRoleDisabled, setIsRoleDisabled] = useState(false);
@@ -84,9 +85,6 @@ const EmployeeList = () => {
   const validateForm = () => {
     let validationErrors = [];
 
-    if(!['CEO', 'Secretary', 'Production Head', 'Resellers Sales Head', 'Reseller', 'Manager'].includes(formData.position)){
-      validationErrors.push("Invalid position value!");
-    }
     if(!['Employee','Manager'].includes(formData.role)){
       validationErrors.push("Invalid Role!");
     }
@@ -95,9 +93,11 @@ const EmployeeList = () => {
     if(!formData.middleName) validationErrors.push("Middle name is required!");
     if(!formData.email){
       validationErrors.push("Email is required!");
-    }else if(!/\S+@\S+\.\S+/.test(formData.email)){
+  }else if(!/\S+@\S+\.\S+/.test(formData.email)){
       validationErrors.push("Invalid email address!");
-    }
+  }else if(formData.email.length > 25){ 
+      validationErrors.push("Email address must not exceed 25 characters!");
+  }
     if(!formData.phoneNumber){
       validationErrors.push("Phone Number is required!");
     }else if(!/^(09|\+639)\d{9}$/.test(formData.phoneNumber)){
@@ -135,6 +135,10 @@ const EmployeeList = () => {
   return validationErrors;
 };
 
+const generatePassword = () => {
+  const password = `#${formData.lastName.charAt(0).toUpperCase()}${formData.lastName.charAt(1).toLowerCase()}HR3`;
+  setGeneratedPassword(password);
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -146,8 +150,11 @@ const EmployeeList = () => {
     }
 
 
-    const dataToSubmit = { ...formData};
+    generatePassword();
+
+    const dataToSubmit = { ...formData, password: generatedPassword };
     setLoading(true);
+
 
     try {
       const result = await registerUser(dataToSubmit);

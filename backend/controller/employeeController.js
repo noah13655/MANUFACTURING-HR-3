@@ -37,6 +37,35 @@ export const registerUser = async (req, res) => {
         const formattedPostalCode = format(postalCode);
         const formattedCountry = format(country);
 
+        const nameRegex = /^[A-Za-z\s]+$/;
+        const addressRegex = /^[A-Za-z0-9\s\-.,]+$/;
+
+        if(!nameRegex.test(lastName)){
+            return res.status(400).json({status:false,message:"Last name contains invalid characters!"});
+        }
+        if(!nameRegex.test(firstName)){
+            return res.status(400).json({status:false,message:"First name contains invalid characters!"});
+        }
+        if(middleName && !nameRegex.test(middleName)){
+            return res.status(400).json({status:false,message:"Middle name contains invalid characters!"});
+        }
+
+        if(street && !addressRegex.test(street)) {
+            return res.status(400).json({status:false,message:"Street address contains invalid characters!"});
+        }
+        if(municipality && !addressRegex.test(municipality)){
+            return res.status(400).json({status:false,message:"Municipality contains invalid characters!"});
+        }
+        if(province && !addressRegex.test(province)){
+            return res.status(400).json({status:false,message:"Province contains invalid characters!"});
+        }
+        if(postalCode && !/^\d+$/.test(postalCode)){
+            return res.status(400).json({status:false,message:"Postal code must be numeric!"});
+        }
+        if(country && !nameRegex.test(country)){
+            return res.status(400).json({status:false,message:"Country name contains invalid characters!"});
+        }
+
         const existingUser = await User.findOne({email});
         if(existingUser){
             return res.status(400).json({status:false,message:"User already exists!"});
@@ -45,7 +74,8 @@ export const registerUser = async (req, res) => {
         const password = `#${lastName.charAt(0).toUpperCase()}${lastName.charAt(1).toLowerCase()}HR3`;
         const hashedPassword = await bcryptjs.hash(password, 10);
 
-        const compensationPlans = await CompensationPlanning.find({}, 'position');
+        // const compensationPlans = await CompensationPlanning.find({}, 'position');
+        const compensationPlans = await CompensationPlanning.find().populate('position');
         const employeePositions = compensationPlans.map(plan => plan.position);
         let role;
         if(position === "Manager"){
