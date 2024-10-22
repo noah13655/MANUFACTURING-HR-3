@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const EmployeeList = () => {
   const { registerUser } = useEmployeeStore();
   const {fetchUsers,users} = useAuthStore();
-
+  
   useEffect(() => {
     document.title = 'Employee List';
     const fetchUserData = async () => {
@@ -21,6 +21,7 @@ const EmployeeList = () => {
     
     fetchUserData();
   }, [fetchUsers]);
+
 
   const [formData, setFormData] = useState({
     position: '',
@@ -206,13 +207,65 @@ const EmployeeList = () => {
     }
   };
 
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [selectedPosition, setSelectedPosition] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState('');
+  
+  useEffect(() => {
+    let filtered = users;
+  
+    if (selectedPosition) {
+      filtered = filtered.filter(user => user.position === selectedPosition);
+    }
+  
+    if (selectedStatus) {
+      const isVerified = selectedStatus === "true";
+      filtered = filtered.filter(user => user.verified === isVerified);
+    }
+  
+    setFilteredUsers(filtered);
+  }, [selectedPosition, selectedStatus, users]);
+  
+  const handlePositionFilterChange = (e) => {
+    setSelectedPosition(e.target.value);
+  };
+  
+  const handleStatusFilterChange = (e) => {
+    setSelectedStatus(e.target.value);
+  };
+  
   return (
     <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <ToastContainer />
+            <div className="flex justify-center flex gap-6">
+              <select
+                className="select select-bordered w-1/2"
+                value={selectedPosition}
+                onChange={handlePositionFilterChange}
+              >
+                <option value="">All Positions</option>
+                <option value="CEO">CEO</option>
+                <option value="Secretary">Secretary</option>
+                <option value="Production Head">Production Head</option>
+                <option value="Resellers Sales Head">Resellers Sales Head</option>
+                <option value="Reseller">Reseller</option>
+                <option value="Manager">Manager</option>
+              </select>
+
+              <select
+                className="select select-bordered w-1/2"
+                value={selectedStatus}
+                onChange={handleStatusFilterChange}
+              >
+                <option value="">Select one</option>
+                <option value="true">True</option>
+                <option value="false">False</option>
+              </select>
+
+            </div>
       <div className="mb-4">
         <div className="card w-full bg-base-100 shadow-xl">
           <div className="card-body">
-            <h2 className="card-title">Employee List</h2>
             <div className="overflow-x-auto">
               <table className="table w-full mb-4">
                 <thead>
@@ -221,12 +274,12 @@ const EmployeeList = () => {
                     <th className="border px-4 py-2">Firstname</th>
                     <th className="border px-4 py-2">Position</th>
                     <th className="border px-4 py-2">Role</th>
-                    <th className="border px-4 py-2">Verified</th>
+                    <th className="border px-4 py-2">Status</th>
                   </tr>
                 </thead>
                 <tbody>
-                {Array.isArray(users) && users.length > 0 ? (
-                    users.map((user) => (
+                {Array.isArray(filteredUsers) && filteredUsers.length > 0 ? (
+                    filteredUsers.map((user) => (
                       <tr key={user._id} className="hover:bg-neutral hover:text-white">
                         <td className="border px-4 py-2">{user.lastName || 'N/A'}</td>
                         <td className="border px-4 py-2">{user.firstName || 'N/A'}</td>

@@ -103,6 +103,35 @@ const App = () => {
     return <Loading />;
   }
 
+  // {condition ? (trueCase) : (falseCase)}
+  // {condition1 ? (
+  //   // Case for condition1 being true
+  //   <ComponentForCondition1 />
+  // ) : condition2 ? (
+  //   // Case for condition2 being true
+  //   <ComponentForCondition2 />
+  // ) : condition3 ? (
+  //   // Case for condition3 being true
+  //   <ComponentForCondition3 />
+  // ) : (
+  //   // Default case if none of the conditions are true
+  //   <DefaultComponent />
+  // )}
+
+  // {user?.role === 'Manager' ? (
+  //   <ProtectedRoute>
+  //     <ManagerDashboard />
+  //   </ProtectedRoute>
+  // ) : user?.role === 'Employee' ? (
+  //   <ProtectedRoute>
+  //     <EmployeeDashboard />
+  //   </ProtectedRoute>
+  // ) : (
+  //   <GuestDashboard />
+  // )}
+  
+  
+
   return (
     <div className="flex flex-col h-screen">
       <div className="flex flex-1 flex-row">
