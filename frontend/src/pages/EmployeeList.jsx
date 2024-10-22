@@ -3,10 +3,13 @@ import { useEmployeeStore } from '../store/employeeStore';
 import { useAuthStore } from '../store/authStore';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useCompensationStore } from '../store/compensationStore';
 
 const EmployeeList = () => {
   const { registerUser } = useEmployeeStore();
   const {fetchUsers,users} = useAuthStore();
+  const {fetchCompensationPositions,compensationPositions} = useCompensationStore();
+
   
   useEffect(() => {
     document.title = 'Employee List';
@@ -18,9 +21,10 @@ const EmployeeList = () => {
         toast.error('Failed to load user data. Please try again.');
       }
     };
-    
+
     fetchUserData();
-  }, [fetchUsers]);
+    fetchCompensationPositions();
+  }, [fetchUsers, fetchCompensationPositions]);
 
 
   const [formData, setFormData] = useState({
@@ -231,19 +235,19 @@ const EmployeeList = () => {
   return (
     <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <ToastContainer />
+      <h2 className='text-3xl mb-5 text-center'>Employee List</h2>
             <div className="flex justify-center flex gap-6">
-              <select
+            <select
                 className="select select-bordered w-1/2"
                 value={selectedPosition}
                 onChange={handlePositionFilterChange}
               >
-                <option value="">All Positions</option>
-                <option value="CEO">CEO</option>
-                <option value="Secretary">Secretary</option>
-                <option value="Production Head">Production Head</option>
-                <option value="Resellers Sales Head">Resellers Sales Head</option>
-                <option value="Reseller">Reseller</option>
-                <option value="Manager">Manager</option>
+            <option value="">Select Position</option>
+            {compensationPositions.map((position) => (
+              <option key={position._id} value={position.position}>
+                {position.position}
+              </option>
+            ))}
               </select>
 
               <select
@@ -322,16 +326,22 @@ const EmployeeList = () => {
         <div className="flex gap-6">
         <div className="form-control w-1/2">
           <label className="label">Position</label>
-          <select name="position" className="select select-bordered w-full" required onChange={handleInputChange} value={formData.position}>
+          <select
+            id="position"
+            name="position"
+            value={formData.position}
+            onChange={handleInputChange}
+            required
+            className="select select-bordered w-full"
+          >
             <option value="">Select Position</option>
-            <option value="CEO">CEO</option>
-            <option value="Secretary">Secretary</option>
-            <option value="Production Head">Production Head</option>
-            <option value="Resellers Sales Head">Resellers Sales Head</option>
-            <option value="Reseller">Reseller</option>
-            <option value="Manager">Manager</option>
+            {compensationPositions.map((position) => (
+              <option key={position._id} value={position.position}>
+                {position.position}
+              </option>
+            ))}
           </select>
-        </div>
+          </div>
 
         <div className="form-control w-1/2">
           <label className="label">Role</label>

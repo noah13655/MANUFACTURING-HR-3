@@ -1,4 +1,5 @@
 import { User } from "../model/userModel.js";
+import { CompensationPlanning } from "../model/compensation/compensationPlanningModel.js";
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
@@ -44,7 +45,8 @@ export const registerUser = async (req, res) => {
         const password = `#${lastName.charAt(0).toUpperCase()}${lastName.charAt(1).toLowerCase()}HR3`;
         const hashedPassword = await bcryptjs.hash(password, 10);
 
-        const employeePositions = ['CEO', 'Secretary', 'Production Head', 'Resellers Sales Head', 'Reseller'];
+        const compensationPlans = await CompensationPlanning.find({}, 'position');
+        const employeePositions = compensationPlans.map(plan => plan.position);
         let role;
         if(position === "Manager"){
             role = "Manager";

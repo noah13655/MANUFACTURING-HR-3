@@ -40,6 +40,16 @@ export const getCompensationPlan = async (req,res) => {
     }
 };
 
+export const getCompensationPosition = async (req,res) => {
+    try {
+        const compensationPosition = await CompensationPlanning.find({},'position');
+        res.status(200).json({success:true,data:compensationPosition});
+    } catch (error) {
+        console.log(`error in getting compensation position ${error}`);
+        res.status(500).json({success:false,message:"Server error",error:error.message});
+    }
+};
+
 export const updateCompensationPlan = async (req,res) => {
     const {id} = req.params;
     const {position,hourlyRate,overTimeRate,holidayRate,incentives,benefits,performanceMetrics,salaryAdjustmentGuidelines,effectiveDate,comments} = req.body;

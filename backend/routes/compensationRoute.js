@@ -1,7 +1,7 @@
 import express from "express";
 import { compensationPlanningValidation } from "../middleware/validationMiddleware.js";
 import { verifyToken } from "../middleware/verifyToken.js";
-import { createCompensationPlan, deleteCompensationPlan, getCompensationPlan, updateCompensationPlan } from "../controller/compensationPlanningController.js";
+import { createCompensationPlan, deleteCompensationPlan, getCompensationPlan, getCompensationPosition, updateCompensationPlan } from "../controller/compensationPlanningController.js";
 
 const compensationRoute = express.Router();
 
@@ -12,6 +12,7 @@ compensationRoute.get('/csrf-token', (req, res) => {
 compensationRoute.post("/create-compensation-plan",verifyToken,compensationPlanningValidation,createCompensationPlan);
 
 compensationRoute.get("/get-compensation-plan",verifyToken,getCompensationPlan);
+compensationRoute.get("/get-compensation-position",verifyToken,getCompensationPosition);
 
 compensationRoute.put("/update-compensation-plan/:id",verifyToken,compensationPlanningValidation,updateCompensationPlan);
 
