@@ -9,12 +9,6 @@ const EmployeeDashboard = () => {
     { name: 'Meal Allowance', value: 1000 },
   ];
 
-  const leaveData = [
-    { name: 'Pending', value: 1 },
-    { name: 'Approved', value: 2 },
-    { name: 'Denied', value: 0 },
-  ];
-
   const deductionsData = [
     { month: 'September', amount: 500 },
     { month: 'October', amount: 300 },
@@ -65,7 +59,6 @@ const EmployeeDashboard = () => {
       </section>
 
       <section className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <Chart title="Leave Application Status" data={leaveData} type="bar" />
         <Chart title="My Deductions" data={deductionsData} type="line" />
       </section>
 

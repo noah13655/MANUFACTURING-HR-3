@@ -43,7 +43,6 @@ import GrievanceRequest from './pages/manager/compensation/GrievanceRequest';
 /* benefits administration */
 import BenefitsAdministration from './pages/manager/benefits/BenefitsAdministration';
 import EnrollmentSubmission from './pages/manager/benefits/EnrollmentSubmission';
-import LeaveRequest from './pages/manager/benefits/LeaveRequest';
 import Deductions from './pages/manager/benefits/Deductions';
 
 /* incentives management */
@@ -63,7 +62,6 @@ import Profile from './pages/employee/Profile';
 
 import EBenefitsOverview from './pages/employee/benefits/EBenefitsOverview';
 import BenefitsEnrollment from "./pages/employee/benefitsManagement/BenefitsEnrollment";
-import LeaveApplication from './pages/employee/benefitsManagement/LeaveApplication';
 import MyDeductions from './pages/employee/benefitsManagement/MyDeductions';
 
 import EIncentivesOverview from './pages/employee/incentives/EIncentivesOverview';
@@ -177,7 +175,6 @@ const App = () => {
                       {/* Benefits Administration */}
                       <Route path="/benefits-administration" element={<ProtectedRoute><BenefitsAdministration/></ProtectedRoute>} />
                       <Route path="/enrollment-submission" element={<ProtectedRoute><EnrollmentSubmission /></ProtectedRoute>} />
-                      <Route path="/leave-requests" element={<ProtectedRoute><LeaveRequest /></ProtectedRoute>} />
                       <Route path="/deductions" element={<ProtectedRoute><Deductions /></ProtectedRoute>} />
                       
                       {/* Incentives Management */}
@@ -200,7 +197,6 @@ const App = () => {
 
                       <Route path="/benefits-overview" element={<ProtectedRoute><EBenefitsOverview /></ProtectedRoute>} />                    
                       <Route path='/benefits-enrollment' element={<ProtectedRoute><BenefitsEnrollment/></ProtectedRoute>}/>
-                      <Route path='/leave-application' element={<ProtectedRoute><LeaveApplication/></ProtectedRoute>}/>
                       <Route path='/my-deductions' element={<ProtectedRoute><MyDeductions/></ProtectedRoute>}/>
 
                       <Route path='/my-salary-info' element={<ProtectedRoute><MySalaryInfo/></ProtectedRoute>}/>

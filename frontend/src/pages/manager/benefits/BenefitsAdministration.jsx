@@ -209,16 +209,6 @@ const handleCreateBenefits = async (e) => {
 
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body">
-            <h2 className="card-title">Leave Request</h2>
-            <p>Manage leave requests through this portal.</p>
-            <Link to="/leave-requests" className="btn btn-primary">
-              <button>Leave Request</button>
-            </Link>
-          </div>
-        </div>
-
-        <div className="card bg-base-100 shadow-xl">
-          <div className="card-body">
             <h2 className="card-title">Deductions</h2>
             <p>Review and manage employee deductions.</p>
             <Link to="/deductions-management" className="btn btn-primary">
