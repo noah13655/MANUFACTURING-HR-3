@@ -51,7 +51,7 @@ const CompensationPlanning = () => {
   };
 
   const handleAddBenefit = () => {
-    if (benefitName && benefitDeduction) {
+    if(benefitName && benefitDeduction) {
       setNewPlan((prevPlan) => ({
         ...prevPlan,
         benefits: [...prevPlan.benefits, { name: benefitName, deduction: Number(benefitDeduction) }],
@@ -65,7 +65,7 @@ const CompensationPlanning = () => {
   };
 
   const handleAddMetric = () => {
-    if (metricName && metricValue) {
+    if(metricName && metricValue) {
       setNewPlan((prevPlan) => ({
         ...prevPlan,
         performanceMetrics: [...prevPlan.performanceMetrics, { name: metricName, metrics: Number(metricValue) }],
@@ -80,57 +80,44 @@ const CompensationPlanning = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const { position, hourlyRate, overTimeRate, holidayRate, benefits, performanceMetrics, effectiveDate } = newPlan;
-
-    if (!position || !hourlyRate || !overTimeRate || !holidayRate || !effectiveDate) {
+  
+    const { position, hourlyRate, overTimeRate, holidayRate, effectiveDate } = newPlan;
+  
+    if(!position || !hourlyRate || !overTimeRate || !holidayRate || !effectiveDate) {
       toast.error("Please fill in all required fields.");
       return;
     }
-
-    if (hourlyRate <= 0 || overTimeRate <= 0 || holidayRate <= 0) {
+  
+    if(hourlyRate <= 0 || overTimeRate <= 0 || holidayRate <= 0) {
       toast.error("Rates should be positive numbers.");
       return;
     }
-    if (benefits.length === 0) {
+  
+    if(newPlan.benefits.length === 0) {
       toast.error("Please add at least one benefit.");
       return;
     }
-    if (performanceMetrics.length === 0) {
+  
+    if(newPlan.performanceMetrics.length === 0) {
       toast.error("Please add at least one performance metric.");
       return;
     }
-
-    let result;
-    if (editingPlanId) {
-      result = await updateCompensationPlan(editingPlanId, newPlan);
-    } else {
-      result = await createCompensationPlan(newPlan);
-    }
-
-    if (result.success) {
+  
+    const result = editingPlanId 
+      ? await updateCompensationPlan(editingPlanId, newPlan) 
+      : await createCompensationPlan(newPlan);
+    console.log(result);
+    
+    if(result.success) {
       toast.success(editingPlanId ? "Compensation plan updated successfully!" : "Compensation plan created successfully!");
-      setNewPlan({
-        position: '',
-        hourlyRate: '',
-        overTimeRate: '',
-        holidayRate: '',
-        incentives: '',
-        benefits: [],
-        performanceMetrics: [],
-        salaryAdjustmentGuidelines: '',
-        effectiveDate: '',
-        comments: '',
-      });
-      setBenefits([]);
-      setMetrics([]);
+      clearForm();
       setIsModalOpen(false);
       getCompensationPlans();
     } else {
       toast.error(result.message);
     }
   };
-
+  
   const clearForm = () => {
     setNewPlan({
       position: '',
@@ -154,7 +141,7 @@ const CompensationPlanning = () => {
 
   const handleDelete = async (id) => {
     const result = await deleteCompensationPlan(id);
-    if (result.success) {
+    if(result.success) {
       toast.success("Compensation plan deleted successfully!");
       getCompensationPlans();
     } else {
@@ -362,9 +349,9 @@ const CompensationPlanning = () => {
                     className="border p-2 mb-4 w-full"
                   />
                   <div className="flex justify-between">
-                  <button type="submit" className="bg-primary text-white px-4 py-2 rounded">
-                    {editingPlanId ? "Update" : "Submit"}
-                  </button>
+                    <button type="submit" className="bg-primary text-white px-4 py-2 rounded">
+                      {editingPlanId ? "Update Plan" : "Create Plan"}
+                    </button>
                     <button type="button" className="bg-gray-300 text-black px-4 py-2 rounded" onClick={clearForm}>Clear</button>
                     <button type="button" className="bg-gray-300 text-black px-4 py-2 rounded" onClick={() => setIsModalOpen(false)}>Cancel</button>
                   </div>
@@ -395,28 +382,48 @@ const CompensationPlanning = () => {
             </tr>
           </thead>
           <tbody>
-            {compensationPlans.map((plan) => (
-              <tr key={plan._id}>
-                <td className="border px-4 py-2">{plan.position}</td>
-                <td className="border px-4 py-2">{plan.hourlyRate}</td>
-                <td className="border px-4 py-2">{plan.overTimeRate}</td>
-                <td className="border px-4 py-2">{plan.holidayRate}</td>
-                <td className="border px-4 py-2">{plan.incentives}</td>
-                <td className="border px-4 py-2">{plan.benefits.map(ben => `${ben.name} (${ben.deduction})`).join(', ') || 'N/A'}</td>
-                <td className="border px-4 py-2">{plan.performanceMetrics.map(met => `${met.name} (${met.metrics})`).join(', ') || 'N/A'}</td>
-                  <td className="border px-4 py-2">{plan.salaryAdjustmentGuidelines || 'N/A'}</td>
-                   <td className="border px-4 py-2">{plan.effectiveDate ? formatDate(plan.effectiveDate) : 'N/A'}</td>
-                  <td className="border px-4 py-2">{plan.comments || 'N/A'}</td>
-                <td className="border px-4 py-2">
-                  <button onClick={() => handleEdit(plan)} className="bg-primary text-white px-2 py-1 rounded">
-                    Edit
-                  </button>
-                  <button onClick={() => handleDelete(plan._id)} className="bg-error text-white px-2 py-1 rounded">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+              {Array.isArray(compensationPlans) && compensationPlans.length > 0 ? (
+                  compensationPlans.map((plan) => (
+                      plan ? (
+                          <tr key={plan._id}>
+                              <td className="border px-4 py-2">{plan.position || 'N/A'}</td>
+                              <td className="border px-4 py-2">{plan.hourlyRate || 'N/A'}</td>
+                              <td className="border px-4 py-2">{plan.overTimeRate || 'N/A'}</td>
+                              <td className="border px-4 py-2">{plan.holidayRate || 'N/A'}</td>
+                              <td className="border px-4 py-2">{plan.incentives || 'N/A'}</td>
+                              <td className="border px-4 py-2">
+                                  {plan.benefits && plan.benefits.length > 0 
+                                      ? plan.benefits.map(ben => `${ben.name} (${ben.deduction})`).join(', ') 
+                                      : 'N/A'}
+                              </td>
+                              <td className="border px-4 py-2">
+                                  {plan.performanceMetrics && plan.performanceMetrics.length > 0 
+                                      ? plan.performanceMetrics.map(met => `${met.name} (${met.metrics})`).join(', ') 
+                                      : 'N/A'}
+                              </td>
+                              <td className="border px-4 py-2">{plan.salaryAdjustmentGuidelines || 'N/A'}</td>
+                              <td className="border px-4 py-2">{plan.effectiveDate ? formatDate(plan.effectiveDate) : 'N/A'}</td>
+                              <td className="border px-4 py-2">{plan.comments || 'N/A'}</td>
+                              <td className="border px-4 py-2">
+                                  <button onClick={() => handleEdit(plan)} className="bg-primary text-white px-2 py-1 rounded">
+                                      Edit
+                                  </button>
+                                  <button onClick={() => handleDelete(plan._id)} className="bg-error text-white px-2 py-1 rounded">
+                                      Delete
+                                  </button>
+                              </td>
+                          </tr>
+                      ) : (
+                          <tr key={Math.random()}>
+                              <td colSpan="10" className="text-center">Invalid data entry found!</td>
+                          </tr>
+                      )
+                  ))
+              ) : (
+                  <tr>
+                      <td colSpan="10" className="text-center">No compensation plans found!</td>
+                  </tr>
+              )}
           </tbody>
         </table>
       </div>

@@ -94,7 +94,7 @@ export const updateCompensationPlan = async (req,res) => {
         compensationPlan.salaryAdjustmentGuidelines = salaryAdjustmentGuidelines || compensationPlan.salaryAdjustmentGuidelines;
         compensationPlan.effectiveDate = effectiveDate || compensationPlan.effectiveDate;
         compensationPlan.comments = comments || compensationPlan.comments;
-
+        
         await compensationPlan.save();
 
         res.status(200).json({success:true,message:"Compensation plan updated successfully!",compensationPlan});
