@@ -191,7 +191,7 @@ const CompensationPlanning = () => {
 
       {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+            <div className="bg-white rounded-lg shadow-lg p-6 w-100">
               <h2 className="text-xl font-bold mb-4">Add New Compensation Plan</h2>
               <form onSubmit={handleSubmit}>
                 <div className="flex flex-col space-y-4">
