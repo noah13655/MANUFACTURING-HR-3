@@ -123,6 +123,27 @@ const CompensationPlanning = () => {
     }
   };
 
+  const clearForm = () => {
+    setNewPlan({
+      position: '',
+      hourlyRate: '',
+      overTimeRate: '',
+      holidayRate: '',
+      incentives: '',
+      benefits: [],
+      performanceMetrics: [],
+      salaryAdjustmentGuidelines: '',
+      effectiveDate: '',
+      comments: '',
+    });
+    setBenefits([]);
+    setMetrics([]);
+    setBenefitName('');
+    setBenefitDeduction('');
+    setMetricName('');
+    setMetricValue('');
+  };
+
   const handleDelete = async (id) => {
     const result = await deleteCompensationPlan(id);
     if (result.success) {
@@ -297,6 +318,7 @@ const CompensationPlanning = () => {
                   />
                   <div className="flex justify-between">
                     <button type="submit" className="bg-primary text-white px-4 py-2 rounded">Submit</button>
+                    <button type="button" className="bg-gray-300 text-black px-4 py-2 rounded" onClick={clearForm}>Clear</button>
                     <button type="button" className="bg-gray-300 text-black px-4 py-2 rounded" onClick={() => setIsModalOpen(false)}>Cancel</button>
                   </div>
                 </div>
