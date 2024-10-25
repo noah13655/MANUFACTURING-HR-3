@@ -18,6 +18,7 @@ const CompensationPlanning = () => {
     comments: '',
   });
 
+
   const formatDate = (date) => {
     const d = new Date(date);
     const year = d.getFullYear();
@@ -26,14 +27,16 @@ const CompensationPlanning = () => {
     return `${year}-${month}-${day}`;
   };
   
+
   const [benefitName, setBenefitName] = useState('');
   const [benefitDeduction, setBenefitDeduction] = useState('');
   const [metricName, setMetricName] = useState('');
   const [metricValue, setMetricValue] = useState('');
   const [benefits, setBenefits] = useState([]);
   const [metrics, setMetrics] = useState([]);
+  const [editingPlanId, setEditingPlanId] = useState(null);
 
-  const { getCompensationPlans, compensationPlans = [], createCompensationPlan, deleteCompensationPlan } = useCompensationStore();
+  const { getCompensationPlans, compensationPlans = [], createCompensationPlan, deleteCompensationPlan, updateCompensationPlan } = useCompensationStore();
 
   useEffect(() => {
     getCompensationPlans();
@@ -48,12 +51,12 @@ const CompensationPlanning = () => {
   };
 
   const handleAddBenefit = () => {
-    if(benefitName && benefitDeduction){
+    if (benefitName && benefitDeduction) {
       setNewPlan((prevPlan) => ({
         ...prevPlan,
         benefits: [...prevPlan.benefits, { name: benefitName, deduction: Number(benefitDeduction) }],
       }));
-      setBenefits([...benefits, { name: benefitName, deduction: benefitDeduction }]);
+      setBenefits([...benefits, { name: benefitName, deduction: Number(benefitDeduction) }]);
       setBenefitName('');
       setBenefitDeduction('');
     } else {
@@ -62,12 +65,12 @@ const CompensationPlanning = () => {
   };
 
   const handleAddMetric = () => {
-    if(metricName && metricValue){
+    if (metricName && metricValue) {
       setNewPlan((prevPlan) => ({
         ...prevPlan,
         performanceMetrics: [...prevPlan.performanceMetrics, { name: metricName, metrics: Number(metricValue) }],
       }));
-      setMetrics([...metrics, { name: metricName, value: metricValue }]);
+      setMetrics([...metrics, { name: metricName, value: Number(metricValue) }]);
       setMetricName('');
       setMetricValue('');
     } else {
@@ -80,28 +83,33 @@ const CompensationPlanning = () => {
 
     const { position, hourlyRate, overTimeRate, holidayRate, benefits, performanceMetrics, effectiveDate } = newPlan;
 
-    if(!position || !hourlyRate || !overTimeRate || !holidayRate ||!effectiveDate){
+    if (!position || !hourlyRate || !overTimeRate || !holidayRate || !effectiveDate) {
       toast.error("Please fill in all required fields.");
       return;
     }
 
-    if(hourlyRate <= 0 || overTimeRate <= 0 || holidayRate <= 0){
+    if (hourlyRate <= 0 || overTimeRate <= 0 || holidayRate <= 0) {
       toast.error("Rates should be positive numbers.");
       return;
     }
-    if(benefits.length === 0){
+    if (benefits.length === 0) {
       toast.error("Please add at least one benefit.");
       return;
     }
-    if(performanceMetrics.length === 0){
+    if (performanceMetrics.length === 0) {
       toast.error("Please add at least one performance metric.");
       return;
     }
 
-    const result = await createCompensationPlan(newPlan);
+    let result;
+    if (editingPlanId) {
+      result = await updateCompensationPlan(editingPlanId, newPlan);
+    } else {
+      result = await createCompensationPlan(newPlan);
+    }
 
-    if(result.success){
-      toast.success("Compensation created successfully!");
+    if (result.success) {
+      toast.success(editingPlanId ? "Compensation plan updated successfully!" : "Compensation plan created successfully!");
       setNewPlan({
         position: '',
         hourlyRate: '',
@@ -118,7 +126,7 @@ const CompensationPlanning = () => {
       setMetrics([]);
       setIsModalOpen(false);
       getCompensationPlans();
-    }else{
+    } else {
       toast.error(result.message);
     }
   };
@@ -154,6 +162,31 @@ const CompensationPlanning = () => {
     }
   };
 
+  const handleEdit = (plan) => {
+    setNewPlan({
+      ...plan,
+      effectiveDate: formatDate(plan.effectiveDate),
+    });
+    setBenefits(plan.benefits);
+    setMetrics(plan.performanceMetrics);
+    setEditingPlanId(plan._id);
+    setIsModalOpen(true);
+  };
+
+  const removeBenefit = (index) => {
+    setNewPlan((prevPlan) => {
+      const updatedBenefits = prevPlan.benefits.filter((_, i) => i !== index);
+      return { ...prevPlan, benefits: updatedBenefits };
+    });
+  };
+
+  const removeMetric = (index) => {
+    setNewPlan((prevPlan) => {
+      const updatedMetrics = prevPlan.performanceMetrics.filter((_, i) => i !== index);
+      return { ...prevPlan, performanceMetrics: updatedMetrics };
+    });
+  };
+  
   return (
     <div className="relative max-w-full mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <ToastContainer />
@@ -252,11 +285,14 @@ const CompensationPlanning = () => {
                     <div>
                       <h3 className="font-semibold">Added Benefits:</h3>
                       <ul className="list-disc ml-5">
-                        {benefits.map((benefit, index) => (
-                          <li key={index}>
-                            {benefit.name} - Deduction: {benefit.deduction}
-                          </li>
-                        ))}
+                      {newPlan.benefits.map((benefit, index) => (
+                            <li key={index} className="flex justify-between items-center">
+                              {benefit.name} - Deduction: {benefit.deduction}
+                              <button type="button" className="text-red-500 ml-2" onClick={() => removeBenefit(index)}>
+                                Delete
+                              </button>
+                            </li>
+                          ))}
                       </ul>
                     </div>
                   </div>
@@ -289,11 +325,14 @@ const CompensationPlanning = () => {
                     <div>
                       <h3 className="font-semibold">Added Metrics:</h3>
                       <ul className="list-disc ml-5">
-                        {metrics.map((metric, index) => (
-                          <li key={index}>
-                            {metric.name} - Metrics: {metric.metrics}
-                          </li>
-                        ))}
+                      {newPlan.performanceMetrics.map((metric, index) => (
+                            <li key={index} className="flex justify-between items-center">
+                              {metric.name} - Value: {metric.metrics}
+                              <button type="button" className="text-red-500 ml-2" onClick={() => removeMetric(index)}>
+                                Delete
+                              </button>
+                            </li>
+                          ))}
                       </ul>
                     </div>
                 </div>
@@ -323,7 +362,9 @@ const CompensationPlanning = () => {
                     className="border p-2 mb-4 w-full"
                   />
                   <div className="flex justify-between">
-                    <button type="submit" className="bg-primary text-white px-4 py-2 rounded">Submit</button>
+                  <button type="submit" className="bg-primary text-white px-4 py-2 rounded">
+                    {editingPlanId ? "Update" : "Submit"}
+                  </button>
                     <button type="button" className="bg-gray-300 text-black px-4 py-2 rounded" onClick={clearForm}>Clear</button>
                     <button type="button" className="bg-gray-300 text-black px-4 py-2 rounded" onClick={() => setIsModalOpen(false)}>Cancel</button>
                   </div>
@@ -367,7 +408,10 @@ const CompensationPlanning = () => {
                    <td className="border px-4 py-2">{plan.effectiveDate ? formatDate(plan.effectiveDate) : 'N/A'}</td>
                   <td className="border px-4 py-2">{plan.comments || 'N/A'}</td>
                 <td className="border px-4 py-2">
-                  <button onClick={() => handleDelete(plan._id)} className="bg-red-500 text-white px-2 py-1 rounded">
+                  <button onClick={() => handleEdit(plan)} className="bg-primary text-white px-2 py-1 rounded">
+                    Edit
+                  </button>
+                  <button onClick={() => handleDelete(plan._id)} className="bg-error text-white px-2 py-1 rounded">
                     Delete
                   </button>
                 </td>
@@ -380,4 +424,4 @@ const CompensationPlanning = () => {
   );
 }
 
-export default CompensationPlanning;
+export default CompensationPlanning
