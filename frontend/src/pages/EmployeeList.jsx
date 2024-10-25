@@ -67,7 +67,7 @@ const EmployeeList = () => {
         position: value,
         role: value === 'Manager' ? 'Manager' : prev.role,
       }));
-      setIsRoleDisabled(value === 'Manager');
+      setIsRoleDisabled(value.includes('Manager'));
     }else if(name.includes('address')){
       const addressField = name.split('.')[1];
       setFormData((prev) => ({
@@ -85,9 +85,6 @@ const EmployeeList = () => {
   const validateForm = () => {
     let validationErrors = [];
 
-    if(!['Employee','Manager'].includes(formData.role)){
-      validationErrors.push("Invalid Role!");
-    }
     if(!formData.lastName) validationErrors.push("Lastname is required!");
     if(!formData.firstName) validationErrors.push("Firstname is required!");
     if(!formData.middleName) validationErrors.push("Middle name is required!");
@@ -159,30 +156,7 @@ const generatePassword = () => {
     try {
       const result = await registerUser(dataToSubmit);
       if (result) {
-        let successMessage;
-        switch (formData.position) {
-          case 'Manager':
-            successMessage = 'Manager registered successfully!';
-            break;
-          case 'CEO':
-            successMessage = 'CEO registered successfully!';
-            break;
-          case 'Secretary':
-            successMessage = 'Secretary registered successfully!';
-            break;
-          case 'Production Head':
-            successMessage = 'Production Head registered successfully!';
-            break;
-          case 'Resellers Sales Head':
-            successMessage = 'Resellers Sales Head registered successfully!';
-            break;
-          case 'Reseller':
-            successMessage = 'Reseller registered successfully!';
-            break;
-          default:
-            successMessage = 'Employee registered successfully!';
-            break;
-        }
+        toast.success(`${formData.position} registered successfully!`);
         setFormData({
           position: '',
           lastName: '',
@@ -201,8 +175,7 @@ const generatePassword = () => {
           bDate: '',
           role: ''
         });
-        toast.success(successMessage);
-        localStorage.setItem('successMessage', successMessage);
+        fetchUsers();
       }
     } catch (error) {
       console.error(error);

@@ -78,13 +78,21 @@ export const registerUser = async (req, res) => {
         const compensationPlans = await CompensationPlanning.find().populate('position');
         const employeePositions = compensationPlans.map(plan => plan.position);
         let role;
-        if(position === "Manager"){
+        // if(position === "Manager"){
+        //     role = "Manager";
+        // }else if(employeePositions.includes(position)){
+        //     role = "Employee";
+        // }else{
+        //     role = req.body.role;
+        // }
+        if (position.includes("Manager")) {
             role = "Manager";
-        }else if(employeePositions.includes(position)){
+        } else if (employeePositions.includes(position)) {
             role = "Employee";
-        }else{
+        } else {
             role = req.body.role;
         }
+        
 
         if(role === "Employee" && position === "Manager"){
             return res.status(400).json({status:false,message:"Conflicting role and position!"});
