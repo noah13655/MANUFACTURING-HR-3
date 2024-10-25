@@ -31,7 +31,7 @@ const CompensationPlanning = () => {
   const [metricName, setMetricName] = useState('');
   const [metricValue, setMetricValue] = useState('');
 
-  const { getCompensationPlans, compensationPlans = [], createCompensationPlan } = useCompensationStore();
+  const { getCompensationPlans, compensationPlans = [], createCompensationPlan, deleteCompensationPlan } = useCompensationStore();
 
   useEffect(() => {
     getCompensationPlans();
@@ -117,7 +117,15 @@ const CompensationPlanning = () => {
     }
   };
 
-
+  const handleDelete = async (id) => {
+    const result = await deleteCompensationPlan(id);
+    if (result.success) {
+      toast.success("Compensation plan deleted successfully!");
+      getCompensationPlans();
+    } else {
+      toast.error(result.message);
+    }
+  };
 
   return (
     <div className="relative max-w-full mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
@@ -265,7 +273,6 @@ const CompensationPlanning = () => {
               <th className="border px-4 py-2">Effective Date</th>
               <th className="border px-4 py-2">Comments</th>
               <th className="border px-4 py-2">Action</th>
-              <th className="border px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -282,7 +289,7 @@ const CompensationPlanning = () => {
                    <td className="border px-4 py-2">{plan.effectiveDate ? formatDate(plan.effectiveDate) : 'N/A'}</td>
                   <td className="border px-4 py-2">{plan.comments || 'N/A'}</td>
                 <td className="border px-4 py-2">
-                  <button  className="bg-red-500 text-white px-2 py-1 rounded">
+                  <button onClick={() => handleDelete(plan._id)} className="bg-red-500 text-white px-2 py-1 rounded">
                     Delete
                   </button>
                 </td>

@@ -49,6 +49,26 @@ export const useCompensationStore = create((set) => ({
         return {success:false,message:"Server error. Please try again later."};
       }
     }
-  }
+  },
+
+
+  deleteCompensationPlan: async (id) => {
+    try {
+      const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
+      const csrfToken = csrfResponse.data.csrfToken;
+  
+      const response = await axios.delete(`${API_URL}/delete-compensation-plan/${id}`,{
+        headers: { 'csrf-token': csrfToken }});
+      if (response.data.success) {
+        set((state) => ({
+          compensationPlans: state.compensationPlans.filter(plan => plan._id !== id),
+        }));
+        return { success: true, message: response.data.message };
+      }
+    } catch (error) {
+      console.error('Error deleting compensation plan:', error);
+      return { success: false, message: "Server error. Please try again later." };
+    }
+  },
   
 }));
