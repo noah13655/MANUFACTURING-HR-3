@@ -229,7 +229,7 @@ const Profile = () => {
 
       {isModalOpen && (
   <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
-    <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl mx-auto"style={{ width: '400px' }}> {/* Increased max-width to max-w-xl */}
+    <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl mx-auto"style={{ width: '400px' }}>
       <h3 className="text-lg font-semibold mb-4">Change Password</h3>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">

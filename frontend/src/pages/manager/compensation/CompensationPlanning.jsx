@@ -137,125 +137,139 @@ const CompensationPlanning = () => {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-96">
-            <h2 className="text-xl font-bold mb-4">Add New Compensation Plan</h2>
-            <form onSubmit={handleSubmit}>
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+      <h2 className="text-xl font-bold mb-4">Add New Compensation Plan</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="flex flex-col space-y-4">
+          <div className="flex space-x-2">
+            <input
+              type="text"
+              name="position"
+              placeholder="Position"
+              value={newPlan.position}
+              onChange={handleInputChange}
+              className="border p-2 w-full"
+              required
+            />
+            <input
+              type="number"
+              name="hourlyRate"
+              placeholder="Hourly Rate"
+              value={newPlan.hourlyRate}
+              onChange={handleInputChange}
+              className="border p-2 w-full"
+              required
+            />
+          </div>
+
+          <div className="flex space-x-2">
+            <input
+              type="number"
+              name="overTimeRate"
+              placeholder="OT Rate"
+              value={newPlan.overTimeRate}
+              onChange={handleInputChange}
+              className="border p-2 w-full"
+              required
+            />
+            <input
+              type="number"
+              name="holidayRate"
+              placeholder="Holiday Rate"
+              value={newPlan.holidayRate}
+              onChange={handleInputChange}
+              className="border p-2 w-full"
+              required
+            />
+          </div>
+
+          <input
+            type="text"
+            name="incentives"
+            placeholder="Incentives"
+            value={newPlan.incentives}
+            onChange={handleInputChange}
+            className="border p-2 w-full"
+          />
+
+          <div className="mb-4">
+            <div className="flex space-x-2 mb-2">
               <input
                 type="text"
-                name="position"
-                placeholder="Position"
-                value={newPlan.position}
-                onChange={handleInputChange}
-                className="border p-2 mb-2 w-full"
-                required
+                placeholder="Benefit Name"
+                value={benefitName}
+                onChange={(e) => setBenefitName(e.target.value)}
+                className="border p-2 w-full"
               />
               <input
                 type="number"
-                name="hourlyRate"
-                placeholder="Hourly Rate"
-                value={newPlan.hourlyRate}
-                onChange={handleInputChange}
-                className="border p-2 mb-2 w-full"
-                required
+                placeholder="Deduction Amount"
+                value={benefitDeduction}
+                onChange={(e) => setBenefitDeduction(e.target.value)}
+                className="border p-2 w-full"
+              />
+            </div>
+            <button type="button" className="bg-primary text-white px-4 py-2 rounded" onClick={handleAddBenefit}>
+              Add Benefit
+            </button>
+          </div>
+
+          <div className="mb-4">
+            <div className="flex space-x-2 mb-2">
+              <input
+                type="text"
+                placeholder="Performance Metric Name"
+                value={metricName}
+                onChange={(e) => setMetricName(e.target.value)}
+                className="border p-2 w-full"
               />
               <input
                 type="number"
-                name="overTimeRate"
-                placeholder="OT Rate"
-                value={newPlan.overTimeRate}
-                onChange={handleInputChange}
-                className="border p-2 mb-2 w-full"
-                required
+                placeholder="Metric Value"
+                value={metricValue}
+                onChange={(e) => setMetricValue(e.target.value)}
+                className="border p-2 w-full"
               />
-              <input
-                type="number"
-                name="holidayRate"
-                placeholder="Holiday Rate"
-                value={newPlan.holidayRate}
-                onChange={handleInputChange}
-                className="border p-2 mb-2 w-full"
-                required
-              />
-              <input
-                type="text"
-                name="incentives"
-                placeholder="Incentives"
-                value={newPlan.incentives}
-                onChange={handleInputChange}
-                className="border p-2 mb-2 w-full"
-              />
+            </div>
+            <button type="button" className="bg-primary text-white px-4 py-2 rounded" onClick={handleAddMetric}>
+              Add Metric
+            </button>
+          </div>
 
-              <div className="mb-4">
-                <input
-                  type="text"
-                  placeholder="Benefit Name"
-                  value={benefitName}
-                  onChange={(e) => setBenefitName(e.target.value)}
-                  className="border p-2 mb-2 w-full"
-                />
-                <input
-                  type="number"
-                  placeholder="Deduction Amount"
-                  value={benefitDeduction}
-                  onChange={(e) => setBenefitDeduction(e.target.value)}
-                  className="border p-2 mb-2 w-full"
-                />
-                <button type="button" className="bg-primary text-white px-4 py-2 rounded" onClick={handleAddBenefit}>
-                  Add Benefit
-                </button>
-              </div>
-
-              <div className="mb-4">
-                <input
-                  type="text"
-                  placeholder="Performance Metric Name"
-                  value={metricName}
-                  onChange={(e) => setMetricName(e.target.value)}
-                  className="border p-2 mb-2 w-full"
-                />
-                <input
-                  type="number"
-                  placeholder="Metric Value"
-                  value={metricValue}
-                  onChange={(e) => setMetricValue(e.target.value)}
-                  className="border p-2 mb-2 w-full"
-                />
-                <button type="button" className="bg-primary text-white px-4 py-2 rounded" onClick={handleAddMetric}>
-                  Add Metric
-                </button>
-              </div>
-
-              <input
-                type="text"
-                name="salaryAdjustmentGuidelines"
-                placeholder="Salary Adjustment Guidelines"
-                value={newPlan.salaryAdjustmentGuidelines}
-                onChange={handleInputChange}
-                className="border p-2 mb-2 w-full"
-              />
-              <input
-                type="date"
-                name="effectiveDate"
-                value={newPlan.effectiveDate}
-                onChange={handleInputChange}
-                className="border p-2 mb-2 w-full"
-              />
-              <textarea
-                name="comments"
-                placeholder="Comments"
-                value={newPlan.comments}
-                onChange={handleInputChange}
-                className="border p-2 mb-2 w-full"
-              />
-              <div className="flex justify-between">
-                <button type="submit" className="bg-primary text-white px-4 py-2 rounded">Submit</button>
-                <button type="button" className="bg-gray-300 text-black px-4 py-2 rounded" onClick={() => setIsModalOpen(false)}>Cancel</button>
-              </div>
-            </form>
+          <input
+            type="text"
+            name="salaryAdjustmentGuidelines"
+            placeholder="Salary Adjustment Guidelines"
+            value={newPlan.salaryAdjustmentGuidelines}
+            onChange={handleInputChange}
+            className="border p-2 w-full"
+          />
+          <input
+            type="date"
+            name="effectiveDate"
+            value={newPlan.effectiveDate}
+            onChange={handleInputChange}
+            className="border p-2 w-full"
+          />
+          <textarea
+            name="comments"
+            placeholder="Comments"
+            value={newPlan.comments}
+            onChange={handleInputChange}
+            className="border p-2 mb-4 w-full"
+          />
+          <div className="flex justify-between">
+            <button type="submit" className="bg-primary text-white px-4 py-2 rounded">Submit</button>
+            <button type="button" className="bg-gray-300 text-black px-4 py-2 rounded" onClick={() => setIsModalOpen(false)}>Cancel</button>
           </div>
         </div>
-      )}
+      </form>
+    </div>
+  </div>
+)}
+
+
 
       <h1 className="text-3xl font-bold mb-4">Compensation Planning</h1>
       <div className="overflow-x-auto">
