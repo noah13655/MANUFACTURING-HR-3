@@ -385,7 +385,7 @@ const CompensationPlanning = () => {
               {Array.isArray(compensationPlans) && compensationPlans.length > 0 ? (
                   compensationPlans.map((plan) => (
                       plan ? (
-                          <tr key={plan._id}>
+                          <tr key={plan._id} className="hover:bg-neutral hover:text-white">
                               <td className="border px-4 py-2">{plan.position || 'N/A'}</td>
                               <td className="border px-4 py-2">{plan.hourlyRate || 'N/A'}</td>
                               <td className="border px-4 py-2">{plan.overTimeRate || 'N/A'}</td>
