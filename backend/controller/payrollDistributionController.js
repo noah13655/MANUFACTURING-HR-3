@@ -1,5 +1,6 @@
 import { RequestedSalary } from '../model/payroll/requestedSalaryModel.js';
 import {io} from '../index.js';
+import { User } from '../model/userModel.js';
 
 export const requestSalary = async (req,res) => {
     try {
@@ -23,6 +24,14 @@ export const requestSalary = async (req,res) => {
         
         io.emit('requestSalaryCreated', {message:'Salary request created successfully.',requestSalary});
         
+        // const managers = await User.find({ role: 'Manager' });
+        // const managerIds = managers.map(manager => manager._id);
+
+        // io.to(managerIds).emit('requestSalaryCreated', {
+        //     message: 'A salary request has been created.',
+        //     requestSalary
+        // });
+
         return res.status(201).json({message:'Salary request created successfully.',requestSalary});
     } catch (error) {
         console.error(error);

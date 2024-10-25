@@ -24,7 +24,17 @@ const __dirname = path.resolve();
 
 const csrf = csrfProtection({ cookie: true });
 const server = http.createServer(app);
-const io = new Server(server);
+
+const io = new Server(server, {
+    cors: {
+        origin: process.env.NODE_ENV === "production" 
+            ? "https://hr3-jjm-manufacturing-1p4f.onrender.com" 
+            : "http://localhost:5173",
+        methods: ["GET", "POST"],
+        credentials: true,
+    }
+});
+
 
 app.use(cors({
     origin: process.env.NODE_ENV === "production"
@@ -72,6 +82,6 @@ io.on('connection', (socket) => {
 
 export { io };
 
-app.listen(PORT, '0.0.0.0', () => {
+server.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on PORT: ${PORT}`);
 });

@@ -4,6 +4,9 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { useAuthStore } from "../../store/authStore";
 import { useEmployeeStore } from "../../store/employeeStore";
+import io from 'socket.io-client';
+
+const socket = io("http://localhost:7687",{withCredentials:true});
 
 const Search = ({ onToggleSidebar }) => {
   const { logout } = useAuthStore();
@@ -11,6 +14,7 @@ const Search = ({ onToggleSidebar }) => {
   const navigate = useNavigate();
 
   const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredRoutes, setFilteredRoutes] = useState([]);
@@ -87,6 +91,25 @@ const Search = ({ onToggleSidebar }) => {
     }
   }, [searchQuery]);
 
+useEffect(() => {
+  socket.on('connect', () => {
+    console.log('Socket connected:', socket.id);
+  });
+
+  socket.on('requestSalaryCreated', (data) => {
+    if (user?.role === 'Manager') {
+      setNotifications((prev) => [
+        ...prev,
+        { id: Date.now(), message: data.message },
+      ]);
+    }
+  });
+
+  return () => {
+    socket.off('connect');
+    socket.off('requestSalaryCreated');
+  };
+}, [user]);  
   const handleLogout = async () => {
     try {
       await logout();
@@ -148,12 +171,18 @@ const Search = ({ onToggleSidebar }) => {
                   <h3 className="text-sm font-semibold">Notifications</h3>
                 </div>
                 <div className="p-4 max-h-60 overflow-y-auto">
-                  <p className="text-sm">You have no new notifications.</p>
+                  {notifications.length > 0 ? (
+                    notifications.map(notification => (
+                      <p key={notification.id} className="text-sm">{notification.message}</p>
+                    ))
+                  ) : (
+                    <p className="text-sm">You have no new notifications.</p>
+                  )}
                 </div>
               </div>
             )}
           </div>
-
+          
           <div className="dropdown dropdown-end">
             <img
               src={user?.profilePic}
