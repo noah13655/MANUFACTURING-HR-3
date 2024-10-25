@@ -1,14 +1,30 @@
 import { CompensationPlanning } from "../model/compensation/compensationPlanningModel.js";
 
-export const createCompensationPlan = async (req,res) => {
-    const {position,hourlyRate,overTimeRate,holidayRate,incentives,benefits,performanceMetrics,salaryAdjustmentGuidelines,effectiveDate,comments} = req.body;
+export const createCompensationPlan = async (req, res) => {
+    const {
+        position,
+        hourlyRate,
+        overTimeRate,
+        holidayRate,
+        incentives,
+        benefits,
+        performanceMetrics,
+        salaryAdjustmentGuidelines,
+        effectiveDate,
+        comments
+    } = req.body;
 
     try {
         const isPositionExist = await CompensationPlanning.findOne({position});
         if(isPositionExist){
-            return res.status(400).json({success:false,message:"Position already exist!"})
+            return res.status(400).json({success:false,message:"Position already exists!"});
         }
-        const newCompensationPlan = new CompensationPlanning({
+
+        if(!Array.isArray(performanceMetrics) || performanceMetrics.length === 0){
+            return res.status(400).json({success:false,message:"Performance metrics must be a non-empty array."});
+        }
+
+        const newPlan = new CompensationPlanning({
             position,
             hourlyRate,
             overTimeRate,
@@ -19,14 +35,15 @@ export const createCompensationPlan = async (req,res) => {
             salaryAdjustmentGuidelines,
             effectiveDate,
             comments
-        })
-        
-        await newCompensationPlan.save();
+        });
 
-        res.status(201).json({success:true,message:"Compensation created successfully!",newCompensationPlan});
+        await newPlan.save();
+
+        res.status(201).json({success:true,message:"Compensation created successfully!",data:newPlan});
     } catch (error) {
-        console.log(`error in creating compensation plan ${error}`);
-        res.status(500).json({success:false,message:"Server error",error:error.message});
+        console.error(`Error in creating compensation plan: ${error.message}`);
+        
+        res.status(500).json({success:false,message:"Server error",error: error.message || "An unexpected error occurred."});
     }
 };
 

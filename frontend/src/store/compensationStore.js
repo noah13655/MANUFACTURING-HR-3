@@ -24,9 +24,31 @@ export const useCompensationStore = create((set) => ({
       set({ compensationPlans: response.data.data });
     } catch (error) {
       console.error('Failed to fetch compensation positions:', error);
+      set({ compensationPlans: [] });
     }
   },
-
-
-
+  
+  createCompensationPlan: async (planData) => {
+    try {
+      const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
+      const csrfToken = csrfResponse.data.csrfToken;
+  
+      const response = await axios.post(`${API_URL}/create-compensation-plan`, planData, {
+        headers: { 'csrf-token': csrfToken },
+      });
+  
+      set((state) => ({
+        compensationPlans: [...state.compensationPlans, response.data.data],
+      }));
+      return { success: true, message: "Compensation created successfully!" };
+    } catch (error) {
+      if(error.response && error.response.status === 400){
+        return {success:false,message:error.response.data.message};
+      }else{
+        console.error("Error creating compensation plan:", error);
+        return {success:false,message:"Server error. Please try again later."};
+      }
+    }
+  }
+  
 }));

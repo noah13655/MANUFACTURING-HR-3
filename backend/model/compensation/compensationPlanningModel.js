@@ -31,10 +31,16 @@ const compensationPlanningSchema = new mongoose.Schema({
             required:true
         },
     }],
-    performanceMetrics:{
-        type:[Number],
-        default:[]
-    },
+    performanceMetrics: [{
+        name:{ 
+            type:String,
+            required:true
+        },
+        metrics: {
+            type:Number,
+            required:true
+        },
+    }],
     salaryAdjustmentGuidelines:{
         type:String,
         default:[]
