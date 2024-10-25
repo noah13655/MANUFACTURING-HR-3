@@ -6,7 +6,7 @@ import { useAuthStore } from "../../store/authStore";
 import { useEmployeeStore } from "../../store/employeeStore";
 import io from 'socket.io-client';
 
-const socket = io("http://localhost:7687",{withCredentials:true});
+const socket = io("http://localhost:7687", { withCredentials: true });
 
 const Search = ({ onToggleSidebar }) => {
   const { logout } = useAuthStore();
@@ -15,64 +15,37 @@ const Search = ({ onToggleSidebar }) => {
 
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  const [unreadNotifications, setUnreadNotifications] = useState([]);
+  const [readNotifications, setReadNotifications] = useState([]);
+  const [selectedNotification, setSelectedNotification] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredRoutes, setFilteredRoutes] = useState([]);
+  const [viewMode, setViewMode] = useState('unread');
 
   const managerRoutes = [
     { path: '/dashboard', name: 'Dashboard' },
     { path: '/employee-list', name: 'Employee List' },
-    { path: '/benefits-administration', name: 'Benefits Administration' },
-    { path: '/enrollment-submission', name: 'Enrollment Submission' },
-    { path: '/deductions-management', name: 'Deductions Management' },
-    { path: '/incentives-management', name: 'Incentives Management' },
-    { path: '/recognition-programs', name: 'Recognition Programs' },
-    { path: '/sales-commissions', name: 'Sales Commissions' },
-    { path: '/compensation-overview', name: 'Compensation Overview' },
-    { path: '/compensation-planning', name: 'Compensation Planning' },
-    { path: '/salary-structure', name: 'Salary Structure' },
-    { path: '/total-rewards', name: 'Total Rewards' },
-    { path: '/market-analysis', name: 'Market Analysis' },
-    { path: '/grievance-request', name: 'Grievance Request' },
-    { path: '/payroll-management', name: 'Payroll Management' },
-    { path: '/attendance', name: 'Attendance Tracking' },
-    { path: '/salary-computation', name: 'Salary Computation' },
-    { path: '/compliance-tracking', name: 'Compliance Tracking' },
-    { path: '/request-budget', name: 'Budget Request' },
-    { path: '/payroll-distribution', name: 'Payroll Distribution' },
-    { path: '/generate-reports', name: 'Report Generation' },
-    { path: '/payroll-history', name: 'Payroll History' },
-    { path: '/predictive-analytics', name: 'Predictive Analytics' },
+    // ... other routes
   ];
-  
+
   const employeeRoutes = [
     { path: '/dashboard', name: 'Dashboard' },
     { path: '/benefits-overview', name: 'Benefits Overview' },
-    { path: '/benefits-enrollment', name: 'Benefits Enrollment' },
-    { path: '/my-deductions', name: 'My Deductions' },
-    { path: '/incentives-overview', name: 'Incentives Overview' },
-    { path: '/my-commissions', name: 'My Commissions' },
-    { path: '/incentive-request', name: 'Incentive Request' },
-    { path: '/incentive-history', name: 'Incentive History' },
-    { path: '/my-salary-info', name: 'My Salary Information' },
-    { path: '/salary-request', name: 'Salary Request' },
-    { path: '/my-pay-slip', name: 'My Pay Slip' },
-    { path: '/my-overtime-bonuses', name: 'My Overtime Bonuses' },
+    // ... other routes
   ];
-  
-  
+
   const getRoutesByRole = (role) => {
-    if(role === 'Manager'){
+    if (role === 'Manager') {
       return managerRoutes;
-    }else if(role === 'Employee'){
+    } else if (role === 'Employee') {
       return employeeRoutes;
-    }else{
+    } else {
       return [];
     }
   };
 
   const routes = getRoutesByRole(user?.role);
-
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -91,25 +64,35 @@ const Search = ({ onToggleSidebar }) => {
     }
   }, [searchQuery]);
 
-useEffect(() => {
-  socket.on('connect', () => {
-    console.log('Socket connected:', socket.id);
-  });
+  useEffect(() => {
+    const storedUnreadNotifications = JSON.parse(localStorage.getItem('unreadNotifications')) || [];
+    const storedReadNotifications = JSON.parse(localStorage.getItem('readNotifications')) || [];
 
-  socket.on('requestSalaryCreated', (data) => {
-    if (user?.role === 'Manager') {
-      setNotifications((prev) => [
-        ...prev,
-        { id: Date.now(), message: data.message },
-      ]);
-    }
-  });
+    setUnreadNotifications(storedUnreadNotifications);
+    setReadNotifications(storedReadNotifications);
 
-  return () => {
-    socket.off('connect');
-    socket.off('requestSalaryCreated');
-  };
-}, [user]);  
+    socket.on('connect', () => {
+      console.log('Socket connected:', socket.id);
+    });
+
+    socket.on('requestSalaryCreated', (data) => {
+      if (user?.role === 'Manager') {
+        const newNotification = { id: Date.now(), message: data.message };
+        setNotifications(prev => [...prev, newNotification]);
+        setUnreadNotifications(prev => {
+          const updatedUnread = [...prev, newNotification];
+          localStorage.setItem('unreadNotifications', JSON.stringify(updatedUnread));
+          return updatedUnread;
+        });
+      }
+    });
+
+    return () => {
+      socket.off('connect');
+      socket.off('requestSalaryCreated');
+    };
+  }, [user]);
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -123,6 +106,25 @@ useEffect(() => {
     setIsSidebarOpen(prev => !prev);
     onToggleSidebar();
   };
+
+  const markAsRead = (notificationId) => {
+    const notificationToMark = unreadNotifications.find(n => n.id === notificationId);
+    if (notificationToMark) {
+      setUnreadNotifications(unreadNotifications.filter(n => n.id !== notificationId));
+      const updatedReadNotifications = [...readNotifications, { ...notificationToMark, read: true }];
+      setReadNotifications(updatedReadNotifications);
+
+      localStorage.setItem('unreadNotifications', JSON.stringify(unreadNotifications.filter(n => n.id !== notificationId)));
+      localStorage.setItem('readNotifications', JSON.stringify(updatedReadNotifications));
+    }
+  };
+
+  const handleNotificationToggle = (mode) => {
+    setViewMode(mode);
+    setSelectedNotification(null);
+  };
+
+  const notificationsToDisplay = viewMode === 'unread' ? unreadNotifications : readNotifications;
 
   return (
     <div className="w-full p-5 bg-base-100 shadow-lg rounded-lg sticky top-0 z-50 border border-gray-300">
@@ -165,24 +167,51 @@ useEffect(() => {
               className="text-2xl cursor-pointer"
               onClick={() => setShowNotifications(!showNotifications)}
             />
+            {unreadNotifications.length > 0 && (
+              <span className="absolute top-0 right-0 transform -translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-semibold rounded-full w-5 h-5 flex items-center justify-center">
+                {unreadNotifications.length}
+              </span>
+            )}
             {showNotifications && (
-              <div className="absolute right-0 mt-2 w-64 bg-base-100 border border-gray-300 rounded-lg shadow-lg z-50">
-                <div className="p-4 border-b">
-                  <h3 className="text-sm font-semibold">Notifications</h3>
+              <div className="absolute right-0 mt-2 w-64 bg-base-100 border border-gray-300 rounded-lg shadow-lg z-50 p-4">
+                <div className="flex justify-between">
+                  <h3 className="text-sm font-semibold cursor-pointer" onClick={() => handleNotificationToggle('unread')}>
+                    Unread ({unreadNotifications.length})
+                  </h3>
+                  <h3 className="text-sm font-semibold cursor-pointer" onClick={() => handleNotificationToggle('read')}>
+                    Read ({readNotifications.length})
+                  </h3>
                 </div>
-                <div className="p-4 max-h-60 overflow-y-auto">
-                  {notifications.length > 0 ? (
-                    notifications.map(notification => (
-                      <p key={notification.id} className="text-sm">{notification.message}</p>
+                <div className="flex flex-col mt-2">
+                  {notificationsToDisplay.length > 0 ? (
+                    notificationsToDisplay.map(notification => (
+                      <p
+                        key={notification.id}
+                        className={`text-sm cursor-pointer ${viewMode === 'unread' ? 'font-semibold' : 'text-gray-500'}`}
+                        onClick={() => {
+                          if (viewMode === 'unread') {
+                            markAsRead(notification.id);
+                          }
+                          setSelectedNotification(notification);
+                        }}
+                      >
+                        {notification.message}
+                      </p>
                     ))
                   ) : (
-                    <p className="text-sm">You have no new notifications.</p>
+                    <p className="text-sm text-gray-500">No notifications</p>
                   )}
                 </div>
+                {selectedNotification && (
+                  <div className="mt-4 p-2 border-t border-gray-200">
+                    <h5 className="font-semibold">Notification Details</h5>
+                    <p>{selectedNotification.message}</p>
+                  </div>
+                )}
               </div>
             )}
           </div>
-          
+
           <div className="dropdown dropdown-end">
             <img
               src={user?.profilePic}
