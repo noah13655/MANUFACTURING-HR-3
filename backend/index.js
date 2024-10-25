@@ -14,6 +14,7 @@ import incentiveRoute from './routes/incentivesRoute.js';
 import compensationRoute from './routes/compensationRoute.js';
 import employeeRoute from "./routes/employeeRoute.js";
 import payrollRoute from "./routes/payrollRoute.js";
+import notificationRoute from "./routes/notificationRoute.js";
 
 dotenv.config();
 connectDB();
@@ -53,6 +54,7 @@ app.use("/api/benefit", csrf, benefitRoute);
 app.use("/api/incentive", csrf, incentiveRoute);
 app.use("/api/compensation",csrf, compensationRoute);
 app.use("/api/payroll",csrf, payrollRoute);
+app.use("/api/notification",notificationRoute);
 
 app.use((req, res, next) => {
     if(req.method === "POST"){

@@ -1,6 +1,7 @@
 import { RequestedSalary } from '../model/payroll/requestedSalaryModel.js';
 import {io} from '../index.js';
 import { User } from '../model/userModel.js';
+import { Notification } from '../model/notificationModel.js';
 
 export const requestSalary = async (req,res) => {
     try {
@@ -22,6 +23,13 @@ export const requestSalary = async (req,res) => {
         });
         await requestSalary.save();
         
+        const notification = new Notification({
+            userId: req.user._id,
+            message: 'Salary request created successfully.',
+        });
+        // Save the notification in the database
+        await notification.save();
+
         io.emit('requestSalaryCreated', {message:'Salary request created successfully.',requestSalary});
         
         // const managers = await User.find({ role: 'Manager' });
