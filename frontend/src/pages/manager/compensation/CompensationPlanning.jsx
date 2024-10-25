@@ -158,8 +158,14 @@ const CompensationPlanning = () => {
     <div className="relative max-w-full mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <ToastContainer />
       <div className="mb-4">
-        <button className="bg-primary text-white px-4 py-2 rounded" onClick={() => setIsModalOpen(true)}>
+        <button className="bg-primary text-white px-4 py-2 rounded mr-10" onClick={() => setIsModalOpen(true)}>
           Add New Plan
+        </button>
+        <button className="bg-primary text-white px-4 py-2 rounded mr-10">
+          Submit to admin
+        </button>
+        <button className="bg-primary text-white px-4 py-2 rounded">
+          Download
         </button>
       </div>
 
