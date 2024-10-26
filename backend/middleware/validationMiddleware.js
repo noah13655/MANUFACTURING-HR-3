@@ -116,6 +116,11 @@ export const compensationPlanningValidation = [
     body('comments').optional().isString().withMessage('Comments must be a string.'),
 ];
 
+export const reviewRequestValidation = [
+    body('action')
+        .isIn(['approve', 'deny'])
+        .withMessage('Action must be either "approve" or "deny".')
+];
 
 export const validate = (req,res,next) => {
     const errors = validationResult(req);

@@ -1,6 +1,8 @@
 import express from "express";
-import { getMyRequestedSalary, getRequestedSalary, requestSalary } from "../controller/payrollDistributionController.js";
+import { getMyRequestedSalary, getRequestedSalary, requestSalary, reviewRequest } from "../controller/payrollDistributionController.js";
 import { verifyToken } from "../middleware/verifyToken.js";
+import { reviewRequestValidation, validate } from "../middleware/validationMiddleware.js";
+import { checkRole } from "../middleware/roleMiddleware.js";
 
 const payrollRoute = express.Router();
 
@@ -11,5 +13,7 @@ payrollRoute.get('/csrf-token', (req, res) => {
 payrollRoute.post("/request-salary",verifyToken,requestSalary);
 payrollRoute.get("/get-requested-salary",verifyToken,getRequestedSalary);
 payrollRoute.get("/get-my-requested-salary",verifyToken,getMyRequestedSalary);
+
+payrollRoute.put("/review-request/:requestId",verifyToken,checkRole("Manager"),reviewRequestValidation,validate,reviewRequest);
 
 export default payrollRoute

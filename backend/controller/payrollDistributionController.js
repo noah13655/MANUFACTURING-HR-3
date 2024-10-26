@@ -75,3 +75,40 @@ export const getMyRequestedSalary = async (req, res) => {
         res.status(500).json({success:false,message:"Server error",error: error.message});
     }
 };
+
+
+export const reviewRequest = async (req, res) => {
+    const {requestId} = req.params;
+    const {action} = req.body;
+
+    try {
+        const requestedSalary = await RequestedSalary.findById(requestId);
+        if(!requestedSalary){
+            return res.status(404).json({message:'Request not found'});
+        }
+        if(action === 'approve'){
+            requestedSalary.status = 'Approved';
+            io.emit('salaryRequestStatus', {
+                employeeId:requestedSalary.employeeId,
+                message:'Your salary request has been approved!',
+                requestId:requestedSalary._id,
+            });
+        }else if(action === 'deny'){
+            requestedSalary.status = 'Rejected';
+            io.emit('salaryRequestStatus', {
+                employeeId:requestedSalary.employeeId,
+                message:'Your salary request has been rejected.',
+                requestId:requestedSalary._id,
+            });
+        } else {
+            return res.status(400).json({ message: 'Invalid action' });
+        }
+
+        await requestedSalary.save();
+
+        return res.status(200).json({message:'Request updated',requestedSalary});
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({message:'Server error'});
+    }
+};
