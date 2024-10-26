@@ -1,17 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { usePayrollStore } from '../../../store/payrollStore';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SalaryRequest = () => {
-  const [salaryAmount, setSalaryAmount] = useState(21000); // Default salary amount set to 21,000
-  const [requestedAmount, setRequestedAmount] = useState(0);
-  const [paymentMethod, setPaymentMethod] = useState('Cash');
-  const [gCashNumber, setGCashNumber] = useState('');
+  const { 
+    requestedAmount, 
+    setRequestedAmount, 
+    paymentMethod, 
+    setPaymentMethod, 
+    gCashNumber, 
+    setGCashNumber, 
+    message, 
+    requestSalary 
+  } = usePayrollStore();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({
-      requestedAmount,
-      paymentMethod,
-      gCashNumber: paymentMethod === 'GCash' ? gCashNumber : null,
+    requestSalary().then(() => {
+      if(message){
+        toast.success(message);
+      }else{
+        toast.error('An error occurred. Please try again.');
+      }
     });
   };
 
@@ -22,13 +33,7 @@ const SalaryRequest = () => {
   return (
     <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-2xl">
       <h1 className="text-2xl font-bold mb-4">Request Salary Distribution</h1>
-
-      {/* Display current salary and requested amount */}
-      <div className="mb-4">
-        <p className="font-semibold">Current Salary: PHP {salaryAmount.toLocaleString()}</p>
-        <p className="font-semibold">Requested Amount: PHP {requestedAmount.toLocaleString()}</p>
-      </div>
-
+      <ToastContainer />
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md">
         <div className="mb-4">
           <label htmlFor="requestedAmount" className="block mb-2">Amount to Request</label>
@@ -36,7 +41,7 @@ const SalaryRequest = () => {
             id="requestedAmount"
             type="number"
             value={requestedAmount}
-            onChange={(e) => setRequestedAmount(e.target.value)}
+            onChange={(e) => setRequestedAmount(Number(e.target.value))}
             className="input input-bordered w-full"
             required
           />
