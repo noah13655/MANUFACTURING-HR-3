@@ -6,7 +6,7 @@ const API_URL = import.meta.env.MODE === "development" ? "http://localhost:7687/
 axios.defaults.withCredentials = true;
 
 export const usePayrollStore = create((set, get) => ({
-  requestedAmount: 0,
+  requestedAmount:null,
   paymentMethod: 'Cash',
   gCashNumber: '',
   message: '',
