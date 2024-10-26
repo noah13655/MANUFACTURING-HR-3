@@ -55,4 +55,29 @@ export const usePayrollStore = create((set, get) => ({
   },
 
 
+  salaryRequests: [],
+  setSalaryRequests: (requests) => set({ salaryRequests: requests }),
+  
+  addSalaryRequest: (newRequest) => set((state) => ({
+    salaryRequests: [...state.salaryRequests, newRequest],
+  })),
+
+  reviewRequest: async (requestId, action) => {
+    try {
+      const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
+      const csrfToken = csrfResponse.data.csrfToken;
+
+      const response = await axios.put(`http://localhost:7687/api/payroll/review-request/${requestId}`, { action }, {
+        headers:{'csrf-token':csrfToken},
+      });
+      set((state) => ({
+        salaryRequests: state.salaryRequests.map((request) => 
+          request._id === requestId ? { ...request, status: response.data.requestedSalary.status } : request
+        ),
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
 }));

@@ -11,10 +11,6 @@ export const requestSalary = async (req, res) => {
             return res.status(401).json({message:'User not authenticated.'});
         }
 
-        if(!requestedAmount || !paymentMethod){
-            return res.status(400).json({message:'All fields are required.'});
-        }
-
         const requestSalary = new RequestedSalary({
             employeeId: req.user._id,
             requestedAmount,
@@ -88,6 +84,11 @@ export const reviewRequest = async (req, res) => {
         if(!requestedSalary){
             return res.status(404).json({message:'Request not found'});
         }
+
+        if(requestedSalary.status === 'Approved' || requestedSalary.status === 'Rejected'){
+            return res.status(400).json({message:'Cannot change status, request already processed'});
+        }
+
         if(action === 'approve'){
             requestedSalary.status = 'Approved';
             io.emit('salaryRequestStatus', {
