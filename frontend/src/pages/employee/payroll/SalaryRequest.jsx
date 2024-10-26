@@ -70,7 +70,7 @@ const SalaryRequest = () => {
             <label htmlFor="gCashNumber" className="block mb-2">GCash Number</label>
             <input
               id="gCashNumber"
-              type="text"
+              type="number"
               value={gCashNumber}
               onChange={(e) => setGCashNumber(e.target.value)}
               className="input input-bordered w-full"

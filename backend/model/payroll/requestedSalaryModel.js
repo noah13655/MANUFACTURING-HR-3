@@ -4,7 +4,7 @@ const requestedSalary = new mongoose.Schema({
     employeeId:{
       type:mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'Employee',
+      ref: 'User',
     },
     requestedAmount:{
       type:Number,

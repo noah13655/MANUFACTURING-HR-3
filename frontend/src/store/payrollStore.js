@@ -10,6 +10,8 @@ export const usePayrollStore = create((set, get) => ({
   paymentMethod: 'Cash',
   gCashNumber: '',
   message: '',
+  salaryRequests: [],
+  error: '',
 
   setRequestedAmount: (amount) => set({requestedAmount:amount}),
   setPaymentMethod: (method) => set({paymentMethod:method,gCashNumber:method === 'Cash' ? '' : ''}),
@@ -38,4 +40,19 @@ export const usePayrollStore = create((set, get) => ({
       set({message:error.response?.data?.message || 'An error occurred. Please try again.'}); // Set error message
     }
   },
+
+  setSalaryRequests: (requests) => set({salaryRequests:requests}),
+  addSalaryRequest: (newRequest) => 
+    set((state) => ({salaryRequests:[...state.salaryRequests,newRequest]})),
+
+  fetchSalaryRequests: async () => {
+    try {
+      const response = await axios.get(`${API_URL}/get-requested-salary`);
+      set({salaryRequests:response.data.data});
+    } catch (error) {
+      set({error:'Failed to fetch salary requests. Please try again later.'});
+    }
+  },
+
+
 }));

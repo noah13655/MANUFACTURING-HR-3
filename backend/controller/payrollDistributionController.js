@@ -51,8 +51,10 @@ export const requestSalary = async (req, res) => {
 
 export const getRequestedSalary = async (req,res) => {
     try {
-        const requestedSalaries = await RequestedSalary.find();
-        console.log("Requested Salaries:", requestedSalaries);
+        const requestedSalaries = await RequestedSalary.find()
+        .populate('employeeId', 'firstName lastName')
+        .exec();
+
         res.status(200).json({sucess:true,data:requestedSalaries});
     } catch (error) {
         console.log(`error in getting salary requests ${error}`);
