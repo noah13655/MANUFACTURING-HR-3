@@ -5,6 +5,7 @@ import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { useAuthStore } from "../../store/authStore";
 import { useEmployeeStore } from "../../store/employeeStore";
 import io from 'socket.io-client';
+import axios from 'axios';
 
 const socket = io("http://localhost:7687", { withCredentials: true });
 
@@ -49,10 +50,31 @@ const Search = ({ onToggleSidebar }) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      await fetchData();
+        await fetchData();
+        await fetchNotifications();
     };
     fetchUserData();
-  }, [fetchData]);
+}, [fetchData,user]);
+
+  const fetchNotifications = async () => {
+    try {
+      // console.log(`User role is : ${user?.role}`)
+      if (user?.role === 'Manager') {
+        const response = await axios.get('http://localhost:7687/api/notification/get-notifications');
+        setNotifications(response.data);
+
+        const unread = response.data.filter(notification => !notification.read);
+        const read = response.data.filter(notification => notification.read);
+        setUnreadNotifications(unread);
+        setReadNotifications(read);
+      } else {
+        setNotifications([]);
+      }
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+      setNotifications([]);
+    }
+  };
 
   useEffect(() => {
     if (searchQuery) {
@@ -65,25 +87,17 @@ const Search = ({ onToggleSidebar }) => {
   }, [searchQuery]);
 
   useEffect(() => {
-    const storedUnreadNotifications = JSON.parse(localStorage.getItem('unreadNotifications')) || [];
-    const storedReadNotifications = JSON.parse(localStorage.getItem('readNotifications')) || [];
-
-    setUnreadNotifications(storedUnreadNotifications);
-    setReadNotifications(storedReadNotifications);
-
     socket.on('connect', () => {
       console.log('Socket connected:', socket.id);
     });
 
     socket.on('requestSalaryCreated', (data) => {
       if (user?.role === 'Manager') {
-        const newNotification = { id: Date.now(), message: data.message };
+        const newNotification = { id: Date.now(), message: data.message, read: false };
         setNotifications(prev => [...prev, newNotification]);
-        setUnreadNotifications(prev => {
-          const updatedUnread = [...prev, newNotification];
-          localStorage.setItem('unreadNotifications', JSON.stringify(updatedUnread));
-          return updatedUnread;
-        });
+        setUnreadNotifications(prev => [...prev, newNotification]);
+
+        fetchNotifications();
       }
     });
 
@@ -107,17 +121,17 @@ const Search = ({ onToggleSidebar }) => {
     onToggleSidebar();
   };
 
-  const markAsRead = (notificationId) => {
-    const notificationToMark = unreadNotifications.find(n => n.id === notificationId);
-    if (notificationToMark) {
-      setUnreadNotifications(unreadNotifications.filter(n => n.id !== notificationId));
-      const updatedReadNotifications = [...readNotifications, { ...notificationToMark, read: true }];
-      setReadNotifications(updatedReadNotifications);
-
-      localStorage.setItem('unreadNotifications', JSON.stringify(unreadNotifications.filter(n => n.id !== notificationId)));
-      localStorage.setItem('readNotifications', JSON.stringify(updatedReadNotifications));
+  const markAsRead = async (notificationId) => {
+    try {
+        await axios.put(`http://localhost:7687/api/notification/mark-as-read/${notificationId}`);
+        setNotifications((prev) => prev.map(notification => 
+            notification._id === notificationId ? { ...notification, read: true } : notification
+        ));
+    } catch (error) {
+        console.error('Error marking notification as read:', error);
     }
-  };
+};
+
 
   const handleNotificationToggle = (mode) => {
     setViewMode(mode);
@@ -162,55 +176,56 @@ const Search = ({ onToggleSidebar }) => {
         </div>
 
         <div className="flex gap-5 items-center">
-          <div className="relative">
-            <IoMdNotificationsOutline
-              className="text-2xl cursor-pointer"
-              onClick={() => setShowNotifications(!showNotifications)}
-            />
-            {unreadNotifications.length > 0 && (
-              <span className="absolute top-0 right-0 transform -translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-semibold rounded-full w-5 h-5 flex items-center justify-center">
-                {unreadNotifications.length}
-              </span>
-            )}
-            {showNotifications && (
-              <div className="absolute right-0 mt-2 w-64 bg-base-100 border border-gray-300 rounded-lg shadow-lg z-50 p-4">
-                <div className="flex justify-between">
-                  <h3 className="text-sm font-semibold cursor-pointer" onClick={() => handleNotificationToggle('unread')}>
-                    Unread ({unreadNotifications.length})
-                  </h3>
-                  <h3 className="text-sm font-semibold cursor-pointer" onClick={() => handleNotificationToggle('read')}>
-                    Read ({readNotifications.length})
-                  </h3>
-                </div>
-                <div className="flex flex-col mt-2">
-                  {notificationsToDisplay.length > 0 ? (
-                    notificationsToDisplay.map(notification => (
-                      <p
-                        key={notification.id}
-                        className={`text-sm cursor-pointer ${viewMode === 'unread' ? 'font-semibold' : 'text-gray-500'}`}
-                        onClick={() => {
-                          if (viewMode === 'unread') {
-                            markAsRead(notification.id);
-                          }
-                          setSelectedNotification(notification);
-                        }}
-                      >
-                        {notification.message}
-                      </p>
-                    ))
-                  ) : (
-                    <p className="text-sm text-gray-500">No notifications</p>
+                <div className="relative">
+                  <IoMdNotificationsOutline
+                    className="text-2xl cursor-pointer"
+                    onClick={() => setShowNotifications(!showNotifications)}
+                  />
+                  {unreadNotifications.length > 0 && (
+                    <span className="absolute top-0 right-0 transform -translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-semibold rounded-full w-5 h-5 flex items-center justify-center">
+                      {unreadNotifications.length}
+                    </span>
                   )}
-                </div>
-                {selectedNotification && (
-                  <div className="mt-4 p-2 border-t border-gray-200">
-                    <h5 className="font-semibold">Notification Details</h5>
-                    <p>{selectedNotification.message}</p>
-                  </div>
-                )}
+                  {showNotifications && (
+                    <div className="absolute right-0 mt-2 w-64 max-h-80 overflow-y-auto bg-base-100 border border-gray-300 rounded-lg shadow-lg z-50 p-4">
+                      <div className="flex justify-between">
+                        <h3 className="text-sm font-semibold cursor-pointer" onClick={() => handleNotificationToggle('unread')}>
+                          Unread ({unreadNotifications.length})
+                        </h3>
+                        <h3 className="text-sm font-semibold cursor-pointer" onClick={() => handleNotificationToggle('read')}>
+                          Read ({readNotifications.length})
+                        </h3>
+                      </div>
+                      <div className="flex flex-col mt-2">
+                        {notificationsToDisplay.length > 0 ? (
+                          notificationsToDisplay.map(notification => (
+                            <p
+                              key={notification._id}
+                              className={`text-sm cursor-pointer p-2 rounded transition duration-200 ease-in-out 
+                                ${viewMode === 'unread' ? 'font-semibold hover:bg-gray-100' : 'text-gray-500 hover:bg-gray-50'}`}
+                              onClick={() => {
+                                if (viewMode === 'unread') {
+                                  markAsRead(notification._id);
+                                }
+                                setSelectedNotification(notification);
+                              }}
+                            >
+                              {notification.message}
+                            </p>
+                          ))
+                        ) : (
+                          <p className="text-sm text-gray-500">No notifications</p>
+                        )}
+                      </div>
+                      {selectedNotification && (
+                        <div className="mt-4 p-2 border-t border-gray-200">
+                          <h5 className="font-semibold">Notification Details</h5>
+                          <p>{selectedNotification.message}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}              
               </div>
-            )}
-          </div>
 
           <div className="dropdown dropdown-end">
             <img
@@ -221,9 +236,12 @@ const Search = ({ onToggleSidebar }) => {
               className="w-10 h-10 rounded-full border-2 border-neutral-500"
             />
             <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 mt-2 shadow border border-gray-300">
-              <li><Link to="/profile">Profile</Link></li>
-              <li><Link to="/settings">Settings</Link></li>
-              <li><button onClick={handleLogout} className="w-full text-left">Log out</button></li>
+              <li>
+                <Link to={`/profile/${user?.employeeId}`} className="text-sm">Profile</Link>
+              </li>
+              <li>
+                <button onClick={handleLogout} className="text-sm">Logout</button>
+              </li>
             </ul>
           </div>
         </div>

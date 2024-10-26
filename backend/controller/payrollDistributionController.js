@@ -3,42 +3,42 @@ import {io} from '../index.js';
 import { User } from '../model/userModel.js';
 import { Notification } from '../model/notificationModel.js';
 
-export const requestSalary = async (req,res) => {
+export const requestSalary = async (req, res) => {
     try {
         const {requestedAmount,paymentMethod,gCashNumber} = req.body;
+
         if(!req.user || !req.user._id){
-            console.log(req.user);
-            console.log(req.user._id);
             return res.status(401).json({message:'User not authenticated.'});
         }
+
         if(!requestedAmount || !paymentMethod){
             return res.status(400).json({message:'All fields are required.'});
         }
-        console.log("User ID:", req.user._id);
+
         const requestSalary = new RequestedSalary({
-            employeeId:req.user._id,
+            employeeId: req.user._id,
             requestedAmount,
             paymentMethod,
             gCashNumber: paymentMethod === 'GCash' ? gCashNumber : null,
         });
         await requestSalary.save();
-        
-        const notification = new Notification({
-            userId: req.user._id,
-            message: 'Salary request created successfully.',
+
+        const managers = await User.find({ role: 'Manager' });
+        const managerIds = managers.map(manager => manager._id);
+        const employeeLastName = req.user.lastName || "Employee";
+
+        for (const managerId of managerIds) {
+            const notification = new Notification({
+                userId: managerId,
+                message: `A salary request has been created by ${employeeLastName}`,
+            });
+
+            await notification.save();
+        }
+        io.to(managerIds).emit('requestSalaryCreated', {
+            message: `A salary request has been created by ${employeeLastName}`,
+            requestSalary
         });
-        // Save the notification in the database
-        await notification.save();
-
-        io.emit('requestSalaryCreated', {message:'Salary request created successfully.',requestSalary});
-        
-        // const managers = await User.find({ role: 'Manager' });
-        // const managerIds = managers.map(manager => manager._id);
-
-        // io.to(managerIds).emit('requestSalaryCreated', {
-        //     message: 'A salary request has been created.',
-        //     requestSalary
-        // });
 
         return res.status(201).json({message:'Salary request created successfully.',requestSalary});
     } catch (error) {
@@ -46,6 +46,8 @@ export const requestSalary = async (req,res) => {
         return res.status(500).json({message:'Server error.',error: error.message});
     }
 };
+
+
 
 export const getRequestedSalary = async (req,res) => {
     try {
