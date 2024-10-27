@@ -7,7 +7,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const SalaryDistribution = () => {
   const { salaryRequests,setSalaryRequests, addSalaryRequest, fetchSalaryRequests, reviewRequest,toggleRequestAvailability } = usePayrollStore();
-  const socket = io('http://localhost:7687');
+  const socketURL = import.meta.env.MODE === "development" 
+  ? "http://localhost:7687" 
+  : window.location.origin;
+
+const socket = io(socketURL, { withCredentials: true });
 
   const [visibleSection, setVisibleSection] = useState(null);
   const [isAvailable, setIsAvailable] = useState(true);
