@@ -35,6 +35,11 @@ const socket = io(socketURL, { withCredentials: true });
 
   const handleReviewRequest = (requestId, action) => {
     reviewRequest(requestId, action);
+    if (action === 'approve') {
+      toast.success('Salary request approved successfully!');
+    } else if (action === 'deny') {
+      toast.error('Salary request denied.');
+    }
   };
 
   const handleToggleAvailability = async () => {
