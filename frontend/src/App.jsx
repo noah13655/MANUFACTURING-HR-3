@@ -23,7 +23,6 @@ import Search from './pages/manager/Search';
 
 /* payroll processing */
 import PayrollProcessing from './pages/manager/payroll/PayrollProcessing';
-import Attendance from './pages/manager/payroll/Attendance';
 import SalaryComputation from './pages/manager/payroll/SalaryComputation';
 import DeductionsManagement from './pages/manager/payroll/DeductionsManagement';
 import ComplianceTracking from './pages/manager/payroll/ComplianceTracking';
@@ -83,12 +82,17 @@ const App = () => {
   const { checkAuth, isAuthenticated, user } = useAuthStore();
   const [loading, setLoading] = useState(true);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const handleToggleSidebar = () => {
     setIsSidebarVisible((prev) => {
       console.log("Sidebar visible:", !prev);
       return !prev;
     });
+  };
+
+  const toggleDarkMode = () => {
+    setIsDarkMode((prevMode) => !prevMode);
   };
 
   useEffect(() => {
@@ -132,8 +136,7 @@ const App = () => {
   
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex flex-1 flex-row">
+    <div className={`flex flex-col h-screen ${isDarkMode ? 'dark' : ''}`}>      <div className="flex flex-1 flex-row">
         {isAuthenticated ? (
           <>
             {/* Responsive Sidebar */}
@@ -157,7 +160,6 @@ const App = () => {
 
                       {/* Payroll Processing */}
                       <Route path="/payroll-management" element={<ProtectedRoute><PayrollProcessing /></ProtectedRoute>} />
-                      <Route path="/attendance" element={<ProtectedRoute><Attendance /></ProtectedRoute>} />
                       <Route path="/salary-computation" element={<ProtectedRoute><SalaryComputation /></ProtectedRoute>} />
                       <Route path="/deductions-management" element={<ProtectedRoute><DeductionsManagement /></ProtectedRoute>} />
                       <Route path="/compliance-tracking" element={<ProtectedRoute><ComplianceTracking /></ProtectedRoute>} />

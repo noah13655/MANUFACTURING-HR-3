@@ -123,11 +123,14 @@ const Search = ({ onToggleSidebar }) => {
     }, [user]);
 
     const handleLogout = async () => {
-        try {
-            await logout();
-            navigate('/login');
-        } catch (error) {
-            console.error('Error logging out:', error);
+        const confirmed = window.confirm("Are you sure you want to logout?");
+        if (confirmed) {
+            try {
+                await logout();
+                navigate('/login');
+            } catch (error) {
+                console.error('Error logging out:', error);
+            }
         }
     };
 
