@@ -31,7 +31,7 @@ const io = new Server(server, {
         origin: process.env.NODE_ENV === "production" 
             ? "https://hr3-jjm-manufacturing-1p4f.onrender.com" 
             : "http://localhost:5173",
-        methods: ["GET", "POST"],
+        methods: ["GET", "POST","PUT","DELETE"],
         credentials: true,
     }
 });
