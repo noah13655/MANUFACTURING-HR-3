@@ -109,7 +109,6 @@ const Search = ({ onToggleSidebar }) => {
 
         socket.on('requestSalaryCreated', (data) => {
             if(user?.role === 'Manager'){
-                const newNotification = {id:Date.now(),message:data.message,read:false};
                 fetchNotifications(user?.role);
             }
         });
@@ -118,7 +117,9 @@ const Search = ({ onToggleSidebar }) => {
             socket.off('connect');
             socket.off('requestSalaryCreated');
         };
-    }, [user]);
+    }, [socket]);
+
+    
 
     const handleLogout = async () => {
         const confirmed = window.confirm("Are you sure you want to logout?");

@@ -27,7 +27,7 @@ const SalaryDistribution = () => {
     return () => {
       socket.disconnect();
     };
-  }, []); // add socket for real-time
+  }, [socket]); // add socket for real-time
 
   const handleReviewRequest = (requestId, action) => {
     reviewRequest(requestId, action);

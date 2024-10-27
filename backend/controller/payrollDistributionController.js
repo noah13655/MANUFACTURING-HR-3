@@ -106,6 +106,14 @@ export const reviewRequest = async (req, res) => {
                 message:'Your salary request has been approved!',
                 requestId:requestedSalary._id,
             });
+
+            const newNotification = new Notification({
+                userId: requestedSalary.employeeId,
+                message: 'Your salary request has been approved!',
+            });
+
+            await newNotification.save();
+
         }else if(action === 'deny'){
             requestedSalary.status = 'Rejected';
             io.emit('salaryRequestStatus', {
@@ -113,6 +121,13 @@ export const reviewRequest = async (req, res) => {
                 message:'Your salary request has been rejected.',
                 requestId:requestedSalary._id,
             });
+
+            const newNotification = new Notification({
+                userId: requestedSalary.employeeId,
+                message: 'Your salary request has been rejected!',
+            });
+
+            await newNotification.save();
         } else {
             return res.status(400).json({ message: 'Invalid action' });
         }

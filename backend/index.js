@@ -54,7 +54,7 @@ app.use("/api/benefit", csrf, benefitRoute);
 app.use("/api/incentive", csrf, incentiveRoute);
 app.use("/api/compensation",csrf, compensationRoute);
 app.use("/api/payroll",csrf, payrollRoute);
-app.use("/api/notification",notificationRoute);
+app.use("/api/notification",csrf,notificationRoute);
 
 app.use((req, res, next) => {
     if(req.method === "POST"){
