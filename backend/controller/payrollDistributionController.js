@@ -29,9 +29,13 @@ export const requestSalary = async (req, res) => {
         });
         await requestSalary.save();
 
+        const userId = req.user._id;
+        const user = await User.findById(userId).select('lastName');
+        
         const managers = await User.find({ role: 'Manager' });
         const managerIds = managers.map(manager => manager._id);
-        const employeeLastName = req.user.lastName || "Employee";
+        const employeeLastName = user.lastName || "Employee";
+        console.log(user);
 
         for(const managerId of managerIds){
             const notification = new Notification({
