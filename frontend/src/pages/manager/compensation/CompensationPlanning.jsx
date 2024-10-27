@@ -77,6 +77,23 @@ const CompensationPlanning = () => {
     }
   };
 
+  const handleCancel = () => {
+    // Reset the form and remove edit mode
+    setNewPlan({
+      position: '',
+      hourlyRate: '',
+      overTimeRate: '',
+      holidayRate: '',
+      benefits: [],
+      performanceMetrics: [],
+      salaryAdjustmentGuidelines: '',
+      effectiveDate: '',
+      comments: '',
+    });
+    setEditingPlanId(null); // Exit edit mode
+    setIsModalOpen(false); // Close the modal
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
   
@@ -342,7 +359,7 @@ const CompensationPlanning = () => {
                       {editingPlanId ? "Update Plan" : "Create Plan"}
                     </button>
                     <button type="button" className="bg-gray-300 text-black px-4 py-2 rounded" onClick={clearForm}>Clear</button>
-                    <button type="button" className="bg-gray-300 text-black px-4 py-2 rounded" onClick={() => setIsModalOpen(false)}>Cancel</button>
+                    <button type="button" className="bg-gray-300 text-black px-4 py-2 rounded" onClick={handleCancel}>Cancel</button>
                   </div>
                 </div>
               </form>
