@@ -67,7 +67,7 @@ export const usePayrollStore = create((set, get) => ({
       const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
       const csrfToken = csrfResponse.data.csrfToken;
 
-      const response = await axios.put(`http://localhost:7687/api/payroll/review-request/${requestId}`, { action }, {
+      const response = await axios.put(`${API_URL}/review-request/${requestId}`, { action }, {
         headers:{'csrf-token':csrfToken},
       });
       set((state) => ({
@@ -81,7 +81,6 @@ export const usePayrollStore = create((set, get) => ({
   },
 
   toggleRequestAvailability: async () => {
-    const API_URL = import.meta.env.MODE === "development" ? "http://localhost:7687/api/payroll" : "/api/payroll";
     
     try {
       const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
@@ -92,7 +91,7 @@ export const usePayrollStore = create((set, get) => ({
       set((state) => ({
         salaryRequests: state.salaryRequests.map((request) => ({
           ...request,
-          isAvailable: response.data.isAvailable, // assuming response has this property
+          isAvailable: response.data.isAvailable,
         })),
       }));
     } catch (error) {
