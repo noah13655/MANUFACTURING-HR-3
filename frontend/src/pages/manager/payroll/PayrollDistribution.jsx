@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { usePayrollStore } from '../../../store/payrollStore';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const SalaryDistribution = () => {
-  const { salaryRequests, error, setSalaryRequests, addSalaryRequest, fetchSalaryRequests, reviewRequest } = usePayrollStore();
+  const { salaryRequests,setSalaryRequests, addSalaryRequest, fetchSalaryRequests, reviewRequest,toggleRequestAvailability } = usePayrollStore();
   const socket = io('http://localhost:7687');
 
   const [visibleSection, setVisibleSection] = useState(null);
+  const [isAvailable, setIsAvailable] = useState(true);
 
   useEffect(() => {
     document.title = 'Payroll Distribution';
@@ -23,10 +27,16 @@ const SalaryDistribution = () => {
     return () => {
       socket.disconnect();
     };
-  }, [socket]); // add socket for real-time
+  }, []); // add socket for real-time
 
   const handleReviewRequest = (requestId, action) => {
     reviewRequest(requestId, action);
+  };
+
+  const handleToggleAvailability = async () => {
+    await toggleRequestAvailability();
+    setIsAvailable(!isAvailable);
+    toast.success(`Salary requests are now ${isAvailable ? 'disabled' : 'enabled'}`);
   };
 
   const pendingRequests = salaryRequests.filter(request => request.status === 'Pending');
@@ -89,10 +99,15 @@ const SalaryDistribution = () => {
 
   return (
     <div className="relative max-w-4xl mx-auto mt-10 p-6 bg-base-100 rounded-lg shadow-lg">
+      <ToastContainer />
       <h1 className="text-3xl font-bold text-center mb-6">Salary Distribution Requests</h1>
-      {error && <div className="alert alert-error mb-4">{error}</div>}
-
       <div className="flex justify-center space-x-4 mb-4">
+      <button 
+          className={`btn ${isAvailable ? 'btn-primary' : 'btn-secondary'}`} 
+          onClick={handleToggleAvailability}
+        >
+          {isAvailable ? 'Disable Salary Requests' : 'Enable Salary Requests'}
+        </button>
         <button 
           className={`btn btn-primary ${visibleSection === 'pending' ? 'btn-active' : ''}`} 
           onClick={() => setVisibleSection(visibleSection === 'pending' ? null : 'pending')}

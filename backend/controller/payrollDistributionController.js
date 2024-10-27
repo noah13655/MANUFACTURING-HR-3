@@ -11,6 +11,16 @@ export const requestSalary = async (req, res) => {
             return res.status(401).json({message:'User not authenticated.'});
         }
 
+        const requestedSalaries = await RequestedSalary.find();
+        if(requestedSalaries.length > 0 && !requestedSalaries[0].isAvailable){
+            return res.status(403).json({message:'Salary requests are currently not available.'});
+        }
+
+        const existingRequest = await RequestedSalary.findOne({employeeId:req.user._id, status:'Pending'});
+        if(existingRequest){
+            return res.status(400).json({message:'You have already sent a salary request that is still pending.'});
+        }
+
         const requestSalary = new RequestedSalary({
             employeeId: req.user._id,
             requestedAmount,
@@ -23,7 +33,7 @@ export const requestSalary = async (req, res) => {
         const managerIds = managers.map(manager => manager._id);
         const employeeLastName = req.user.lastName || "Employee";
 
-        for (const managerId of managerIds) {
+        for(const managerId of managerIds){
             const notification = new Notification({
                 userId: managerId,
                 message: `A salary request has been created by ${employeeLastName}`,
@@ -113,5 +123,29 @@ export const reviewRequest = async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({message:'Server error'});
+    }
+};
+
+export const toggleRequestAvailability = async (req, res) => {
+    try {
+        if (!req.user || req.user.role !== 'Manager') {
+            return res.status(403).json({ message: 'Access forbidden: Only managers can perform this action.' });
+        }
+
+        const requestedSalaries = await RequestedSalary.find();
+        const isAvailable = requestedSalaries.length > 0 && requestedSalaries[0].isAvailable;
+
+        if (isAvailable) {
+            await RequestedSalary.updateMany({}, { isAvailable: false });
+            io.emit('salaryRequestStatus', { message: 'Salary requests have been marked as not available.' });
+            return res.status(200).json({ message: 'Salary requests forbidden.' });
+        } else {
+            await RequestedSalary.updateMany({}, { isAvailable: true });
+            io.emit('salaryRequestStatus', { message: 'Salary requests are now available.' });
+            return res.status(200).json({ message: 'Salary requests reinstated.' });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Server error', error: error.message });
     }
 };

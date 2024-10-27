@@ -78,7 +78,6 @@ const CompensationPlanning = () => {
   };
 
   const handleCancel = () => {
-    // Reset the form and remove edit mode
     setNewPlan({
       position: '',
       hourlyRate: '',
@@ -90,8 +89,8 @@ const CompensationPlanning = () => {
       effectiveDate: '',
       comments: '',
     });
-    setEditingPlanId(null); // Exit edit mode
-    setIsModalOpen(false); // Close the modal
+    setEditingPlanId(null);
+    setIsModalOpen(false);
   };
   
   const handleSubmit = async (e) => {
