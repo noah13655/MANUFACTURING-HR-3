@@ -76,6 +76,8 @@ import MyOvertimeBonuses from './pages/employee/payroll/MyOvertimeBonuses';
 
 import VerifyAccount from './components/VerifyAccount';
 import ResendVerification from './components/ResendVerification';
+import SettingsPage from './components/SettingsPage';
+import Security from './components/Security';
 
 const App = () => {
   const { checkAuth, isAuthenticated, user } = useAuthStore();
@@ -128,7 +130,6 @@ const App = () => {
   //   <GuestDashboard />
   // )}
   
-  
 
   return (
     <div className="flex flex-col h-screen">
@@ -148,7 +149,9 @@ const App = () => {
                     <>
                     
                       <Route path="/dashboard" element={<ProtectedRoute><ManagerDashboard /></ProtectedRoute>} />
+                      <Route path="/settings" element={<ProtectedRoute><SettingsPage/></ProtectedRoute>} />  
                       <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />  
+                      <Route path="/security" element={<ProtectedRoute><Security/></ProtectedRoute>} />  
                       
                       <Route path="/employee-list" element={<ProtectedRoute><EmployeeList /></ProtectedRoute>} />                    
 
@@ -193,8 +196,10 @@ const App = () => {
                     <>
                       <Route path="/dashboard" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />                    
 
-                      <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
-
+                      <Route path="/settings" element={<ProtectedRoute><SettingsPage/></ProtectedRoute>} />  
+                      <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />  
+                      <Route path="/security" element={<ProtectedRoute><Security/></ProtectedRoute>} />  
+                      
                       <Route path="/benefits-overview" element={<ProtectedRoute><EBenefitsOverview /></ProtectedRoute>} />                    
                       <Route path='/benefits-enrollment' element={<ProtectedRoute><BenefitsEnrollment/></ProtectedRoute>}/>
                       <Route path='/my-deductions' element={<ProtectedRoute><MyDeductions/></ProtectedRoute>}/>

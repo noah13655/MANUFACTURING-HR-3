@@ -240,7 +240,7 @@ const Search = ({ onToggleSidebar }) => {
                         />
                         <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 mt-2 shadow border border-gray-300">
                             <li>
-                                <Link to={`/profile/${user?.employeeId}`} className="text-sm">Profile</Link>
+                                <Link to={`/settings`} className="text-sm">Settings</Link>
                             </li>
                             <li>
                                 <button onClick={handleLogout} className="text-sm">Logout</button>
