@@ -10,7 +10,6 @@ const CompensationPlanning = () => {
     hourlyRate: '',
     overTimeRate: '',
     holidayRate: '',
-    incentives: '',
     benefits: [],
     performanceMetrics: [],
     salaryAdjustmentGuidelines: '',
@@ -124,7 +123,6 @@ const CompensationPlanning = () => {
       hourlyRate: '',
       overTimeRate: '',
       holidayRate: '',
-      incentives: '',
       benefits: [],
       performanceMetrics: [],
       salaryAdjustmentGuidelines: '',
@@ -236,15 +234,6 @@ const CompensationPlanning = () => {
                       required
                     />
                   </div>
-
-                  <input
-                    type="text"
-                    name="incentives"
-                    placeholder="Incentives"
-                    value={newPlan.incentives}
-                    onChange={handleInputChange}
-                    className="border p-2 w-full"
-                  />
 
                   <div className="mb-4">
                     <div className="flex space-x-2 mb-2">
@@ -372,7 +361,6 @@ const CompensationPlanning = () => {
               <th className="border px-4 py-2">Hourly Rate</th>
               <th className="border px-4 py-2">OT Rate</th>
               <th className="border px-4 py-2">Holiday Rate</th>
-              <th className="border px-4 py-2">Incentives</th>
               <th className="border px-4 py-2">Benefits</th>
               <th className="border px-4 py-2">Metrics</th>
               <th className="border px-4 py-2">Guidelines</th>
@@ -390,7 +378,6 @@ const CompensationPlanning = () => {
                               <td className="border px-4 py-2">{plan.hourlyRate || 'N/A'}</td>
                               <td className="border px-4 py-2">{plan.overTimeRate || 'N/A'}</td>
                               <td className="border px-4 py-2">{plan.holidayRate || 'N/A'}</td>
-                              <td className="border px-4 py-2">{plan.incentives || 'N/A'}</td>
                               <td className="border px-4 py-2">
                                   {plan.benefits && plan.benefits.length > 0 
                                       ? plan.benefits.map(ben => `${ben.name} (${ben.deduction})`).join(', ') 

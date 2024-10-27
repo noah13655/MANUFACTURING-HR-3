@@ -6,7 +6,6 @@ export const createCompensationPlan = async (req, res) => {
         hourlyRate,
         overTimeRate,
         holidayRate,
-        incentives,
         benefits,
         performanceMetrics,
         salaryAdjustmentGuidelines,
@@ -29,7 +28,6 @@ export const createCompensationPlan = async (req, res) => {
             hourlyRate,
             overTimeRate,
             holidayRate,
-            incentives,
             benefits,
             performanceMetrics,
             salaryAdjustmentGuidelines,
@@ -70,7 +68,7 @@ export const getCompensationPosition = async (req,res) => {
 
 export const updateCompensationPlan = async (req,res) => {
     const {id} = req.params;
-    const {position,hourlyRate,overTimeRate,holidayRate,incentives,benefits,performanceMetrics,salaryAdjustmentGuidelines,effectiveDate,comments} = req.body;
+    const {position,hourlyRate,overTimeRate,holidayRate,benefits,performanceMetrics,salaryAdjustmentGuidelines,effectiveDate,comments} = req.body;
 
     try {
             const compensationPlan = await CompensationPlanning.findById(id);
@@ -88,7 +86,6 @@ export const updateCompensationPlan = async (req,res) => {
         compensationPlan.hourlyRate = hourlyRate || compensationPlan.hourlyRate;
         compensationPlan.overTimeRate = overTimeRate || compensationPlan.overTimeRate;
         compensationPlan.holidayRate = holidayRate || compensationPlan.holidayRate;
-        compensationPlan.incentives = incentives || compensationPlan.incentives;
         compensationPlan.benefits = benefits || compensationPlan.benefits;
         compensationPlan.performanceMetrics = performanceMetrics || compensationPlan.performanceMetrics;
         compensationPlan.salaryAdjustmentGuidelines = salaryAdjustmentGuidelines || compensationPlan.salaryAdjustmentGuidelines;

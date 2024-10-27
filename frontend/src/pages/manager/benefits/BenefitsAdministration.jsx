@@ -199,8 +199,8 @@ const handleCreateBenefits = async (e) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body">
-            <h2 className="card-title">Enrollment Submission</h2>
-            <p>Submit and manage your benefits enrollment requests here.</p>
+            <h2 className="card-title">Benefit Enrollment requests</h2>
+            <p>Manage benefits enrollment requests here.</p>
             <Link to="/enrollment-submission" className="btn btn-primary">
               <button>View Enrollment Requests</button>
             </Link>

@@ -184,23 +184,10 @@ const IncentivesManagements = () => {
                     <div className="card-body">
                         <h2 className="card-title">Incentive Request</h2>
                         <p>
-                            Submit and manage your incentive requests through this portal.
+                            Manage incentive requests from employee.
                         </p>
                         <Link to="/incentives-request" className="btn btn-primary">
                             <button>Manage Incentive Request</button>
-                        </Link>
-                    </div>
-                </div>
-
-                {/* Recognition Programs Card */}
-                <div className="card bg-base-100 shadow-xl">
-                    <div className="card-body">
-                        <h2 className="card-title">Recognition Programs</h2>
-                        <p>
-                            Explore and participate in various employee recognition programs.
-                        </p>
-                        <Link to="/recognition-programs" className="btn btn-primary">
-                            <button>View Recognition Programs</button>
                         </Link>
                     </div>
                 </div>
@@ -210,10 +197,35 @@ const IncentivesManagements = () => {
                     <div className="card-body">
                         <h2 className="card-title">Sales Commissions</h2>
                         <p>
-                            Manage and review sales commission structures for your team.
+                            Manage and review sales commission structures for employee
                         </p>
                         <Link to="/sales-commissions" className="btn btn-primary">
                             <button>Manage Sales Commissions</button>
+                        </Link>
+                    </div>
+                </div>
+
+                <div className="card bg-base-100 shadow-xl">
+                    <div className="card-body">
+                        <h2 className="card-title">Performance Metircs</h2>
+                        <p>
+                            Manage and review performance of employee
+                        </p>
+                        <Link to="/performance-metrics" className="btn btn-primary">
+                            <button>Manage Performance</button>
+                        </Link>
+                    </div>
+                </div>
+
+                      {/* Recognition Programs Card */}
+                      <div className="card bg-base-100 shadow-xl">
+                        <div className="card-body">
+                        <h2 className="card-title">Recognition Programs</h2>
+                        <p>
+                            Manage and add recognition programs.
+                        </p>
+                        <Link to="/recognition-programs" className="btn btn-primary">
+                            <button>View Recognition Programs</button>
                         </Link>
                     </div>
                 </div>

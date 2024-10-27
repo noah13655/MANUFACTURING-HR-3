@@ -89,14 +89,6 @@ const {fetchUsers,users} = useAuthStore();
 
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body">
-            <h2 className="card-title">Deductions Management</h2>
-            <p>Apply deductions like insurance, etc.</p>
-            <Link to="/deductions-management" className="btn btn-primary"><button>Deductions management</button></Link>
-          </div>
-        </div>
-
-        <div className="card bg-base-100 shadow-xl">
-          <div className="card-body">
             <h2 className="card-title">Compliance Tracking</h2>
             <p>Track compliance with labor laws, and other payroll rules.</p>
             <Link to="/compliance-tracking" className="btn btn-primary"><button>Track Compliance</button></Link>

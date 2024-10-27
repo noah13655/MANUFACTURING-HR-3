@@ -36,7 +36,6 @@ import CompensationOverview from './pages/manager/compensation/CompensationOverv
 import CompensationPlanning from './pages/manager/compensation/CompensationPlanning';
 import SalaryStructure from './pages/manager/compensation/SalaryStructure';
 import MarketAnalysis from './pages/manager/compensation/MarketAnalysis';
-import TotalRewards from './pages/manager/compensation/TotalRewards';
 import GrievanceRequest from './pages/manager/compensation/GrievanceRequest';
 
 /* benefits administration */
@@ -48,6 +47,7 @@ import Deductions from './pages/manager/benefits/Deductions';
 import IncentivesManagements from './pages/manager/Incentives/IncentivesManagements';
 import IncentivesRequest from './pages/manager/Incentives/IncentivesRequest';
 import SalesCommissions from './pages/manager/Incentives/SalesCommissions';
+import PerformanceMetrics from './pages/manager/Incentives/PerformanceMetrics';
 import RecognitionPrograms from './pages/manager/Incentives/RecognitionPrograms';
 
 /* predictive analysis */
@@ -173,7 +173,6 @@ const App = () => {
                       <Route path="/compensation-planning" element={<ProtectedRoute><CompensationPlanning /></ProtectedRoute>} />
                       <Route path="/salary-structure" element={<ProtectedRoute><SalaryStructure /></ProtectedRoute>} />
                       <Route path="/market-analysis" element={<ProtectedRoute><MarketAnalysis /></ProtectedRoute>} />
-                      <Route path="/total-rewards" element={<ProtectedRoute><TotalRewards /></ProtectedRoute>} />
                       <Route path="/grievance-request" element={<ProtectedRoute><GrievanceRequest /></ProtectedRoute>} />
                       
 
@@ -186,6 +185,7 @@ const App = () => {
                       <Route path="/incentives-management" element={<ProtectedRoute><IncentivesManagements /></ProtectedRoute>} />
                       <Route path="/incentives-request" element={<ProtectedRoute><IncentivesRequest /></ProtectedRoute>} />
                       <Route path="/sales-commissions" element={<ProtectedRoute><SalesCommissions /></ProtectedRoute>} />
+                      <Route path="/performance-metrics" element={<ProtectedRoute><PerformanceMetrics /></ProtectedRoute>} />
                       <Route path="/recognition-programs" element={<ProtectedRoute><RecognitionPrograms /></ProtectedRoute>} />
 
                       {/* Analytics */}

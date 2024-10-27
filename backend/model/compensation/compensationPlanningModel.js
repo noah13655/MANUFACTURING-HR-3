@@ -17,10 +17,6 @@ const compensationPlanningSchema = new mongoose.Schema({
         type:Number,
         required: true 
     },
-    incentives:{
-        type:String,
-        required:true,
-    },
     benefits: [{
         name:{ 
             type:String,
