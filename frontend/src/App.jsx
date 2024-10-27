@@ -25,7 +25,6 @@ import Search from './pages/manager/Search';
 import PayrollProcessing from './pages/manager/payroll/PayrollProcessing';
 import SalaryComputation from './pages/manager/payroll/SalaryComputation';
 import DeductionsManagement from './pages/manager/payroll/DeductionsManagement';
-import ComplianceTracking from './pages/manager/payroll/ComplianceTracking';
 import RequestBudget from './pages/manager/payroll/RequestBudget';
 import PayrollDistribution from './pages/manager/payroll/PayrollDistribution';
 import GenerateReports from './pages/manager/payroll/GenerateReports';
@@ -162,7 +161,6 @@ const App = () => {
                       <Route path="/payroll-management" element={<ProtectedRoute><PayrollProcessing /></ProtectedRoute>} />
                       <Route path="/salary-computation" element={<ProtectedRoute><SalaryComputation /></ProtectedRoute>} />
                       <Route path="/deductions-management" element={<ProtectedRoute><DeductionsManagement /></ProtectedRoute>} />
-                      <Route path="/compliance-tracking" element={<ProtectedRoute><ComplianceTracking /></ProtectedRoute>} />
                       <Route path="/request-budget" element={<ProtectedRoute><RequestBudget /></ProtectedRoute>} />
                       <Route path="/payroll-distribution" element={<ProtectedRoute><PayrollDistribution /></ProtectedRoute>} />
                       <Route path="/generate-reports" element={<ProtectedRoute><GenerateReports /></ProtectedRoute>} />

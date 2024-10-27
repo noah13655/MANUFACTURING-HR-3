@@ -9,6 +9,7 @@ const SalaryComputation = () => {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [startDate, setStartDate] = useState('2024-09-01');
   const [endDate, setEndDate] = useState('2024-09-10');
+  const [complianceData, setComplianceData] = useState([]);
 
   const employees = [
     { name: 'John Lloyd', hoursWorked: 160, overtimeHours: 10, daysWorked: 20, holidaysWorked: 2, date: '2024-09-01' },
@@ -45,7 +46,7 @@ const SalaryComputation = () => {
         employee.daysWorked,
         (employee.holidaysWorked * dailyMinimumWage).toFixed(2),
         totalSalary.toFixed(2),
-        totalDeductions.toFixed(2), // Added total deductions
+        totalDeductions.toFixed(2),
         netSalary.toFixed(2),
       ]);
     });
@@ -58,6 +59,23 @@ const SalaryComputation = () => {
     document.body.appendChild(link);
     link.click();
   };
+
+  const handleComplianceSubmission = (employee) => {
+    const alreadySubmitted = complianceData.some(entry => entry.employeeName === employee.name);
+    
+    if (alreadySubmitted) {
+      alert(`Compliance for ${employee.name} has already been submitted.`);
+    } else {
+      const newComplianceEntry = {
+        employeeName: employee.name,
+        submissionDate: new Date().toLocaleDateString(),
+        status: 'Submitted',
+      };
+      setComplianceData([...complianceData, newComplianceEntry]);
+      alert(`Compliance submitted for ${employee.name}!`);
+    }
+  };
+  
 
   useEffect(() => {
     document.title = 'Salary Computation';
@@ -79,6 +97,8 @@ const SalaryComputation = () => {
         <label className="mr-4">End Date:</label>
         <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="border rounded p-2" />
       </div>
+      
+      {/* Employee Salary Table */}
       <table className="table-auto w-full border-collapse border border-gray-200">
         <thead>
           <tr className="bg-primary text-white">
@@ -121,12 +141,9 @@ const SalaryComputation = () => {
                 <td className="border px-4 py-2 text-right">
                   <button 
                     className="btn btn-secondary" 
-                    onClick={() => {
-                      setSelectedEmployee(employee.name);
-                      setModalIsOpen(true);
-                    }}
+                    onClick={() => handleComplianceSubmission(employee)}
                   >
-                    View Deductions
+                    Submit to Admin
                   </button>
                 </td>
               </tr>
@@ -134,25 +151,29 @@ const SalaryComputation = () => {
           })}
         </tbody>
       </table>
-      <div className="flex justify-between mt-4">
-        <button className="btn btn-primary" onClick={handleDownloadExcel}>
-          Download 
-        </button>
-        <button className="btn btn-secondary" onClick={() => alert('Submitted to Admin!')}>
-          Submit to Admin
-        </button>
-      </div>
-      {modalIsOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded shadow-lg">
-            <h2 className="text-lg font-bold">Deductions for {selectedEmployee}</h2>
-            <p>SSS: PHP {sssDeduction}</p>
-            <p>PhilHealth: PHP {philhealthDeduction}</p>
-            <p>PAG-IBIG: PHP {pagibigDeduction}</p>
-            <button className="btn btn-secondary mt-4" onClick={() => setModalIsOpen(false)}>Close</button>
-          </div>
-        </div>
-      )}
+
+      {/* Compliance Tracking Table */}
+      <h2 className="text-xl font-bold mt-10">Compliance Tracking</h2>
+      <table className="table-auto w-full border-collapse border border-gray-200 mt-4">
+        <thead>
+          <tr className="bg-primary text-white">
+            <th className="border px-4 py-2">Employee Name</th>
+            <th className="border px-4 py-2">Submission Date</th>
+            <th className="border px-4 py-2">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {complianceData.map((entry, index) => (
+            <tr key={index}>
+              <td className="border px-4 py-2">{entry.employeeName}</td>
+              <td className="border px-4 py-2">{entry.submissionDate}</td>
+              <td className="border px-4 py-2">{entry.status}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      
+      <button className="mt-6 btn btn-primary" onClick={handleDownloadExcel}>Download Excel</button>
     </div>
   );
 };
