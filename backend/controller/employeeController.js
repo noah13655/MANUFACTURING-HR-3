@@ -3,7 +3,6 @@ import { CompensationPlanning } from "../model/compensation/compensationPlanning
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
-import crypto from 'crypto'
 
 export const fetchMyData = async (req,res) => {
     try {
