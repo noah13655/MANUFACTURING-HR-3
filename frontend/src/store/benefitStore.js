@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-const API_URL = import.meta.env.MODE === "production" ? "http://localhost:7687/api/benefit" : "/api/benefit";
+const API_URL = import.meta.env.NODE_ENV === "production" ? "http://localhost:7687/api/benefit" : "/api/benefit";
 
 
 //  const API_URL = "https://backend-hr3.jjm-manufacturing.com/api/benefit";
