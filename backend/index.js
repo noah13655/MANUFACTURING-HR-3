@@ -27,21 +27,26 @@ const csrf = csrfProtection({ cookie: true });
 const server = http.createServer(app);
 
 
-const allowedOrigin = process.env.NODE_ENV === "production" && process.env.RENDER_ENV !== "true"
-    ? "https://hr3.jjm-manufacturing.com"
-    : process.env.RENDER_ENV === "true"
-    ? "https://hr3-jjm-manufacturing-1p4f.onrender.com"
-    : "http://localhost:5173";
-    
-
-app.use(cors({
-    origin: allowedOrigin,
-    credentials: true,
-}));
-
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://hr3-jjm-manufacturing-1p4f.onrender.com",
+    "https://hr3.jjm-manufacturing.com" 
+  ];
+  
+  app.use(cors({
+      origin: function (origin, callback) {
+          if (!origin || allowedOrigins.includes(origin)) {
+              callback(null, true);
+          } else {
+              callback(new Error("Not allowed by CORS"));
+          }
+      },
+      credentials: true,
+  }));
+  
 const io = new Server(server, {
     cors: {
-        origin: allowedOrigin,
+        origin: allowedOrigins,
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true,
     }
