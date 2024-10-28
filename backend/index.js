@@ -28,10 +28,10 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
     cors: {
-        origin: process.env.NODE_ENV === "production"
-            ? process.env.CLIENT_URL
+        origin: process.env.NODE_ENV === "production" 
+            ? "https://hr3-jjm-manufacturing-1p4f.onrender.com" 
             : "http://localhost:5173",
-        methods: ["GET", "POST","PUT","DELETE"],
+        methods: ["GET", "POST"],
         credentials: true,
     }
 });
@@ -39,8 +39,8 @@ const io = new Server(server, {
 
 app.use(cors({
     origin: process.env.NODE_ENV === "production"
-    ? process.env.CLIENT_URL
-    : "http://localhost:5173",
+        ? "https://hr3-jjm-manufacturing-1p4f.onrender.com/"
+        : "http://localhost:5173",
     credentials: true,
 }));
 
@@ -84,6 +84,6 @@ io.on('connection', (socket) => {
 
 export { io };
 
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on PORT: ${PORT}`);
 });
