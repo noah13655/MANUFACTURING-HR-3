@@ -76,6 +76,7 @@ import VerifyAccount from './components/VerifyAccount';
 import ResendVerification from './components/ResendVerification';
 import SettingsPage from './components/SettingsPage';
 import Security from './components/Security';
+import ForgotPassword from './components/ForgotPassword';
 
 const App = () => {
   const { checkAuth, isAuthenticated, user } = useAuthStore();
@@ -228,6 +229,7 @@ const App = () => {
             <Route path="/login" element={<LogIn />} />
             <Route path="/verify-account/:token" element={<VerifyAccount />} />
             <Route path="/resend-verification" element={<ResendVerification />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
           </div>

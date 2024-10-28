@@ -30,6 +30,15 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
          default: false
      },
+     passwordResetOTP:{
+        type:String,
+        default:null,
+    },
+    passwordResetOTPExpiration:{
+        type:Date,
+        default:null,
+    },
+    lastOtpSentAt: Date,
     phoneNumber:{
         type:String,
         required:true

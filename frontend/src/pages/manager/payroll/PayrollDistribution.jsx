@@ -31,7 +31,7 @@ const socket = io(socketURL, { withCredentials: true });
     return () => {
       socket.disconnect();
     };
-  }, [socket]); // add socket for real-time
+  }, []); // add socket for real-time
 
   const handleReviewRequest = (requestId, action) => {
     reviewRequest(requestId, action);

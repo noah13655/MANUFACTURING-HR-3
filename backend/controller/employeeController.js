@@ -3,7 +3,7 @@ import { CompensationPlanning } from "../model/compensation/compensationPlanning
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
-
+import crypto from 'crypto'
 
 export const fetchMyData = async (req,res) => {
     try {
@@ -364,5 +364,97 @@ export const resendVerification = async (req,res) => {
     } catch (error) {
         console.log(`Error in resendVerification: ${error}`);
         return res.status(500).json({status:false,message:"Server error!"});
+    }
+};
+
+const generateOTP = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+};
+
+export const forgotPassword = async (req, res) => {
+    try {
+        const {email} = req.body;
+
+        const user = await User.findOne({email});
+        if(!user){
+            return res.status(404).json({status:false,message:"User not found!"});
+        }
+
+        console.log("User exists. Checking OTP resend interval...");
+        const now = new Date();
+        if(user.lastOtpSentAt && now - user.lastOtpSentAt < 2 * 60 * 1000){
+            console.log("Resend attempted within 2 minutes");
+            return res.status(429).json({
+                status: false,
+                message: "You can only resend OTP after 2 minutes."
+            });
+        }
+
+        const otp = generateOTP();
+        const otpExpiration = new Date(Date.now() + 15 * 60 * 1000);
+
+        user.passwordResetOTP = otp;
+        user.passwordResetOTPExpiration = otpExpiration;
+        await user.save();
+
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+
+        const mailOptions = {
+            from:process.env.EMAIL_USER,
+            to:email,
+            subject: 'Password Reset OTP',
+            html: `
+                <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+                    <h2>Hello, ${user.firstName}!</h2>
+                    <p>You requested to reset your password. Please use the OTP below to reset your password:</p>
+                    <h3 style="color: #4CAF50; font-size: 24px;">${otp}</h3>
+                    <p>This OTP will expire in 15 minutes. If you did not request this, please ignore this email.</p>
+                    <p>Best regards,<br />HR3 Team</p>
+                </div>
+            `
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        return res.status(200).json({
+            status: true,
+            message: "OTP has been sent to your email address."
+        });
+    } catch (error) {
+        console.log(`Error in forgotPassword: ${error}`);
+        return res.status(500).json({ message: "Server error!" });
+    }
+};
+
+export const resetPasswordWithOTP = async (req, res) => {
+    try {
+        const {email,otp,newPassword} = req.body;
+
+        const user = await User.findOne({email});
+        if(!user){
+            return res.status(404).json({status:false,message:"User not found!"});
+        }
+
+        if(user.passwordResetOTP !== otp || new Date() > user.passwordResetOTPExpiration){
+            return res.status(400).json({status:false,message:"Invalid or expired OTP."});
+        }
+
+        const hashedPassword = await bcryptjs.hash(newPassword,10);
+
+        user.password = hashedPassword;
+        user.passwordResetOTP = null;
+        user.passwordResetOTPExpiration = null;
+        await user.save();
+
+        return res.status(200).json({status:true,message:"Password reset successfully!"});
+    } catch (error) {
+        console.log(`Error in resetPasswordWithOTP: ${error}`);
+        return res.status(500).json({message:"Server error!"});
     }
 };
