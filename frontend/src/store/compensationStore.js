@@ -1,12 +1,8 @@
 import {create} from 'zustand';
 import axios from 'axios';
 
-const API_URL = 
-  import.meta.env.NODE_ENV === "production" && import.meta.env.RENDER_ENV !== "true"
-    ? "https://backend-hr3.jjm-manufacturing.com/api/compensation"
-    : import.meta.env.RENDER_ENV === "true"
-      ? "https://hr3-jjm-manufacturing-1p4f.onrender.com/api/compensation"
-      : "http://localhost:7687/api/compensation";
+const API_URL = import.meta.env.MODE === "production" ? "http://localhost:7687/api/compensation" : "/api/compensation";
+
 
 axios.defaults.withCredentials = true;
 

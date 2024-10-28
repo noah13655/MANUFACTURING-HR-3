@@ -1,12 +1,8 @@
 import {create} from 'zustand'
 import axios from 'axios'
 
-const API_URL = 
-  import.meta.env.NODE_ENV === "production" && import.meta.env.RENDER_ENV !== "true"
-    ? "https://backend-hr3.jjm-manufacturing.com/api/employee"
-    : import.meta.env.RENDER_ENV === "true"
-      ? "https://hr3-jjm-manufacturing-1p4f.onrender.com/api/employee"
-      : "http://localhost:7687/api/employee";
+const API_URL = import.meta.env.MODE === "production" ? "http://localhost:7687/api/employee" : "/api/employee";
+
 
 
 //  const API_URL = "https://backend-hr3.jjm-manufacturing.com/api/auth";
