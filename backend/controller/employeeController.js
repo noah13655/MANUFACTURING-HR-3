@@ -130,7 +130,7 @@ export const registerUser = async (req, res) => {
 
 
         const baseUrl = process.env.NODE_ENV === "production"
-        ? "https://hr3-jjm-manufacturing-1p4f.onrender.com"
+        ? process.env.CLIENT_URL
         : "http://localhost:5173";
 
 
@@ -254,7 +254,7 @@ export const verifyAccount = async (req, res) => {
         });
 
         const baseUrl = process.env.NODE_ENV === "production"
-        ? "https://hr3-jjm-manufacturing-1p4f.onrender.com"
+        ? process.env.CLIENT_URL
         : "http://localhost:5173";
 
 
@@ -337,7 +337,7 @@ export const resendVerification = async (req,res) => {
 
 
         const baseUrl = process.env.NODE_ENV === "production"
-        ? "https://hr3-jjm-manufacturing-1p4f.onrender.com"
+        ? process.env.CLIENT_URL
         : "http://localhost:5173";
 
 
@@ -466,7 +466,7 @@ export const resetPasswordWithOTP = async (req, res) => {
         });
 
         const baseUrl = process.env.NODE_ENV === "production"
-        ? "https://hr3-jjm-manufacturing-1p4f.onrender.com"
+        ? process.env.CLIENT_URL
         : "http://localhost:5173";
 
 
