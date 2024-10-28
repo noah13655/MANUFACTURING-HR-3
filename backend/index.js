@@ -26,22 +26,27 @@ const __dirname = path.resolve();
 const csrf = csrfProtection({ cookie: true });
 const server = http.createServer(app);
 
-
-const corsOptions = {
-    origin: process.env.NODE_ENV === "production"
-      ? "https://hr3.jjm-manufacturing.com"
-      : process.env.NODE_ENV === "onrender"
-        ? "https://hr3-jjm-manufacturing-1p4f.onrender.com"
-        : "http://localhost:5173",
-    credentials: true,
-  };
-  
-  app.use(cors(corsOptions));
-  
-  
 const io = new Server(server, {
-    cors:(corsOptions)
+    cors: {
+        origin: process.env.NODE_ENV === "production"
+            ? "https://hr3.jjm-manufacturing.com"
+            : process.env.NODE_ENV === "production"
+            ? "https://hr3-jjm-manufacturing-1p4f.onrender.com" 
+            : "http://localhost:5173",
+        methods: ["GET", "POST","PUT","DELETE"],
+        credentials: true,
+    }
 });
+
+
+app.use(cors({
+    origin: process.env.NODE_ENV === "production"
+    ? "https://hr3.jjm-manufacturing.com"
+    : process.env.NODE_ENV === "production"
+    ? "https://hr3-jjm-manufacturing-1p4f.onrender.com" 
+    : "http://localhost:5173",
+    credentials: true,
+}));
 
 app.use(cookieParser());
 app.use(express.json());
