@@ -3,9 +3,6 @@ import axios from 'axios';
 
 const API_URL = import.meta.env.MODE === "production" ? "http://localhost:7687/api/incentive" : "/api/incentive";
 
-
-//  const API_URL = "https://backend-hr3.jjm-manufacturing.com/api/incentive";
-
 axios.defaults.withCredentials = true;
 
 export const useIncentiveStore = create((set) => ({
