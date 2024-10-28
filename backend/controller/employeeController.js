@@ -340,6 +340,7 @@ export const resendVerification = async (req,res) => {
         ? "https://hr3-jjm-manufacturing-1p4f.onrender.com"
         : "http://localhost:5173";
 
+
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: email,
@@ -467,6 +468,7 @@ export const resetPasswordWithOTP = async (req, res) => {
         const baseUrl = process.env.NODE_ENV === "production"
         ? "https://hr3-jjm-manufacturing-1p4f.onrender.com"
         : "http://localhost:5173";
+
 
 
         const mailOptions = {
