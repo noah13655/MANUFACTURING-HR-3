@@ -39,7 +39,7 @@ const io = new Server(server, {
 
 app.use(cors({
     origin: process.env.NODE_ENV === "production"
-        ? "https://hr3-jjm-manufacturing-1p4f.onrender.com/"
+        ? "https://hr3-jjm-manufacturing-1p4f.onrender.com"
         : "http://localhost:5173",
     credentials: true,
 }));
