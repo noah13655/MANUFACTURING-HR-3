@@ -28,8 +28,8 @@ const server = http.createServer(app);
 
 
 const allowedOrigins = [
-    "http://localhost:5173",
     "https://hr3-jjm-manufacturing-1p4f.onrender.com",
+    "http://localhost:5173",
     "https://hr3.jjm-manufacturing.com" 
   ];
   
