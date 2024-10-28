@@ -166,12 +166,12 @@ export const useEmployeeStore = create((set)=>({
       }
   },
   
-  resetPasswordOtp: async (otp, newPassword) => {
+  resetPasswordOtp: async (email,otp, newPassword) => {
       try {
           const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
           const csrfToken = csrfResponse.data.csrfToken;
   
-          const response = await axios.post(`${API_URL}/reset-password`, { otp, newPassword }, {
+          const response = await axios.post(`${API_URL}/reset-password-otp`, { email,otp, newPassword }, {
               headers: { 'csrf-token': csrfToken }
           });
   

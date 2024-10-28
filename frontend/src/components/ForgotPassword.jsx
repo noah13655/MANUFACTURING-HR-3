@@ -109,7 +109,7 @@ const ForgotPassword = () => {
         }
     
         try {
-            const success = await resetPasswordOtp(otp, newPassword);
+            const success = await resetPasswordOtp(email,otp, newPassword);
             if(success){
                 setLoading(false);
                 toast.success('Password reset successfully.');

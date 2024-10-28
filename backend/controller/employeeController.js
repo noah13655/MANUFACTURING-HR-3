@@ -451,6 +451,39 @@ export const resetPasswordWithOTP = async (req, res) => {
         user.passwordResetOTPExpiration = null;
         await user.save();
 
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user:process.env.EMAIL_USER,
+                pass:process.env.EMAIL_PASS,
+            },
+        });
+
+        const baseUrl = process.env.NODE_ENV === "production"
+            ? process.env.CLIENT_URL
+            : "http://localhost:5173";
+
+        const mailOptions = {
+            from:process.env.EMAIL_USER,
+            to:user.email,
+            subject: 'Password Reset Successful!',
+            html: `
+                <div style="font-family: Arial, sans-serif; color: #333;">
+                    <h2 style="color: #4CAF50;">Hi ${user.firstName} ${user.lastName},</h2>
+                    <p>Your password has been successfully Reset! You can now log in with your new password.</p>
+                    <a href="${baseUrl}/login" 
+                       style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+                       Log In to Your Account
+                    </a>
+                    <p><strong>Note:</strong> This email is intended only for the recipient and cannot be forwarded to others.</p>
+                    <br>
+                    <p>Best regards,<br>The HR3 Team</p>
+                </div>
+            `
+        };
+
+        await transporter.sendMail(mailOptions);
+
         return res.status(200).json({status:true,message:"Password reset successfully!"});
     } catch (error) {
         console.log(`Error in resetPasswordWithOTP: ${error}`);
