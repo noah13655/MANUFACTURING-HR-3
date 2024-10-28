@@ -128,8 +128,10 @@ export const registerUser = async (req, res) => {
             }
         });
 
-        const baseUrl = process.env.NODE_ENV === "production"
-        ? process.env.CLIENT_URL
+        const baseUrl = process.env.NODE_ENV === "production" && process.env.RENDER_ENV !== "true"
+        ? "https://hr3.jjm-manufacturing.com"
+        : process.env.RENDER_ENV === "true"
+        ? "https://hr3-jjm-manufacturing-1p4f.onrender.com"
         : "http://localhost:5173";
 
         const mailOptions = {
@@ -251,9 +253,12 @@ export const verifyAccount = async (req, res) => {
             },
         });
 
-        const baseUrl = process.env.NODE_ENV === "production"
-        ? process.env.CLIENT_URL
+        const baseUrl = process.env.NODE_ENV === "production" && process.env.RENDER_ENV !== "true"
+        ? "https://hr3.jjm-manufacturing.com"
+        : process.env.RENDER_ENV === "true"
+        ? "https://hr3-jjm-manufacturing-1p4f.onrender.com"
         : "http://localhost:5173";
+
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
@@ -331,9 +336,12 @@ export const resendVerification = async (req,res) => {
             },
         });
 
-        const baseUrl = process.env.NODE_ENV === "production"
-        ? process.env.CLIENT_URL
+        const baseUrl = process.env.NODE_ENV === "production" && process.env.RENDER_ENV !== "true"
+        ? "https://hr3.jjm-manufacturing.com"
+        : process.env.RENDER_ENV === "true"
+        ? "https://hr3-jjm-manufacturing-1p4f.onrender.com"
         : "http://localhost:5173";
+
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
@@ -459,9 +467,12 @@ export const resetPasswordWithOTP = async (req, res) => {
             },
         });
 
-        const baseUrl = process.env.NODE_ENV === "production"
-            ? process.env.CLIENT_URL
-            : "http://localhost:5173";
+        const baseUrl = process.env.NODE_ENV === "production" && process.env.RENDER_ENV !== "true"
+        ? "https://hr3.jjm-manufacturing.com"
+        : process.env.RENDER_ENV === "true"
+        ? "https://hr3-jjm-manufacturing-1p4f.onrender.com"
+        : "http://localhost:5173";
+
 
         const mailOptions = {
             from:process.env.EMAIL_USER,
