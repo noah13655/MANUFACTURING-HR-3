@@ -190,13 +190,11 @@ export const useEmployeeStore = create((set)=>({
   },
 
   changeUserRole: async (id, newRole) => {
-    // Check if the id and newRole are valid
     if (!id || !newRole) {
         console.error('User ID or new role is undefined or invalid.');
         throw new Error('User ID and role must be provided.');
     }
 
-    // Fetch CSRF token
     const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
     const csrfToken = csrfResponse.data.csrfToken;
 
