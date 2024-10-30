@@ -14,8 +14,8 @@ export const useNotificationStore = create((set) => ({
     fetchNotifications: async (userRole) => {
         try {
             let response;
-    
-            response = await axios.get(`${API_URL}/get-notifications`);
+            response = await axios.get(`${API_URL}/get-notifications`,);
+            console.log("API Response Data:", response.data);
     
             const unread = response.data.filter(notification => !notification.read);
             const read = response.data.filter(notification => notification.read);

@@ -1,7 +1,7 @@
 import express from 'express';
-import { changePassword, fetchMyData, forgotPassword, registerUser, resendVerification, resetPasswordWithOTP, verifyAccount} from '../controller/employeeController.js';
+import { changePassword,changeRole, fetchMyData, forgotPassword, registerUser, resendVerification, resetPasswordWithOTP, verifyAccount} from '../controller/employeeController.js';
 import { verifyToken } from '../middleware/verifyToken.js';
-import { changePasswordValidation, forgotPasswordValidation, registerValidation, resendVerificationValidation, resetPasswordOtpValidation, validate } from '../middleware/validationMiddleware.js';
+import { changePasswordValidation, changeRoleValidation, forgotPasswordValidation, registerValidation, resendVerificationValidation, resetPasswordOtpValidation, validate } from '../middleware/validationMiddleware.js';
 
 const employeeRoute = express.Router();
 
@@ -16,5 +16,7 @@ employeeRoute.put("/verify-account/:token",changePasswordValidation,verifyAccoun
 employeeRoute.post('/resend-verification',resendVerificationValidation,validate, resendVerification);
 employeeRoute.post('/forgot-password',forgotPasswordValidation,validate,forgotPassword);
 employeeRoute.post('/reset-password-otp',resetPasswordOtpValidation,validate,resetPasswordWithOTP);
+
+employeeRoute.put('/change-role/:id',verifyToken,changeRoleValidation,validate,changeRole);
 
 export default employeeRoute;

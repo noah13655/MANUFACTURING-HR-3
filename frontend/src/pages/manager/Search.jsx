@@ -17,6 +17,7 @@ const socketURL = import.meta.env.MODE === "development"
     ? "http://localhost:7687" 
     : window.location.origin;
 
+
 const socket = io(socketURL, { withCredentials: true });
 
 const Search = ({ onToggleSidebar }) => {
@@ -36,7 +37,7 @@ const Search = ({ onToggleSidebar }) => {
       { path: '/dashboard', name: 'Dashboard' },
       { path: '/employee-list', name: 'Employee List' },
       { path: '/benefits-administration', name: 'Benefits Administration' },
-      { path: '/enrollment-submission', name: 'Enrollment Submission' },
+      { path: '/benefits-requested', name: 'Benefits Requested' },
       { path: '/deductions-management', name: 'Deductions Management' },
       { path: '/incentives-management', name: 'Incentives Management' },
       { path: '/recognition-programs', name: 'Recognition Programs' },

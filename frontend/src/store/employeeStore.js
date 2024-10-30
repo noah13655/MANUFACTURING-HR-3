@@ -189,4 +189,39 @@ export const useEmployeeStore = create((set)=>({
       }
   },
 
+  changeUserRole: async (id, newRole) => {
+    // Check if the id and newRole are valid
+    if (!id || !newRole) {
+        console.error('User ID or new role is undefined or invalid.');
+        throw new Error('User ID and role must be provided.');
+    }
+
+    // Fetch CSRF token
+    const csrfResponse = await axios.get(`${API_URL}/csrf-token`);
+    const csrfToken = csrfResponse.data.csrfToken;
+
+    console.log('Changing role for ID:', id, 'to:', newRole);
+
+    try {
+        const response = await axios.put(`${API_URL}/change-role/${id}`, { newRole }, {
+            headers: { 'csrf-token': csrfToken }
+        });
+
+        if(!response.data || !response.data.user){
+            throw new Error('Unexpected response format from the server.');
+        }
+
+        set((state) => ({
+            role: state.role.map((b) => (b._id === id ? { ...b, role: response.data.user.role } : b)),
+            error: null,
+        }));
+
+        console.log('Role changed successfully:', response.data.user.role);
+    } catch (error) {
+        console.error("Error changing user role:", error.response?.data || error.message);
+        throw new Error('Unable to change user role.');
+    }
+}
+
+
 }));

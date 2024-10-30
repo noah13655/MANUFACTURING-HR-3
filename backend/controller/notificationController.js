@@ -8,16 +8,15 @@ export const getNotifications = async (req, res) => {
 
       if(req.user.role === 'Manager'){
           const notifications = await Notification.find({userId:req.user._id}).sort({createdAt: -1});
-          return res.status(200).json(notifications);
+          return res.status(200).json({data:notifications});
       }
 
       if(req.user.role === 'Employee'){
           const notifications = await Notification.find({ userId: req.user._id }).sort({ createdAt: -1 });
-          return res.status(200).json(notifications);
+          return res.status(200).json({data:notifications});
       }
 
       return res.status(403).json({message:'Access denied. Invalid user role.'});
-
   } catch (error) {
       console.error("Error fetching notifications:", error);
       return res.status(500).json({message:'Server error.',error: error.message});

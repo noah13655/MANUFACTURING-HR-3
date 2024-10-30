@@ -10,7 +10,7 @@ import { useEmployeeStore } from "../../store/employeeStore";
 import defaultimage from '../../assets/defaultimage.png';
 
 const Profile = () => {
-  const { fetchData, user, changePassword } = useEmployeeStore();
+  const { fetchData, user, changePassword, changeUserRole } = useEmployeeStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -141,11 +141,59 @@ const Profile = () => {
       setIsLoading(false);
     }
   };
+  const [newRole, setNewRole] = useState('');
+
+  const handleChangeRole = async (role) => {
+    
+    if(!user || !user._id){
+        toast.error('User data is not available. Please refresh and try again.');
+        return;
+    }
+
+    if(!role){
+        toast.error('Please select a role before changing.');
+        return;
+    }
+    try {
+        await changeUserRole(user._id, role);
+        toast.success(`Change role to ${role}!`);
+        window.location.reload();
+    } catch (error) {
+        console.error("Error changing user role:", error);
+
+        if(error.response && error.response.data){
+            const { message } = error.response.data;
+
+            if(message){
+                toast.error(message);
+            }else{
+                toast.error('Failed to change user role. Please try again.');
+            }
+        }else{
+            toast.error('Failed to change user role. Please try again.');
+        }
+    }
+};
 
   return (
     <div className="container mx-auto mt-10 p-8 max-w-4xl bg-white shadow-lg border-2 rounded-lg">
       <ToastContainer />
       <div className="flex flex-col items-center mb-6">
+      <div>
+        {(user?.uniqueRole?.length === 0 || user?.uniqueRole !== 'employee') && (
+          <div className="mt-4">      
+            <select
+              value={newRole}
+              onChange={(e) => handleChangeRole(e.target.value)}
+              className="border border-gray-300 rounded p-1 w-full mb-2"
+            >
+              <option disabled value="">Select Role</option>
+              <option value="Employee">Employee</option>
+              <option value="Manager">Manager</option>
+            </select>
+          </div>
+        )}
+      </div>
         <button className="relative group">
           <img
             src={user?.profilePic || defaultimage}
@@ -229,7 +277,7 @@ const Profile = () => {
 
       {isModalOpen && (
   <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
-    <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl mx-auto"style={{ width: '400px' }}>
+    <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl mx-auto"style={{ width: '400px' }}> {/* Increased max-width to max-w-xl */}
       <h3 className="text-lg font-semibold mb-4">Change Password</h3>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
